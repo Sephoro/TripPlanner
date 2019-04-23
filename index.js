@@ -22,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // serving static files
 app.use('/cdn', express.static('public'))
+// Conditioning port to work on Azure as well
+let port = process.env.PORT || 3000
+app.listen(port)
 
-app.listen(3000)
-console.log('Express server running on port 3000')
+console.log('Express server running on port', port)
