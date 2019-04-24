@@ -15,8 +15,11 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "bootstrap": "^4.3.1",
+    "cross-fetch": "^3.0.2",
     "express": "4.16.4",
-    "live-server": "^1.2.1"
+    "live-server": "^1.2.1",
+    "node-fetch": "^2.3.0",
+    "node-fetch-polyfill": "^2.0.6"
   },
   "devDependencies": {
     "jest": "^24.7.1"
