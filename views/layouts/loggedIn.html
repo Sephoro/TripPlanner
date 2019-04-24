@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!--Bootstrap-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+        <link rel='stylesheet' href = "/cdn/css/layouts.css">
+        
+    </head>
+    <body>
+        <!-- Navigation bar for logged in home page -->
+        <nav class="navbar navbar-dark navbar-fixed-top ">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">MyTripPlanner</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li id = "homelog"><a href="/home">Home</a></li>
+                    <li id = "plan"><a href="#">Plan a Trip</a></li>
+                    <li id = "Itineraries"><a href="#">My Itineraries</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"  href="#">Help
+                        <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li id = "aboutUs" ><a href="#">About Us</a></li>
+                            <li id = "T&Cs"><a href="#">Terms & Conditions</a></li>
+                            <li id = "contacts"><a href="#">Contact Us</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        
+                        <span class="glyphicon glyphicon-user"></span> Profile</a>
+                        <ul class="dropdown-menu">
+                                <li id = "AccSettings"><a href="#">Account Settings</a></li>
+                        </ul>
+                    
+                    
+                    </li>
+
+                    <li id = "logout"><a href="/"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+                 
+                </ul>
+            </div>
+        </nav> 
+        
+        <!-- Showcase marketing message -->
+        <br>
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <div class = "text-center">
+                        <h1 id = "loggedIn" class="display-1">Logged In!!</h1>
+                    </div>
+                      
+                </div>
+            </div>
+        </br>
+
+           
+    </div>       
+    </body>
+    
+
+</html>
