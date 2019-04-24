@@ -14,16 +14,16 @@
         
     </head>
     <body>
-        <!-- Navigation bar for home page -->
-        <nav class="navbar navbar-dark navbar-fixed-top navbar-custom">
+        <!-- Navigation bar for logged in home page -->
+        <nav class="navbar navbar-dark navbar-fixed-top ">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">MyTripPlanner</a>
-                
                 </div>
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/home">Home</a></li>
                     <li><a href="#">Plan a Trip</a></li>
+                    <li><a href="#">My Itineraries</a></li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"  href="#">Help
                         <span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -34,49 +34,35 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- Sign Up and Login with icons -->
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        
+                        <span class="glyphicon glyphicon-user"></span> Profile</a>
+                        <ul class="dropdown-menu">
+                                <li><a href="#">Account Settings</a></li>
+                        </ul>
                     
-                    <li id = "login" ><a href="/home" method="GET"><span  class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     
-                    </ul>
+                    </li>
+
+                    <li><a href="/"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+                 
+                </ul>
             </div>
         </nav> 
+        
         <!-- Showcase marketing message -->
-
         <br>
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
                     <div class = "text-center">
-                        <h1 class="display-1">Welcome!</h1>
+                        <h1 class="display-1">Logged In!!</h1>
                     </div>
                       
                 </div>
             </div>
         </br>
-   <!--Images of places to visit-->
-   <div class = "text-center">
-            <div class = "container-fluid">
-                <br>
-                <h3 class="display-4">Places to Visit in South Africa</h3>
-            </br>
-                <div class = "row">
-                
-                    <div class = "col-sm-4 style = background-colour:grey">
-                        <img class = "img-fluid" src="/cdn/images/cape.jpg" alt="Lights" width="420" height="300">
-                        <p>Cape Town Beach Front</p>
-                    </div>
-                    <div class = "col-sm-4 style = background-colour:grey">
-                        <img class = "img-fluid" src="/cdn/images/kruger.jpg" alt="Lights" width="420" height="300">
-                        <p>Kruger National Park</p>
-                    </div>
-                    <div class = "col-sm-4 style = background-colour:grey">
-                        <img class = "img-fluid" src="/cdn/images/soweto.jpg" alt="Lights" width="420" height="300">
-                        <p>Soweto</p>
-                    </div>
 
-                </div>
-            </div>
+           
     </div>       
     </body>
     

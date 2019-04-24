@@ -5,16 +5,14 @@ let app = express()
 
 // loading routers
 let itenariesRoutes = require('./routes/itinerariesRoutes.js')
+let layoutsRoutes = require('./routes/layoutsRoutes')
 
 // mouting our routers
 app.use('/itineraries', itenariesRoutes)
+app.use('/', layoutsRoutes)
 
 // loading body parser
 let bodyParser = require('body-parser')
-
-app.get('/', function (req, res) {
-  res.send('Hello Team')
-})
 
 // tell express to use body parser for JSON and URL encoded form bodies
 app.use(bodyParser.json())
