@@ -1,0 +1,32 @@
+/* navbar */
+.navbar-fixed-top {
+    background-color: #17CAC5;
+    border-color:#17CAC5;
+}
+
+/* Title */
+.navbar-fixed-top .navbar-brand{
+    color: #ffffff;
+    font-size: 20px;
+} 
+
+.dropdown-menu {
+    color: #7b7f80;
+    background-color: #ffffff;
+    font-size: 15px;
+}
+.navbar-fixed-top .navbar-brand:hover .navbar-nav:hover,
+.navbar-fixed-top .navbar-brand:focus .navbar-nav:focus {
+     /* color: #0df8c5 ;  */
+    color: #a967f9;
+}
+
+/* Change colour of text*/
+.navbar-nav > li >a{
+    color: #7b7f80;
+    font-size: 18px;
+}
+
+.jumbotron{
+    background-color:#ffffff; 
+}
