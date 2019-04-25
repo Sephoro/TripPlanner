@@ -11,14 +11,22 @@ module.exports = {
         return entry
     },
 
-    edit: function (newProfile, e) {
+    edit: function (newProfile, primaryKey) {
 
         let index = profileAttributes.findIndex(function(profile){
-            return profile.email === e
+            return profile.email === primaryKey
         })
 
         profileAttributes[index] = newProfile
+        fs.writeFileSync('../../../userdata.json', JSON.stringify(profileAttributes))
+    },
 
+    delete: function (primaryKey) {
+
+        let iter = profileAttributes.findIndex(function(profile){
+            return profile.email === primaryKey
+        })
+        profileAttributes.splice(iter,1) 
         fs.writeFileSync('../../../userdata.json', JSON.stringify(profileAttributes))
     },
 
