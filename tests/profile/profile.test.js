@@ -40,3 +40,18 @@ attributes.edit(edited,"emsepuru@gmail.com")
 expect(edited).toEqual(attributes.get("kabelo@gmail.com")[0])
 
 })
+
+test('A user can be deleted', () => {
+
+    let primaryKey = "kabelo@gmail.com"
+    let numbersOfUsers = attributes.size();
+
+    attributes.delete(primaryKey)
+    let expectedSize = attributes.getProfileAttributes().length
+
+    let newNumberOfUsers = numbersOfUsers-1;
+
+    expect(expectedSize).toEqual(newNumberOfUsers)
+  })
+  
+  
