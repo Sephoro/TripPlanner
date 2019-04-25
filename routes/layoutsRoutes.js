@@ -11,4 +11,8 @@ layoutsRoute.get('/home', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'layouts', 'loggedIn.html'))
 })
 
+layoutsRoute.get('/about', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'layouts', 'aboutUs.html'))
+})
+
 module.exports = layoutsRoute
