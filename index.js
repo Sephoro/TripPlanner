@@ -8,8 +8,8 @@ let itenariesRoutes = require('./routes/itinerariesRoutes.js')
 let layoutsRoutes = require('./routes/layoutsRoutes')
 
 // mouting our routers
-app.use('/itineraries', itenariesRoutes)
 app.use('/', layoutsRoutes)
+app.use('/plan', itenariesRoutes)
 
 // loading body parser
 let bodyParser = require('body-parser')
