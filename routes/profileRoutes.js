@@ -1,11 +1,11 @@
 'use strict'
 let path = require('path')
 let express = require('express')
-let userProf = require('../public/scripts/account/userProfile.js')
+let userProf = require('../public/scripts/profile/manageProfile.js')
 let router = express.Router()
 
 router.get('/edit', function (req, res) {
-    res.sendFile(path.join(__dirname, '../views', 'account', 'edit.html'))
+    res.sendFile(path.join(__dirname, '../views', 'profile', 'edit.html'))
 })
 
 //RESTful interface

@@ -19,8 +19,7 @@ module.exports = {
 
         profileAttributes[index] = newProfile
 
-        fs.writeFileSync('../../../userData.json', JSON.stringify(profileAttributes))
-      
+        fs.writeFileSync('../../../data/userdata.json', JSON.stringify(profileAttributes))
     },
 
     size: function () {

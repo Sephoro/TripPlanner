@@ -10,11 +10,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // loading routers
 let itenariesRoutes = require('./routes/itinerariesRoutes.js')
-let profileRoute = require('./routes/profileRoutes.js')
+let profileRoutes = require('./routes/profileRoutes.js')
 
 // mouting our routers
 app.use('/itineraries', itenariesRoutes)
-app.use('/profRoutes', profileRoute)
+app.use('/profile', profileRoutes)
 
 app.get('/', function (req, res) {
   res.send('Hello Team')
