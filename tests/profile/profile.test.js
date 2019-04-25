@@ -4,7 +4,7 @@ let attributes = require('../../public/scripts/profile/manageProfile.js')
 
 test('Can return the right size of the array', () => {
 
-  let arraySize = 3
+  let arraySize =  attributes.getProfileAttributes().length
   expect(arraySize).toEqual(attributes.size())
 })
 
@@ -22,14 +22,6 @@ test('Can return an element at the primary key of the email address', () => {
 }
 
   expect(user).toEqual(attributes.get(primaryKey)[0])
-})
-
-test('Can return the whole array of users', () => {
-
-  let users = attributes.getProfileAttributes(); 
-  let expectedLength = 3
-
-  expect(users.length).toEqual(expectedLength)  
 })
 
 test('Can edit a user with the given primary key', () => {
