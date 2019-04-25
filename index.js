@@ -3,8 +3,6 @@ let path = require('path')
 let express = require('express')
 let app = express()
 
-// tell express to use body parser for JSON and URL encoded form bodies
-
 // loading body parser
 let bodyParser = require('body-parser')
 app.use(bodyParser.json())

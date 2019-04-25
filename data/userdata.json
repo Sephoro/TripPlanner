@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Mbongeni",
+        "surname": "Mankge",
+        "email": "eliassepuru@gmail.com",
+        "cellphone": "0769874566",
+        "password": "455445",
+        "confirmpassword": "454444"
+    },
+    {
+        "name": "Elias",
+        "surname": "Ma eli",
+        "email": "emsepuru@gmail.com",
+        "cellphone": "0769874566",
+        "password": "455445",
+        "confirmpassword": "454444"
+    },
+    {
+        "name": "kabelo",
+        "surname": "maroga",
+        "email": "kabelo@gmail.com",
+        "cellphone": "0769874566",
+        "password": "455445",
+        "confirmpassword": "454444"
+    }
+]
