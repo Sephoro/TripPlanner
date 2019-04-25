@@ -1,7 +1,7 @@
 'use strict'
 const fs = require('fs');
 
-let profileAttributes = require('../../../data/userdata.json')
+let profileAttributes = require('../../../userdata.json')
 
 module.exports = {
 
@@ -19,7 +19,7 @@ module.exports = {
 
         profileAttributes[index] = newProfile
 
-        fs.writeFileSync('../../../data/userdata.json', JSON.stringify(profileAttributes))
+        fs.writeFileSync('../../../userdata.json', JSON.stringify(profileAttributes))
     },
 
     size: function () {
