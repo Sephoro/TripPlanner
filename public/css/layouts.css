@@ -1,0 +1,46 @@
+/* navbar */
+.navbar-fixed-top {
+    background-color: rgba(169, 202, 23, 0.658);
+    border-color:rgba(169, 202, 23, 0.658);;
+}
+
+/* Title */
+.navbar-fixed-top .navbar-brand{
+    color: #ffffff;
+    font-size: 20px;
+} 
+
+.dropdown-menu {
+    color: #7b7f80;
+    background-color: #ffffff;
+    font-size: 15px;
+}
+.navbar-fixed-top .navbar-brand:hover .navbar-nav:hover,
+.navbar-fixed-top .navbar-brand:focus .navbar-nav:focus {
+     /* color: #0df8c5 ;  */
+    color: #a967f9;
+}
+
+/* Change colour of text*/
+.navbar-nav > li >a{
+    color: #7b7f80;
+    font-size: 18px;
+}
+
+/* Background image for the about page */
+#us{
+    background-image: url("../images/background2.jpeg");
+    background-size: cover;
+}
+
+.jumbotron{
+    background-color:#ffffff;
+}
+
+.about {
+    color: #7b7f80;
+}
+
+#cont{
+    margin:right 30px;
+}

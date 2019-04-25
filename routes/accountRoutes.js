@@ -19,7 +19,7 @@ router.post('/api/create', function (req, res) {
   const confirmpassword = req.body.confirmpassword
   const registeredusers = new Registeredusers(name, surname, email, cellphone, password, confirmpassword)
   registeredusers.savenewuser()
-  res.redirect('/')
+  res.redirect('/Home')
 })
 
 module.exports = router
