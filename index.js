@@ -1,13 +1,16 @@
 'use strict'
-// let path = require('path')
 let express = require('express')
 let app = express()
-let bodyParser = require('body-parser')
 
 // loading routers
 let itenariesRoutes = require('./routes/itinerariesRoutes.js')
+let profileRoutes = require('./routes/profileRoutes.js')
 let signuproutes = require('./routes/accountRoutes.js')
 let layoutsRoutes = require('./routes/layoutsRoutes')
+
+
+// loading body parser
+let bodyParser = require('body-parser')
 
 // tell express to use body parser for JSON and URL encoded form bodies
 app.use(bodyParser.json())
@@ -18,6 +21,7 @@ app.use('/itineraries', itenariesRoutes)
 app.use('/account', signuproutes)
 app.use('/', layoutsRoutes)
 app.use('/plan', itenariesRoutes)
+app.use('/profile', profileRoutes)
 
 // serving static files
 app.use('/cdn', express.static('public'))
