@@ -33,20 +33,21 @@ router.post('/api/login', function (req, res) {
   const email = req.body.email
   const password = req.body.password
   Registeredusers.fetchAllusers(userdata => {
-    for (let index = 0; index < userdata.length; index++) {
-      if (email === userdata[index].email && password === userdata[index].password) {
+    let index = userdata.findIndex(function (user) {
+      return user.email === email
+    })
+    let index2 = userdata.findIndex(function (user) {
+      return user.password === password
+    })
+    let negativeindex = -1
+    if (index !== negativeindex || index2 !== negativeindex) {
+      if (index === index2) {
         res.redirect('/Home')
-        break
-      } else if (email !== userdata[index].email && password === userdata[index].password) {
+      } else if (index !== index2) {
         res.redirect('/account/login')
-        break
-      } else if (email === userdata[index].email && password !== userdata[index].password) {
-        res.redirect('/account/login')
-        break
-      } else if (email !== userdata[index].email && password !== userdata[index].password) {
-        res.redirect('/account/login')
-        break
       }
+    } else {
+      res.redirect('/account/login')
     }
   })
 }
