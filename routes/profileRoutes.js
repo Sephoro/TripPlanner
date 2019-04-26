@@ -8,6 +8,10 @@ router.get('/edit', function (req, res) {
     res.sendFile(path.join(__dirname, '../views', 'profile', 'edit.html'))
 })
 
+router.get('/delete', function (req, res) {
+    res.sendFile(path.join(__dirname, '../views', 'profile', 'delete.html'))
+})
+
 //RESTful interface
 router.get('/api/list', function (req, res) {
     res.json(userProf.getProfileAttributes())
@@ -29,4 +33,12 @@ router.post('/api/edit', function (req, res) {
     res.redirect(req.baseUrl + '/api/list')
 })
 
+router.post('/api/delete', function (req, res) {
+
+   // console.log('Deleting a student')
+    userProf.delete(req.body.email)
+    userProf.getProfileAttributes
+    res.redirect(req.baseUrl + '/api/list')
+
+  })
 module.exports = router
