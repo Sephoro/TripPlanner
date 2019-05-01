@@ -1,6 +1,7 @@
 'use strict'
 let path = require('path')
 let express = require('express')
+let db = require('../data/database.js')
 let layoutsRoute = express.Router()
 
 // home page
@@ -20,6 +21,23 @@ layoutsRoute.get('/tcs', function (req, res) {
 
 layoutsRoute.get('/about', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'layouts', 'aboutUs.html'))
+})
+
+layoutsRoute.get('/database', function (req, res) {
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT 1')
+    })
+    .then(result => {
+      res.send(result)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
 })
 
 module.exports = layoutsRoute
