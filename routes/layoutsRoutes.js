@@ -28,7 +28,7 @@ layoutsRoute.get('/database', function (req, res) {
     .then((pool) => {
       return pool.request()
 
-        .query('SELECT 1')
+        .query('SELECT * FROM users')
     })
     .then(result => {
       res.send(result)
