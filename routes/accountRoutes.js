@@ -3,6 +3,7 @@
 let path = require('path')
 let express = require('express')
 let Registeredusers = require('../models/registeredusers')
+let db = require('../data/database')
 
 let router = express.Router()
 
@@ -21,9 +22,15 @@ router.post('/api/create', function (req, res) {
   const email = req.body.email
   const cellphone = req.body.cellphone
   const password = req.body.password
-  const confirmpassword = req.body.confirmpassword
-  const registeredusers = new Registeredusers(name, surname, email, cellphone, password, confirmpassword)
-  registeredusers.savenewuser()
+  const confirmpassword = req.body.confirmpassword // TODO
+
+  // Store signed up user in the database
+  db.pools
+    .then((pool) => {
+      return pool.request()
+        .query('INSERT INTO users (email, username, surname,cellphone, password) VALUES (\'' + email + '\',\'' + name + '\',\'' + surname + '\',\'' + cellphone + '\',\'' + password + '\')')
+    })
+
   res.redirect('/Home')
 })
 
