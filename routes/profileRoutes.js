@@ -19,45 +19,43 @@ router.get('/profilee', function (req, res) {
 // RESTful interface
 router.get('/api/list', function (req, res) {
   db.pools
-  .then((pool) => {
-    return pool.request()
+    .then((pool) => {
+      return pool.request()
 
-      .query('SELECT * FROM users WHERE email = \'bv.radiokana@gmail.com\'')
-  })
-  .then(result => {
-    res.send(result.recordset)
-  })
-  .catch(err => {
-    res.send({
-      Error: err
+        .query("SELECT * FROM users WHERE email = 'Harold.mokoo@gmail.com'")
     })
-  })
+    .then(result => {
+      res.send(result.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
 })
 
 router.post('/api/edit', function (req, res) {
-  // let entry = { name: req.body.editName,
-  //   surname: req.body.editSurname,
-  //   email: req.body.email,
-  //   cellphone: req.body.cellphone,
-  //   password: req.body.passWord,
-  //   confirmPassword: req.body.passWord
-  
-  // }
+  let name = req.body.editName
+  let surname = req.body.editSurname
+  let email = req.body.email
+  let cellphone = req.body.cellphone
+  let password = req.body.passWord
+  let confirmPassword = req.body.passWord
+
+  let query = 'UPDATE users SET username = \'' + name + '\', surname = \'' + surname + '\', email = \'' + email + '\', cellphone = \'' + cellphone + '\' WHERE email = \'Harold.mokoo@gmail.com\''
 
   db.pools
     .then((pool) => {
       return pool.request()
-        .query('UPDATE users SET username = \'' + req.body.editName + '\', surname = \'' + req.body.editSurname + '\', email = \'' + req.body.email + '\'WHERE email = \'Elias@gmail.com\'')
+        .query(query)
     })
 
-  res.redirect('/Home')
+  res.redirect('/profile/profilee')
 })
 
 router.post('/api/delete', function (req, res) {
-
   db.pools.then((pool) => {
-
-    return pool.request().query('DELETE FROM users WHERE email = \'1408187@students.wits.ac.za\'')
+    return pool.request().query('DELETE FROM users WHERE email = \'' + req.body.email + '\'')
   })
 
   res.redirect('/')

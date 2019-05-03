@@ -23,11 +23,12 @@
 									<img src="http://placehold.it/150x150" id="imgProfile"
 										style="width: 150px; height: 150px" class="img-thumbnail" />
 									<div class="middle">
+
 										<input type="file" style="display: none;" id="profilePicture" name="file" />
 									</div>
 								</div>
 								<div class="userData ml-3">
-									<h2 class="d-block" style="font-size: 1.5rem; font-weight: bold" ><a id = "HeaderName"
+									<h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a id="HeaderName"
 											href="javascript:void(0);"></a></h2>
 								</div>
 							</div>
@@ -39,15 +40,17 @@
 									<li class="nav-item">
 										<a class="nav-link active" id="basicInfo-tab" data-toggle="tab"
 											href="#basicInfo" role="tab" aria-controls="Info"
-											aria-selected="false">Info</a>
+											aria-selected="true">Info</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#Edit"
-											role="tab" aria-controls="Edit" aria-selected="false">Edit</a>
+										<a class="nav-link" id="connectedServices-tab" data-toggle="tab"
+											href="/profile/edit" role="tab" aria-controls="Edit"
+											aria-selected="false">Edit</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#Delete"
-											role="tab" aria-controls="Delete" aria-selected="true">Delete</a>
+										<a class="nav-link" id="connectedServices-tab" data-toggle="tab"
+											href="/profile/delete" role="tab" aria-controls="Delete"
+											aria-selected="true">Delete</a>
 									</li>
 								</ul>
 								<div class="tab-content ml-1" id="myTabContent">
@@ -59,8 +62,8 @@
 											<div class="col-sm-3 col-md-2 col-5">
 												<label style="font-weight:bold;">Name</label>
 											</div>
-											<div class="col-md-8 col-6">			
-												<p type="text"id="name"></p>									   
+											<div class="col-md-8 col-6">
+												<p type="text" id="name"></p>
 											</div>
 										</div>
 										<hr />
@@ -70,7 +73,7 @@
 												<label style="font-weight:bold;">Surname</label>
 											</div>
 											<div class="col-md-8 col-6">
-												<p type="text"id="surname"></p>
+												<p type="text" id="surname"></p>
 											</div>
 										</div>
 										<hr />
@@ -79,7 +82,7 @@
 												<label style="font-weight:bold;">Email</label>
 											</div>
 											<div class="col-md-8 col-6">
-												<p type="text"id="email"></p>
+												<p type="text" id="email"></p>
 											</div>
 										</div>
 										<hr />
@@ -88,7 +91,7 @@
 												<label style="font-weight:bold;">Cellphone</label>
 											</div>
 											<div class="col-md-8 col-6">
-												<p type="text"id="cellphone"></p>
+												<p type="text" id="cellphone"></p>
 											</div>
 										</div>
 										<hr />
@@ -96,12 +99,14 @@
 								</div>
 							</div>
 						</div>
+						<h5><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></h5>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
-<script src = '/cdn/scripts/profile/manageProfile.js'></script>
-<script src = '/cdn/scripts/profile/profilePicture.js'></script>
+<script src='/cdn/scripts/profile/manageProfile.js'></script>
+<script src='/cdn/scripts/profile/profilePicture.js'></script>
+
 </html>

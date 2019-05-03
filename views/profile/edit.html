@@ -11,34 +11,22 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 </head>
 
-<div class="field">
-            <label>Location</label>
-            <input type="text" v-model="location" placeholder="Your location">
-          </div>
-
-
 <body>
     <div class="login-page">
         <div class="form">
             <form class="register-form" action="./api/edit" method="POST">
 
                 <p class="text-success">Edit Profile</p>
-                <input type="text" name="editName" class="field"
-                    id="editName" />
-                <input type="text" name="editSurname" class="field"
-                    id="editSurname" />
-                <input type="email" name="email" class="field"
-                    id="email" />
-                <input type="tel" name="cellphone" class="field"
-                    id="cellphone" />
-                <input type="password" name="passWord" placeholder="enter password" class="field"
-                    id="passWord" />
-               
+                <input type="text" name="editName" class="field" id="edit-Name" />
+                <input type="text" name="editSurname" class="field" id="edit-Surname" />
+                <input type="email" name="email" class="field" id="email-I" />
+                <input type="tel" name="cellphone" class="field" id="cellphone-I" />
                 <button type="submit" class="btn btn-success">Update Profile</button>
 
             </form>
         </div>
     </div>
 </body>
+<script src='/cdn/scripts/profile/edit.js'></script>
 
-</html> 
+</html>
