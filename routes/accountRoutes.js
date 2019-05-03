@@ -25,14 +25,18 @@ router.post('/api/create', function (req, res) {
   const password = req.body.password
   const confirmpassword = req.body.confirmpassword // TODO
 
-  // Store signed up user in the database
-  db.pools
-    .then((pool) => {
-      return pool.request()
-        .query('INSERT INTO users (email, username, surname,cellphone, password) VALUES (\'' + email + '\',\'' + name + '\',\'' + surname + '\',\'' + cellphone + '\',\'' + password + '\')')
-    })
+  let isPasswordsMatch = loginVer.ValidateConfirmPassword(password, confirmpassword)
 
-  res.redirect('/Home')
+  // Store details of new user if passwords match
+  if (isPasswordsMatch) {
+    db.pools
+      .then((pool) => {
+        return pool.request()
+          .query('INSERT INTO users (email, username, surname,cellphone, password) VALUES (\'' + email + '\',\'' + name + '\',\'' + surname + '\',\'' + cellphone + '\',\'' + password + '\')')
+      })
+
+    res.redirect('/Home')
+  }
 })
 
 // Reading user credentials and checking if they exist on the Database

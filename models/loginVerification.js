@@ -28,8 +28,18 @@ let isValidCredentials = function (index, index2) {
   return isValid
 }
 
+let ValidateConfirmPassword = function (password, confirmPassword) {
+  if (confirmPassword === password) {
+    return true
+  } else {
+    return false
+  }
+}
+
 module.exports = {
   verifyEmail: verifyEmail,
   verifyPassword: verifyPassword,
-  isValidCredentials: isValidCredentials
+  isValidCredentials: isValidCredentials,
+  ValidateConfirmPassword: ValidateConfirmPassword
+
 }
