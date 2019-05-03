@@ -23,6 +23,7 @@ router.post('/api/create', function (req, res) {
   const cellphone = req.body.cellphone
   const password = req.body.password
   const confirmpassword = req.body.confirmpassword // TODO
+  
 
   // Store signed up user in the database
   db.pools
