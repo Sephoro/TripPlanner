@@ -17,22 +17,16 @@
             <form class="register-form" action="./api/edit" method="POST">
 
                 <p class="text-success">Edit Profile</p>
-                <input type="text" name="editName" placeholder="user name" class="form-control"
-                    id="editName" />
-                <input type="text" name="editSurname" placeholder="user surname" class="form-control"
-                    id="editSurname" />
-                <input type="email" name="email" placeholder="enter email" class="form-control"
-                    id="email" />
-                <input type="tel" name="cellphone" placeholder="contact" class="form-control"
-                    id="cellphone" />
-                <input type="password" name="passWord" placeholder="enter password" class="form-control"
-                    id="passWord" />
-               
+                <input type="text" name="editName" class="field" id="edit-Name" />
+                <input type="text" name="editSurname" class="field" id="edit-Surname" />
+                <input type="email" name="email" class="field" id="email-I" />
+                <input type="tel" name="cellphone" class="field" id="cellphone-I" />
                 <button type="submit" class="btn btn-success">Update Profile</button>
 
             </form>
         </div>
     </div>
 </body>
+<script src='/cdn/scripts/profile/edit.js'></script>
 
-</html> 
+</html>
