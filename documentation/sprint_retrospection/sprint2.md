@@ -13,7 +13,8 @@ The method chosen for assigning values to user stories is the Fibonacci Sequence
 
 |**Total Value**|**55**|
             
-# **The velocity for Sprint 1: 55 - 8 = 47** 
+# **The velocity for Sprint 2: 55 - 8 - 8 = 39** 
+# **The overall velocity is (39 + 47)/2 = 43**
 
 ### 2. Retrospective:
 | Start                                                                                                                                                                                                                                                                                                                    | Stop                                                                       | Continue                                                                                                                                                                 |
