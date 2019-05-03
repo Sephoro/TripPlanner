@@ -1,22 +1,70 @@
 <!DOCTYPE html>
-<html lang = "en">
-    <head>
+<html lang="en">
 
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <!--Bootstrap-->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<head>
 
-        <link rel='stylesheet' href = "/cdn/css/layouts.css">
-        
-    </head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <body>
-        <!-- Navigation bar for logged in home page -->
-        <nav class="navbar navbar-dark navbar-fixed-top ">
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel='stylesheet' href="/cdn/css/layouts.css">
+
+</head>
+
+<body>
+    <!-- Navigation bar for logged in home page -->
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">
+            <img src="/cdn/images/MyTrip.png" alt="logo" style="width:70px; height: 50px ">
+        </a>
+
+        <!-- Links -->
+        <ul class="navbar-nav">
+            <li id="home" class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li id="trip" class="nav-item">
+                <a class="nav-link" href="/plan">Plan a Trip</a>
+            </li>
+            <li id="Itineraries">
+                <a class="nav-link" href="#">My Itineraries</a>
+            </li>
+
+            <!-- Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Help
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="tcs">Terms & Conditions</a>
+                    <a class="dropdown-item" href="/about">About Us</a>
+                </div>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav ml-auto">
+
+            <li id="signUp" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Profile</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/profile/edit">Update</a>
+                    <a class="dropdown-item" href="/profile/delete"> Log Out</a>
+                </div>
+            </li>
+            <li id="login" class="nav-item">
+                <a class="nav-link" href="/" method="GET">Logout</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- <nav class="navbar navbar-dark navbar-fixed-top ">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">MyTripPlanner</a>
@@ -45,21 +93,22 @@
                     <li id = "logout"><a href="/"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>               
                 </ul>
             </div>
-        </nav> 
-        
-        <!-- Showcase marketing message -->
-        <br>
-            <div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                    <div class = "text-center">
-                        <h1 id = "loggedIn" class="display-1">Logged In!!</h1>
-                    </div>
-                      
-                </div>
-            </div>
-        </br>
+        </nav>  -->
 
-           
-    </div>       
-    </body>
+    <!-- Showcase marketing message -->
+    <br>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <div class="text-center">
+                <h1 id="loggedIn" class="display-1">Logged In!!</h1>
+            </div>
+
+        </div>
+    </div>
+    </br>
+
+
+    </div>
+</body>
+
 </html>
