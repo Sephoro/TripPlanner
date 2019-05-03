@@ -3,13 +3,13 @@
 <head>
     <title>Plan Your Itinerary</title>
     <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="/cdn/css/plan.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <script src = "/cdn/scripts/itineraries/plan.js" ></script>
-    <link rel="stylesheet" type="text/css" href="/cdn/css/plan.css">
     <!-- Google font -->
     <link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">
     <!-- bootstrap -->
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     
 </head>
@@ -28,7 +28,7 @@
             <div class="col-sm-3">
                            
                 <div class="cliente"> 
-                                  
+                <form action="plan/api/plan" method="post">          
                     <div class="md-form form-lg center-block">
                                                     
                         <label for="Location">Location:</label>
@@ -36,7 +36,7 @@
 
                         <label for="Activities" id = "actLabel">Activities (Seperated by a comma):</label>
                                                 
-                        <input type="text" id="activities" placeholder="Max of 5 activities" class="form-control form-control-lg"><br></br>
+                        <input type="text" id="activities" name = "activities" placeholder="Max of 5 activities" class="form-control form-control-lg"><br></br>
 
                         <label for="startDate" >Start Date:</label>
                         <input type="date" id="startDate" name="startDate" placeholder= "DD/MM/YYYY" class="form-control form-control-lg" style="width: 200px"><br></br>
@@ -48,7 +48,8 @@
             
                     <div class="button">
                         <button  id="addLocation" type="submit" class="btn btn-outline-warning">Add Location</button>
-                    </div>   
+                    </div>  
+                </form> 
                                              
                 </div>
 
@@ -59,10 +60,22 @@
                 <div id="locations" class="cliente"> 
 
                 </div>
+                <div id="saveSection">
+                     <form action="plan/api/save" method="post"> 
+                     
+                     <label id = "itLabel" for="itName">Itinenary Name:</label>
+                        <input type="text" id="itName" name="itName" placeholder= "Itinerary Name"  class="form-control form-control-lg" style="width: 200px" ><br></br>
+                    <button id = "save" type = "submit" class="btn btn-outline-success">Save</button>
+
+               </form>
+                </div>
             </div>
                             
         </div>
     </div>
 
 </body>
+
+<script src = "/cdn/scripts/itineraries/plan.js" ></script>
+
 </html>
