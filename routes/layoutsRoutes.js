@@ -19,6 +19,7 @@ layoutsRoute.get('/tcs', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'layouts', 'terms_conditions.html'))
 })
 
+// about page
 layoutsRoute.get('/about', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'layouts', 'aboutUs.html'))
 })

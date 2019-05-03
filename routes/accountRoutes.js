@@ -4,6 +4,7 @@ let path = require('path')
 let express = require('express')
 let Registeredusers = require('../models/registeredusers')
 let db = require('../data/database')
+let loginVer = require('../models/loginVerification')
 
 let router = express.Router()
 
@@ -24,14 +25,18 @@ router.post('/api/create', function (req, res) {
   const password = req.body.password
   const confirmpassword = req.body.confirmpassword // TODO
 
-  // Store signed up user in the database
-  db.pools
-    .then((pool) => {
-      return pool.request()
-        .query('INSERT INTO users (email, username, surname,cellphone, password) VALUES (\'' + email + '\',\'' + name + '\',\'' + surname + '\',\'' + cellphone + '\',\'' + password + '\')')
-    })
+  let isPasswordsMatch = loginVer.ValidateConfirmPassword(password, confirmpassword)
 
-  res.redirect('/Home')
+  // Store details of new user if passwords match
+  if (isPasswordsMatch) {
+    db.pools
+      .then((pool) => {
+        return pool.request()
+          .query('INSERT INTO users (email, username, surname,cellphone, password) VALUES (\'' + email + '\',\'' + name + '\',\'' + surname + '\',\'' + cellphone + '\',\'' + password + '\')')
+      })
+
+    res.redirect('/Home')
+  }
 })
 
 // Reading user credentials and checking if they exist on the Database
@@ -39,25 +44,30 @@ router.post('/api/create', function (req, res) {
 router.post('/api/login', function (req, res) {
   const email = req.body.email
   const password = req.body.password
-  Registeredusers.fetchAllusers(userdata => {
-    let index = userdata.findIndex(function (user) {
-      return user.email === email
+
+  // Read data from the database
+  db.pools
+    .then((pool) => {
+      return pool.request()
+        .query('SELECT * FROM users')
     })
-    let index2 = userdata.findIndex(function (user) {
-      return user.password === password
-    })
-    let negativeindex = -1
-    if (index !== negativeindex || index2 !== negativeindex) {
-      if (index === index2) {
+    .then(result => {
+      let index = loginVer.verifyEmail(result.recordset, email)
+
+      let index2 = loginVer.verifyPassword(result.recordset, password)
+
+      if (loginVer.isValidCredentials(index, index2)) {
+        // If credentials are correct, redirect to the loggedIn user homepage
         res.redirect('/Home')
-      } else if (index !== index2) {
+      } else {
+        // If credentials are incorrect, redirect to the login page
+        // and give user another chance to enter their details
         res.redirect('/account/login')
       }
-    } else {
-      res.redirect('/account/login')
-    }
-  })
-}
-)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+})
 
 module.exports = router

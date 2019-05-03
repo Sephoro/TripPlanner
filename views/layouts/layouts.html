@@ -1,83 +1,160 @@
 <!DOCTYPE html>
-<html lang = "en">
-    <head>
+<html lang="en">
 
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <!--Bootstrap-->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<head>
 
-        <link rel='stylesheet' href = "/cdn/css/layouts.css">
-        
-    </head>
-    <body>
-        <!-- Navigation bar for home page -->
-        <nav class="navbar navbar-dark navbar-fixed-top navbar-custom">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">MyTripPlanner</a>               
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="/cdn/scripts/places/places.js"></script>
+    <link rel='stylesheet' href="/cdn/css/layouts.css">
+
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">
+            <img src="/cdn/images/MyTrip.png" alt="logo" style="width:70px; height: 50px ">
+        </a>
+
+        <!-- Links -->
+        <ul class="navbar-nav">
+            <li id="home" class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li id="trip" class="nav-item">
+                <a class="nav-link" href="/plan">Plan a Trip</a>
+            </li>
+
+            <!-- Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Help
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="tcs">Terms & Conditions</a>
+                    <a class="dropdown-item" href="/about">About Us</a>
                 </div>
+            </li>
+        </ul>
 
-                <ul class="nav navbar-nav">
-                    <li id = "home"><a href="/">Home</a></li>
-                    <li id = "trip"><a href="/plan">Plan a Trip</a></li>
-                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"  href="#">Help
-                        <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li id = "T&Cs"><a href="tcs">Terms & Conditions</a></li>
-                            <li id = "aboutUs"><a href="/about">About Us</a></li>
-                        </ul>
-                    </li>
-                </ul>
+        <ul class="nav navbar-nav ml-auto">
+            <li id = "signUp" class="nav-item">
+                <a class="nav-link" href="/account/create">Sign Up</a>
+            </li>
+            <li id = "login" class="nav-item">
+                <a class="nav-link" href="/account/login" method="GET">Login</a>
+            </li>
+        </ul>
+    </nav>
 
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- Sign Up and Login with icons -->
-                    <li id = "signUp"><a href="/account/create"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>                   
-                    <li id = "login" ><a href="/account/login" method="GET"><span  class="glyphicon glyphicon-log-in"></span> Login</a></li>                   
-                 </ul>
-
+    <br>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <div class="text-center">
+                <h1 id="welcome" class="display-1">Welcome!</h1>
             </div>
-        </nav> 
 
-        <!-- Showcase marketing message -->
-        <br>
-            <div class="jumbotron jumbotron-fluid" >
-                <div class="container">
-                    <div class = "text-center">
-                        <h1 id = "welcome" class="display-1">Welcome!</h1>
-                    </div>
-                      
-                </div>
-            </div>
-        </br>
+        </div>
+    </div>
+    </br>
 
-        <!--Images of places to visit-->
-        <div class = "text-center">
-            <div class = "container-fluid">
-                <br>
-                <h3 class="display-4">Places to Visit in South Africa</h3>
+    <!--Images of places to visit-->
+    <div class="text-center">
+        <div class="container-fluid">
+            <br>
+            <h3 class="display-4">Places to Visit in South Africa</h3>
             </br>
-                <div class = "row">
-                
-                    <div class = "col-sm-4 style = background-colour:grey">
-                        <img class = "img-fluid" src="/cdn/images/cape.jpg" alt="Lights" width="420" height="300">
-                        <p>Cape Town Beach Front</p>
-                    </div>
-                    <div class = "col-sm-4 style = background-colour:grey">
-                        <img class = "img-fluid" src="/cdn/images/kruger.jpg" alt="Lights" width="420" height="300">
-                        <p>Kruger National Park</p>
-                    </div>
-                    <div class = "col-sm-4 style = background-colour:grey">
-                        <img class = "img-fluid" src="/cdn/images/soweto.jpg" alt="Lights" width="420" height="300">
-                        <p>Soweto</p>
-                    </div>
+            <div class="row">
 
+                <div class="col-sm-4 style = background-colour:grey">
+                    <img class="img-fluid" src="/cdn/images/cape.jpg" alt="Lights" width="420" height="300">
+                    <p>Cape Town Beach Front</p>
+                </div>
+                <div class="col-sm-4 style = background-colour:grey">
+                    <img class="img-fluid" src="/cdn/images/kruger.jpg" alt="Lights" width="420" height="300">
+                    <p>Kruger National Park</p>
+                </div>
+                <div class="col-sm-4 style = background-colour:grey">
+                    <img class="img-fluid" src="/cdn/images/soweto.jpg" alt="Lights" width="420" height="300">
+                    <p>Soweto</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="text-center">
+        <div class="container-fluid">
+            <br>
+            <h3 id="Header" class="display-4"><strong>TRENDING PLACES</strong></h3>
+            </br>
+        </div>
+    </div>
+
+    <div id="main_c" class="container-fluid bg-3">
+        <div id="row" class="row">
+            <div class="col-sm-4">
+                <div id="Travel" class="card" style="width:470px">
+                    <img class="card-img-top" src="/cdn/images/Africa.jpg" alt="Card image" style="width:100%">
+                    <div class="card-body">
+                        <h4 class="card-title">Trending places in Africa</h4>
+                        <p class="card-text">Planning a trip North America?
+                        </p>
+                        <button id="button1" class="btn btn-outline-primary">Read More</button>
+                    </div>
                 </div>
             </div>
-        </div>    
 
-    </body>
+            <div id="Places" class="col-sm-4">
+                <div id="Travel1" class="card" style="width:470px">
+                    <img class="card-img-top" src="/cdn/images/Europe.jpg" alt="Card image" style="width:100%">
+                    <div class="card-body">
+                        <h4 id="North" class="card-title">Trending places in North America</h4>
+                        <p class="card-text">Planning a trip North America?
+                        </p>
+                        <button id="button2" class="btn btn-outline-primary">Read More</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-4">
+                <div id="Travel2" class="card" style="width:470px">
+                    <img class="card-img-top" src="/cdn/images/Asia.jpg" alt="Card image" style="width:100%">
+                    <div class="card-body">
+                        <h4 class="card-title">Trending places in South America</h4>
+                        <p class="card-text">Planning a trip South America?
+                        </p>
+                        <button id="button3" class="btn btn-outline-primary">Read More</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <hr>
+    <!-- Footer -->
+
+    <div class="jumbotron text-center" style="margin-bottom:0">
+        <footer class="container-fluid bg-4 text-center">
+            <div class=" container-fluid row">
+                <div class="col-sm">
+                    <img src="/cdn/images/logo.png" style="width:50px ; height: 50px">
+                    <p>MyTripPlanner website made by <a href="#">Software Development Team</a></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</body>
+
 </html>
