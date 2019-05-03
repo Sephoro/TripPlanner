@@ -58,3 +58,15 @@ describe('the', () => {
     expect(isValid).toEqual(false)
   })
 })
+
+describe('Check', () => {
+  test('password and confrimPassword do not match', () => {
+    let isPasswordMatch = validate.ValidateConfirmPassword('12345Boi', '12345Boikanyo')
+    expect(isPasswordMatch).toEqual(false)
+  })
+
+  test('password and confrimPassword match', () => {
+    let isPasswordMatch = validate.ValidateConfirmPassword('12345Boi', '12345Boi')
+    expect(isPasswordMatch).toEqual(true)
+  })
+})
