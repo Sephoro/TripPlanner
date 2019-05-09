@@ -1,7 +1,8 @@
 'use strict'
 let path = require('path')
 let express = require('express')
-let db = require('../data/database.js')
+let db = require('../data/database')
+
 let layoutsRoute = express.Router()
 
 // home page
