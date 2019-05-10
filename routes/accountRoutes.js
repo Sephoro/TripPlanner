@@ -5,6 +5,7 @@ let express = require('express')
 let Registeredusers = require('../models/registeredusers')
 let db = require('../data/database')
 let loginVer = require('../models/loginVerification')
+let counter = 0
 
 let router = express.Router()
 
@@ -23,8 +24,7 @@ router.post('/api/create', function (req, res) {
   const email = req.body.email
   const cellphone = req.body.cellphone
   const password = req.body.password
-  const confirmpassword = req.body.confirmpassword // TODO
-  
+  const confirmpassword = req.body.confirmpassword
 
   let isPasswordsMatch = loginVer.ValidateConfirmPassword(password, confirmpassword)
 
@@ -53,17 +53,36 @@ router.post('/api/login', function (req, res) {
         .query('SELECT * FROM users')
     })
     .then(result => {
-      let index = loginVer.verifyEmail(result.recordset, email)
+      let status = loginVer.isRegistered(result.recordset, email)
+      console.log(status)
 
-      let index2 = loginVer.verifyPassword(result.recordset, password)
+      // Verify if user is registered and found on the database
+      if (status === 'NotRegistered') {
+        res.send('NOT A REGISTERED USER')
+      } else if (status === 'Registered') {
+        // Verify Credentials
+        let index = loginVer.verifyEmail(result.recordset, email)
+        let index2 = loginVer.verifyPassword(result.recordset, password)
 
-      if (loginVer.isValidCredentials(index, index2)) {
+        if (loginVer.isValidCredentials(index, index2)) {
         // If credentials are correct, redirect to the loggedIn user homepage
-        res.redirect('/Home')
-      } else {
+          res.redirect('/Home')
+        } else {
         // If credentials are incorrect, redirect to the login page
-        // and give user another chance to enter their details
-        res.redirect('/account/login')
+        // and give user 3 chance to enter their details
+          counter = counter + 1
+          if (counter !== 3) {
+            res.redirect('/account/login')
+          } else {
+            console.log('PasswordBlocked!!!')
+            db.pools
+              .then((pool) => {
+                return pool.request()
+                  .query('UPDATE users SET access_status = 1 WHERE  email = (\'' + email + '\')')
+              })
+            res.send('Account Blocked!')
+          }
+        }
       }
     })
     .catch(err => {

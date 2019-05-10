@@ -7,24 +7,32 @@ let users = [ {
   username: 'Elias',
   surname: 'Sepuru',
   cellphone: '0766025334',
-  password: 'aswedeal'
+  password: 'aswedeal',
+  access_status: null
 },
 {
   email: 'mbongeni@gmail.com',
   username: 'Mbongeni',
   surname: 'Mankge',
   cellphone: '0769884893',
-  password: '4295'
+  password: '4295',
+  access_status: null
 },
 {
   email: 'bingi@gmail.com',
   username: 'Boikanyo',
   surname: 'Radiokana',
   cellphone: '088888888',
-  password: '1234'
+  password: '1234',
+  access_status: null
 }
 
 ]
+
+test('User cannot login if they have not signed up', () => {
+  let status = validate.isRegistered(users, 'bin@gmail.com')
+  expect(status).toEqual('NotRegistered')
+})
 
 describe('the', () => {
   test('username of the user is found', () => {

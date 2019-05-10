@@ -1,7 +1,18 @@
 'use strict'
 
-// The following functions verify if the credentials
-// entered by the user are valid(found in the data base)
+/*  The following functions verify if the credentials
+ entered by the user are valid(found in the data base),
+ if the user has an account or if the account is blocked */
+
+let isRegistered = function (users, email) {
+  let loggedUser = users.filter(user => user.email === email)
+
+  if (loggedUser) {
+    return 'NotRegistered'
+  } else {
+    return 'Registered'
+  }
+}
 
 let verifyEmail = function (users, email) {
   let index = users.findIndex(function (user) {
@@ -37,6 +48,7 @@ let ValidateConfirmPassword = function (password, confirmPassword) {
 }
 
 module.exports = {
+  isRegistered: isRegistered,
   verifyEmail: verifyEmail,
   verifyPassword: verifyPassword,
   isValidCredentials: isValidCredentials,
