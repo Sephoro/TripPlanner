@@ -4,6 +4,8 @@ let path = require('path')
 let express = require('express')
 let db = require('../data/database')
 let loginVer = require('../models/loginVerification')
+let counter = 0
+let session = require('../models/sessions.js')
 let signUpVer = require('../models/signUpVerication')
 let passport = require('passport')
 let auth = require('../models/google')
@@ -18,6 +20,14 @@ router.get('/login', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'account', 'login.html'))
 })
 
+router.get('/blocked', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'account', 'accountBlocked.html'))
+})
+
+router.get('/notregistered', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'account', 'notRegisteredUser.html'))
+})
+
 auth(passport)
 router.use(passport.initialize())
 
@@ -28,7 +38,7 @@ router.post('/api/create', function (req, res) {
   const email = req.body.email
   const cellphone = req.body.cellphone
   const password = req.body.password
-  const confirmpassword = req.body.confirmpassword // TODO
+  const confirmpassword = req.body.confirmpassword
 
   db.pools
     .then((pool) => {
@@ -50,7 +60,7 @@ router.post('/api/create', function (req, res) {
               return pool.request()
                 .query('INSERT INTO users (email, username, surname,cellphone, password) VALUES (\'' + email + '\',\'' + name + '\',\'' + surname + '\',\'' + cellphone + '\',\'' + password + '\')')
             })
-          res.redirect('/Home')
+    res.redirect('/')
         } else {
           res.redirect('/account/create')
         }
@@ -76,17 +86,45 @@ router.post('/api/login', function (req, res) {
         .query('SELECT * FROM users')
     })
     .then(result => {
-      let index = loginVer.verifyEmail(result.recordset, email)
+      let isRegist = loginVer.isRegistered(result.recordset, email)
 
-      let index2 = loginVer.verifyPassword(result.recordset, password)
+      // Verify if user is registered and found on the database
+      if (isRegist === false) {
+        // res.send('NOT A REGISTERED USER')
+        res.redirect('/account/notregistered')
+      } else if (isRegist === true) {
+        // Check if user is blocked or not
+        let isBlocked = loginVer.isBlocked(result.recordset, email)
+        if (isBlocked === true) {
+          res.redirect('/account/blocked')
+          // res.send('DUE TO SECURITY REASONS YOUR ACCOUNT HAS BEEN BLOCKED!')
+        } else {
+          // Verify Credentials
+          let index = loginVer.verifyEmail(result.recordset, email)
+          let index2 = loginVer.verifyPassword(result.recordset, password)
 
-      if (loginVer.isValidCredentials(index, index2)) {
-        // If credentials are correct, redirect to the loggedIn user homepage
-        res.redirect('/Home')
-      } else {
-        // If credentials are incorrect, redirect to the login page
-        // and give user another chance to enter their details
-        res.redirect('/account/login')
+          if (loginVer.isValidCredentials(index, index2)) {
+            // If credentials are correct, redirect to the loggedIn user homepage
+        session.setUser(email)
+        res.redirect('/')
+          } else {
+            // If credentials are incorrect, redirect to the login page
+            // and give user 3 chance to enter their details
+            counter = counter + 1
+            if (counter !== 3) {
+              res.redirect('/account/login')
+            } else {
+              // Block the user if they have entered incorrect details 3 consecutive times
+              db.pools
+                .then((pool) => {
+                  return pool.request()
+                    .query('UPDATE users SET access_status = 1 WHERE  email = (\'' + email + '\')')
+                })
+              // res.send('DUE TO SECURITY REASONS YOUR ACCOUNT HAS BEEN BLOCKED!')
+              res.redirect('/account/blocked')
+            }
+          }
+        }
       }
     })
     .catch(err => {

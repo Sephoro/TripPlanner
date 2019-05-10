@@ -28,7 +28,7 @@
         <!-- Links -->
         <ul class="navbar-nav">
             <li id="home" class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/home">Home</a>
             </li>
             <li id="trip" class="nav-item">
                 <a class="nav-link" href="/plan">Plan a Trip</a>
@@ -50,50 +50,14 @@
         </ul>
 
         <ul class="nav navbar-nav ml-auto">
-
-            <li id="signUp" class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Profile</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/profile/edit">Update</a>
-                    <a class="dropdown-item" href="/profile/delete"> Log Out</a>
-                </div>
+            <li id="signUp" class="nav-item">
+                <a class="nav-link" href="/profile" method="GET">Profile</a>
             </li>
             <li id="login" class="nav-item">
-                <a class="nav-link" href="/" method="GET">Logout</a>
+                <a class="nav-link" href="./api/logout" method="GET">Logout</a>
             </li>
         </ul>
     </nav>
-
-    <!-- <nav class="navbar navbar-dark navbar-fixed-top ">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">MyTripPlanner</a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <li id = "homelog"><a href="/home">Home</a></li>
-                    <li id = "plan"><a href="/plan">Plan a Trip</a></li>
-                    <li id = "Itineraries"><a href="#">My Itineraries</a></li>
-                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"  href="#">Help
-                        <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li id = "aboutUs" ><a href="/about">About Us</a></li>
-                            <li id = "T&Cs"><a href="tcs">Terms & Conditions</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">                       
-                        <span class="glyphicon glyphicon-user"></span> Profile</a>
-                        <ul class="dropdown-menu">
-                                <li id = "AccSettings"><a href="/profile/edit">Update</a></li>
-                                <li id = "AccSettings"><a href="/profile/delete">Delete</a></li>
-                        </ul>                  
-                    </li>
-                    <li id = "logout"><a href="/"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>               
-                </ul>
-            </div>
-        </nav>  -->
 
     <!-- Showcase marketing message -->
     <br>
