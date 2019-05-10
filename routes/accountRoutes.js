@@ -2,11 +2,10 @@
 
 let path = require('path')
 let express = require('express')
-let Registeredusers = require('../models/registeredusers')
 let db = require('../data/database')
 let loginVer = require('../models/loginVerification')
+let session = require('../models/sessions.js')
 let counter = 0
-
 let router = express.Router()
 
 router.get('/create', function (req, res) {
@@ -44,7 +43,7 @@ router.post('/api/create', function (req, res) {
           .query('INSERT INTO users (email, username, surname,cellphone, password) VALUES (\'' + email + '\',\'' + name + '\',\'' + surname + '\',\'' + cellphone + '\',\'' + password + '\')')
       })
 
-    res.redirect('/Home')
+    res.redirect('/')
   }
 })
 
@@ -80,7 +79,8 @@ router.post('/api/login', function (req, res) {
 
           if (loginVer.isValidCredentials(index, index2)) {
             // If credentials are correct, redirect to the loggedIn user homepage
-            res.redirect('/Home')
+        session.setUser(email)
+        res.redirect('/')
           } else {
             // If credentials are incorrect, redirect to the login page
             // and give user 3 chance to enter their details

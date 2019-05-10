@@ -7,7 +7,7 @@ let itenariesRoutes = require('./routes/itinerariesRoutes.js')
 let profileRoutes = require('./routes/profileRoutes.js')
 let signuproutes = require('./routes/accountRoutes.js')
 let layoutsRoutes = require('./routes/layoutsRoutes')
-
+let session = require('express-session')
 
 // loading body parser
 let bodyParser = require('body-parser')
@@ -15,6 +15,9 @@ let bodyParser = require('body-parser')
 // tell express to use body parser for JSON and URL encoded form bodies
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
+// TODO store in .env
+app.use(session({ secret: 'eslbr1000t', resave: false, saveUninitialized: true }))
 
 // mouting our routers
 app.use('/itineraries', itenariesRoutes)
