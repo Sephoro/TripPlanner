@@ -77,6 +77,7 @@ router.post('/api/edit', function (req, res) {
         if (!profileManager.emailChanged(oldEmail, email)) {
           res.redirect('/profile')
         } else {
+          session.loggedOut()
           res.redirect('/')
         }
       }
