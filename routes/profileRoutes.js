@@ -7,15 +7,27 @@ let session = require('../models/sessions.js')
 let profileManager = require('../models/profileManager')
 
 router.get('/edit', function (req, res) {
-  res.sendFile(path.join(__dirname, '../views', 'profile', 'edit.html'))
+  if (session.loggedIn()) {
+    res.sendFile(path.join(__dirname, '../views', 'profile', 'edit.html'))
+  } else {
+    res.redirect('/account/login')
+  }
 })
 
 router.get('/delete', function (req, res) {
-  res.sendFile(path.join(__dirname, '../views', 'profile', 'delete.html'))
+  if (session.loggedIn()) {
+    res.sendFile(path.join(__dirname, '../views', 'profile', 'delete.html'))
+  } else {
+    res.redirect('/account/login')
+  }
 })
 
 router.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '../views', 'profile', 'profile.html'))
+  if (session.loggedIn()) {
+    res.sendFile(path.join(__dirname, '../views', 'profile', 'profile.html'))
+  } else {
+    res.redirect('/account/login')
+  }
 })
 
 // RESTful interface

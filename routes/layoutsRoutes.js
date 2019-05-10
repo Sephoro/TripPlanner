@@ -6,14 +6,14 @@ let session = require('../models/sessions.js')
 
 let layoutsRoute = express.Router()
 
-// home page
 layoutsRoute.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '../views', 'layouts', 'layouts.html'))
-})
-
-// log-in home page
-layoutsRoute.get('/home', function (req, res) {
-  res.sendFile(path.join(__dirname, '../views', 'layouts', 'loggedIn.html'))
+  if (!session.loggedIn()) {
+    // not logged in
+    res.sendFile(path.join(__dirname, '../views', 'layouts', 'layouts.html'))
+  } else {
+    // If logged in
+    res.sendFile(path.join(__dirname, '../views', 'layouts', 'loggedIn.html'))
+  }
 })
 
 // terms and conditions page
@@ -26,12 +26,23 @@ layoutsRoute.get('/about', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'layouts', 'aboutUs.html'))
 })
 
+// In between logging out
 layoutsRoute.get('/api/logout', function (req, res) {
   session.loggedOut()
   res.redirect('/')
 })
 
-layoutsRoute.get('/database', function (req, res) {
+// In between accesing profile
+
+layoutsRoute.get('/api/profile', function (req, res) {
+  if (session.loggedIn()) {
+    res.redirect('/profile')
+  } else {
+    res.redirect('/account/login')
+  }
+})
+
+layoutsRoute.get('/api/database', function (req, res) {
   db.pools
     .then((pool) => {
       return pool.request()

@@ -58,7 +58,7 @@ router.post('/api/login', function (req, res) {
       if (loginVer.isValidCredentials(index, index2)) {
         // If credentials are correct, redirect to the loggedIn user homepage
         session.setUser(email)
-        res.redirect('/Home')
+        res.redirect('/')
       } else {
         // If credentials are incorrect, redirect to the login page
         // and give user another chance to enter their details
