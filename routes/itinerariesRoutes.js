@@ -64,6 +64,25 @@ itineraries.get('/api/myplan', function (req, res) {
         })
     })
 })
+// Return all the plans of the user
+itineraries.get('/api/myplans', function (req, res) {
+  let email = session.getUser()
+
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT * FROM plans WHERE email = \'' + email + '\' ')
+    })
+    .then(results => {
+      res.send(results.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
 
 itineraries.post('/api/save', function (req, res) {
   // Is the user logged in?
@@ -100,7 +119,7 @@ itineraries.post('/api/save', function (req, res) {
           })
       })
 
-    res.redirect('/')
+    res.redirect('/plan/myplans')
   } else {
     res.send('Itineraries can only be saved if you are logged in....Log in if you have an account, sign up or Print the itinary instead by Ctrl+p')
   }
