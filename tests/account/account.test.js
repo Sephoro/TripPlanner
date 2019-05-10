@@ -1,6 +1,7 @@
 'use strict'
 
 let validate = require('../../models/loginVerification.js')
+let validate1 = require('../../models/signUpVerication.js')
 
 let users = [ {
   email: 'eliassepuru@gmail.com',
@@ -68,5 +69,46 @@ describe('Check', () => {
   test('password and confrimPassword match', () => {
     let isPasswordMatch = validate.ValidateConfirmPassword('12345Boi', '12345Boi')
     expect(isPasswordMatch).toEqual(true)
+  })
+})
+
+describe('The', () => {
+  test('email is not registered on the Database', () => {
+    let confirmemail = validate1.verifySignUpEmail(users, 'mbongeni921@gmail.com')
+    expect(confirmemail).toEqual(true)
+  })
+
+  test('email is already being registered on the Database', () => {
+    let confirmemail = validate1.verifySignUpEmail(users, 'mbongeni@gmail.com')
+    expect(confirmemail).toEqual(false)
+  })
+})
+
+describe('The', () => {
+  test('password length is less than 8 characters', () => {
+    let password = validate1.verifyLengthPassword('12345')
+    expect(password).toEqual(false)
+  })
+
+  test('password length is more than 8 characters', () => {
+    let password = validate1.verifyLengthPassword('12345678')
+    expect(password).toEqual(true)
+  })
+})
+
+describe('The', () => {
+  test('number entered is invalid, contains less 10 degits', () => {
+    let cellphone = validate1.verifyCellphone('12345')
+    expect(cellphone).toEqual(false)
+  })
+
+  test('number entered is invalid, contains more 10 degits', () => {
+    let cellphone = validate1.verifyCellphone('123456789087')
+    expect(cellphone).toEqual(false)
+  })
+
+  test('number entered is valid', () => {
+    let cellphone = validate1.verifyCellphone('0769884893')
+    expect(cellphone).toEqual(true)
   })
 })

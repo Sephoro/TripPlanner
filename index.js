@@ -8,7 +8,6 @@ let profileRoutes = require('./routes/profileRoutes.js')
 let signuproutes = require('./routes/accountRoutes.js')
 let layoutsRoutes = require('./routes/layoutsRoutes')
 
-
 // loading body parser
 let bodyParser = require('body-parser')
 
@@ -19,6 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // mouting our routers
 app.use('/itineraries', itenariesRoutes)
 app.use('/account', signuproutes)
+app.use('/g', signuproutes)
+app.use('/go', signuproutes)
 app.use('/', layoutsRoutes)
 app.use('/plan', itenariesRoutes)
 app.use('/profile', profileRoutes)
