@@ -40,7 +40,7 @@ router.get('/api/list', function (req, res) {
 
 router.post('/api/RS', function (req, res) {
   let oldPassword = req.body.password
-  let newPassword = req.body.newPassword
+  let newPassword = req.body.inputPassword
   let confirmPassword = req.body.confirmPassword
   let oldPass = false
   let newPass = false
