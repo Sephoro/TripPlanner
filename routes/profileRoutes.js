@@ -2,6 +2,7 @@
 let path = require('path')
 let express = require('express')
 let router = express.Router()
+let passwordRes = require('../models/ResetPassword')
 let db = require('../data/database')
 let session = require('../models/sessions.js')
 let profileManager = require('../models/profileManager')
@@ -30,6 +31,10 @@ router.get('/', function (req, res) {
   }
 })
 
+router.get('/PasswordReset', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'profile', 'PasswordReset.html'))
+})
+
 // RESTful interface
 router.get('/api/list', function (req, res) {
   db.pools
@@ -43,8 +48,47 @@ router.get('/api/list', function (req, res) {
       res.send(result.recordset)
     })
     .catch(err => {
-      res.send({
-        Error: err
+      res.send({Error: err
+      })
+    })
+})
+
+router.post('/api/RS', function (req, res) {
+  let oldPassword = req.body.password
+  let newPassword = req.body.inputPassword
+  let confirmPassword = req.body.confirmPassword
+  let oldPass = false
+  let newPass = false
+  let email = session.getUser()
+
+  db.pools
+    .then((pool) => {
+      return pool.request()
+        .query('SELECT * FROM users WHERE email = \'' + email + '\'')
+    })
+    .then(result => {
+      oldPass = passwordRes.verifyPassword(result.recordset[0], oldPassword)
+
+      if (oldPass === true) {
+        newPass = passwordRes.verifyNewPassword(newPassword, confirmPassword)
+
+        if (newPass === true) {
+          db.pools
+            .then((pool) => {
+              return pool.request()
+                .query('UPDATE users SET password = \'' + newPassword + '\' WHERE email = \'' + email + '\'')
+            })
+          session.loggedOut()
+          res.redirect('/')
+        }else {
+          console.log('New password does not match')
+        }
+      }else {
+        console.log('Password didnt match')
+      }
+    })
+    .catch(err => {
+      res.send({Error: err
       })
     })
 })
