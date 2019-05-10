@@ -6,6 +6,7 @@ let db = require('../data/database.js')
 let pf = require('../public/scripts/itineraries/planFunctions')
 let fs = require('fs')
 let counter = require('../data/it.json')
+let session = require('../models/sessions')
 
 itineraries.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'plan.html'))
@@ -41,22 +42,26 @@ itineraries.get('/api/myplan', function (req, res) {
 })
 
 itineraries.post('/api/save', function (req, res) {
-  db.pools
-    .then((pool) => {
-      return pool.request()
-        .query('INSERT INTO itineraries (name,email,ItNum) VALUES (\'' + req.body.itName + '\',\'' + 'eliassepuru@gmail.com' + '\',' + counter.counter + ')')
-    })
+  if (session.loggedIn()) {
+    db.pools
+      .then((pool) => {
+        return pool.request()
+          .query('INSERT INTO itineraries (name,email,ItNum) VALUES (\'' + req.body.itName + '\',\'' + session.getUser() + '\',' + counter.counter + ')')
+      })
 
-  let num = Number(counter.counter)
-  num++
-  counter.counter = num
-  let a = { counter: num }
-  fs.writeFile('data/it.json', JSON.stringify(a), (err) => {
-    if (err) {
-      console.log(err)
-    }
-  })
-  res.redirect('/')
+    let num = Number(counter.counter)
+    num++
+    counter.counter = num
+    let a = { counter: num }
+    fs.writeFile('data/it.json', JSON.stringify(a), (err) => {
+      if (err) {
+        console.log(err)
+      }
+    })
+    res.redirect('/')
+  } else {
+    res.send('Itineraries can only be saved if you are logged in....Log in if you have an account, sign up or Print the itinary instead by Ctrl+p')
+  }
 })
 
 module.exports = itineraries
