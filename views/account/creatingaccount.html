@@ -17,7 +17,9 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="/cdn/scripts/account/account1.js"></script>
 </head>
+
 <body>
     <main>
         <div class="container">
@@ -44,32 +46,45 @@
                                 </div>
                                 <div class="form-label-group">
                                     <label for="inputEmail">Cellphone Number</label>
-                                    <input type="text" name="cellphone" id="inputEmail" class="form-control"
-                                        placeholder="Your cellphone number" required autofocus>
-    
+                                    <input type="text" name="cellphone" id="inputcellphone" class="form-control"
+                                        placeholder="Your cellphone number" required autofocus
+                                        onkeyup = 'checkCellnumber();'
+                                    >
+                                    <span id='message2'></span>
                                 </div>
                                 <div class="form-label-group">
                                     <label for="inputPassword">password</label>
                                     <input type="password" name="password" id="inputPassword" class="form-control"
-                                        placeholder="Password" required>
+                                        placeholder="Password" required
+                                        onkeyup='checkPasswordLength();'>
+                                    <span id='message1'></span>
                                 </div>
                                 <div class="form-label-group">
                                     <label for="inputPassword">Confirm password</label>
-                                    <input type="password" name="confirmpassword" id="confirmPassword" class="form-control"
-                                        placeholder="Confirm Password" required onkeyup='checkPasswordMatch();'>
+                                    <input type="password" name="confirmpassword" id="confirmPassword"
+                                        class="form-control" placeholder="Confirm Password" required
+                                        onkeyup='checkPasswordMatch();'>
                                     <span id='message'></span>
                                 </div>
                                 <br>
                                 <button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase"
-                                    type="submit" id = 'signUpButton'>Sign Up
+                                    type="submit" id='signUpButton'>Sign Up
+                                </button>
+                                <br>
+
+                            </form>
+                            <form action="/g/auth/google" method="get">
+                                <button type="submit" class="btn btn-lg btn-danger btn-block text-uppercase"
+                                    type="submit" id='signUpButton'>Sign Up with Google
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </main>
 </body>
-<script src = '/cdn/scripts/account/account.js'></script>
+<script src='/cdn/scripts/account/account.js'></script>
 </html>
