@@ -3,26 +3,41 @@ let path = require('path')
 let express = require('express')
 let router = express.Router()
 let db = require('../data/database')
+let session = require('../models/sessions.js')
+let profileManager = require('../models/profileManager')
 
 router.get('/edit', function (req, res) {
-  res.sendFile(path.join(__dirname, '../views', 'profile', 'edit.html'))
+  if (session.loggedIn()) {
+    res.sendFile(path.join(__dirname, '../views', 'profile', 'edit.html'))
+  } else {
+    res.redirect('/account/login')
+  }
 })
 
 router.get('/delete', function (req, res) {
-  res.sendFile(path.join(__dirname, '../views', 'profile', 'delete.html'))
+  if (session.loggedIn()) {
+    res.sendFile(path.join(__dirname, '../views', 'profile', 'delete.html'))
+  } else {
+    res.redirect('/account/login')
+  }
 })
 
-router.get('/profilee', function (req, res) {
-  res.sendFile(path.join(__dirname, '../views', 'profile', 'profilee.html'))
+router.get('/', function (req, res) {
+  if (session.loggedIn()) {
+    res.sendFile(path.join(__dirname, '../views', 'profile', 'profile.html'))
+  } else {
+    res.redirect('/account/login')
+  }
 })
 
 // RESTful interface
 router.get('/api/list', function (req, res) {
   db.pools
     .then((pool) => {
+      let userEmail = session.getUser()
       return pool.request()
 
-        .query("SELECT * FROM users WHERE email = 'Harold.mokoo@gmail.com'")
+        .query('SELECT * FROM users WHERE email = \'' + userEmail + '\'')
     })
     .then(result => {
       res.send(result.recordset)
@@ -39,23 +54,40 @@ router.post('/api/edit', function (req, res) {
   let surname = req.body.editSurname
   let email = req.body.email
   let cellphone = req.body.cellphone
-  let password = req.body.passWord
-  let confirmPassword = req.body.passWord
 
-  let query = 'UPDATE users SET username = \'' + name + '\', surname = \'' + surname + '\', email = \'' + email + '\', cellphone = \'' + cellphone + '\' WHERE email = \'Harold.mokoo@gmail.com\''
+  let oldEmail = session.getUser()
 
   db.pools
     .then((pool) => {
       return pool.request()
-        .query(query)
+        .query('SELECT * FROM users')
     })
+    .then(result => {
+      if (profileManager.emailAlreadExists(email, oldEmail, result.recordset)) {
+        res.send('Email already exitst!')
+      } else {
+        let query = 'UPDATE users SET username = \'' + name + '\', surname = \'' + surname + '\', email = \'' + email + '\', cellphone = \'' + cellphone + '\' WHERE email = \'' + oldEmail + '\''
 
-  res.redirect('/profile/profilee')
+        db.pools
+          .then((pool) => {
+            return pool.request()
+              .query(query)
+          })
+
+        if (!profileManager.emailChanged(oldEmail, email)) {
+          res.redirect('/profile')
+        } else {
+          session.loggedOut()
+          res.redirect('/')
+        }
+      }
+    })
 })
 
 router.post('/api/delete', function (req, res) {
+  let email = session.getUser()
   db.pools.then((pool) => {
-    return pool.request().query('DELETE FROM users WHERE email = \'' + req.body.email + '\'')
+    return pool.request().query('DELETE FROM users WHERE email = \'' + email + '\'')
   })
 
   res.redirect('/')
