@@ -22,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // mouting our routers
 app.use('/itineraries', itenariesRoutes)
 app.use('/account', signuproutes)
+app.use('/g', signuproutes)
+app.use('/go', signuproutes)
 app.use('/', layoutsRoutes)
 app.use('/plan', itenariesRoutes)
 app.use('/profile', profileRoutes)
