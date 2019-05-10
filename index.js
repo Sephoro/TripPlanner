@@ -7,7 +7,7 @@ let itenariesRoutes = require('./routes/itinerariesRoutes.js')
 let profileRoutes = require('./routes/profileRoutes.js')
 let signuproutes = require('./routes/accountRoutes.js')
 let layoutsRoutes = require('./routes/layoutsRoutes')
-let session = require('express-session')
+//let session = require('express-session')
 
 // loading body parser
 let bodyParser = require('body-parser')
@@ -17,11 +17,13 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // TODO store in .env
-app.use(session({ secret: 'eslbr1000t', resave: false, saveUninitialized: true }))
+//app.use(session({ secret: 'eslbr1000t', resave: false, saveUninitialized: true }))
 
 // mouting our routers
 app.use('/itineraries', itenariesRoutes)
 app.use('/account', signuproutes)
+app.use('/g', signuproutes)
+app.use('/go', signuproutes)
 app.use('/', layoutsRoutes)
 app.use('/plan', itenariesRoutes)
 app.use('/profile', profileRoutes)

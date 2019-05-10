@@ -14,6 +14,30 @@ let checkPasswordMatch = function () {
   }
 }
 
+let checkPasswordLength = function () {
+  let password = document.getElementById('inputPassword').value
+
+  if (password.length < 8) {
+    document.getElementById('message1').style.color = 'red'
+    document.getElementById('message1').innerHTML = 'weak password, use a minimum of 8 characers'
+  } else {
+    document.getElementById('message1').style.color = 'green'
+    document.getElementById('message1').innerHTML = 'strong password'
+  }
+}
+
+let checkCellnumber = function () {
+  let cellnumber = document.getElementById('inputcellphone').value
+
+  if (cellnumber.length < 10 || cellnumber.length > 10) {
+    document.getElementById('message2').style.color = 'red'
+    document.getElementById('message2').innerHTML = 'Invalid number'
+  } else {
+    document.getElementById('message2').style.color = 'green'
+    document.getElementById('message2').innerHTML = ''
+  }
+}
+
 let signUp = document.getElementById('signUpButton')
 
 // User cannot proceed if passwords do not match
