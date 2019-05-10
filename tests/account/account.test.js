@@ -16,7 +16,7 @@ let users = [ {
   surname: 'Mankge',
   cellphone: '0769884893',
   password: '4295',
-  access_status: null
+  access_status: 1
 },
 {
   email: 'bingi@gmail.com',
@@ -30,8 +30,13 @@ let users = [ {
 ]
 
 test('User cannot login if they have not signed up', () => {
-  let status = validate.isRegistered(users, 'bin@gmail.com')
-  expect(status).toEqual('NotRegistered')
+  let isRegistered = validate.isRegistered(users, 'bin@gmail.com')
+  expect(isRegistered).toEqual(false)
+})
+
+test('User cannot login if they their account has been blocked', () => {
+  let status = validate.isBlocked(users, 'mbongeni@gmail.com')
+  expect(status).toEqual(true)
 })
 
 describe('the', () => {
