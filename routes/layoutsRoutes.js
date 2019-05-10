@@ -2,6 +2,7 @@
 let path = require('path')
 let express = require('express')
 let db = require('../data/database')
+let session = require('../models/sessions.js')
 
 let layoutsRoute = express.Router()
 
@@ -23,6 +24,11 @@ layoutsRoute.get('/tcs', function (req, res) {
 // about page
 layoutsRoute.get('/about', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'layouts', 'aboutUs.html'))
+})
+
+layoutsRoute.get('/api/logout', function (req, res) {
+  session.loggedOut()
+  res.redirect('/')
 })
 
 layoutsRoute.get('/database', function (req, res) {

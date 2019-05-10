@@ -25,7 +25,7 @@ router.get('/api/list', function (req, res) {
       let userEmail = session.getUser()
       return pool.request()
 
-        .query('SELECT * FROM users WHERE email = \'' + userEmail + '\'') // \'' + req.session.email + '\'')
+        .query('SELECT * FROM users WHERE email = \'' + userEmail + '\'')
     })
     .then(result => {
       res.send(result.recordset)
