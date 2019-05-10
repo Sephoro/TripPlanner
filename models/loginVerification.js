@@ -5,12 +5,22 @@
  if the user has an account or if the account is blocked */
 
 let isRegistered = function (users, email) {
-  let loggedUser = users.filter(user => user.email === email)
+  let User = users.filter(user => user.email === email)
 
-  if (loggedUser) {
-    return 'NotRegistered'
+  if (User.length === 0) {
+    return false
   } else {
-    return 'Registered'
+    return true
+  }
+}
+
+let isBlocked = function (users, email) {
+  let loggedUser = users.filter(user => user.email === email)
+  let status = loggedUser[0].access_status
+  if (status === 1) {
+    return true
+  } else {
+    return false
   }
 }
 
@@ -49,6 +59,7 @@ let ValidateConfirmPassword = function (password, confirmPassword) {
 
 module.exports = {
   isRegistered: isRegistered,
+  isBlocked: isBlocked,
   verifyEmail: verifyEmail,
   verifyPassword: verifyPassword,
   isValidCredentials: isValidCredentials,

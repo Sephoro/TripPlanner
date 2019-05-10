@@ -17,6 +17,14 @@ router.get('/login', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'account', 'login.html'))
 })
 
+router.get('/blocked', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'account', 'accountBlocked.html'))
+})
+
+router.get('/notregistered', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'account', 'notRegisteredUser.html'))
+})
+
 // Reading user credentials for signing up
 router.post('/api/create', function (req, res) {
   const name = req.body.name
@@ -53,34 +61,42 @@ router.post('/api/login', function (req, res) {
         .query('SELECT * FROM users')
     })
     .then(result => {
-      let status = loginVer.isRegistered(result.recordset, email)
-      console.log(status)
+      let isRegist = loginVer.isRegistered(result.recordset, email)
 
       // Verify if user is registered and found on the database
-      if (status === 'NotRegistered') {
-        res.send('NOT A REGISTERED USER')
-      } else if (status === 'Registered') {
-        // Verify Credentials
-        let index = loginVer.verifyEmail(result.recordset, email)
-        let index2 = loginVer.verifyPassword(result.recordset, password)
-
-        if (loginVer.isValidCredentials(index, index2)) {
-        // If credentials are correct, redirect to the loggedIn user homepage
-          res.redirect('/Home')
+      if (isRegist === false) {
+        // res.send('NOT A REGISTERED USER')
+        res.redirect('/account/notregistered')
+      } else if (isRegist === true) {
+        // Check if user is blocked or not
+        let isBlocked = loginVer.isBlocked(result.recordset, email)
+        if (isBlocked === true) {
+          res.redirect('/account/blocked')
+          // res.send('DUE TO SECURITY REASONS YOUR ACCOUNT HAS BEEN BLOCKED!')
         } else {
-        // If credentials are incorrect, redirect to the login page
-        // and give user 3 chance to enter their details
-          counter = counter + 1
-          if (counter !== 3) {
-            res.redirect('/account/login')
+          // Verify Credentials
+          let index = loginVer.verifyEmail(result.recordset, email)
+          let index2 = loginVer.verifyPassword(result.recordset, password)
+
+          if (loginVer.isValidCredentials(index, index2)) {
+            // If credentials are correct, redirect to the loggedIn user homepage
+            res.redirect('/Home')
           } else {
-            console.log('PasswordBlocked!!!')
-            db.pools
-              .then((pool) => {
-                return pool.request()
-                  .query('UPDATE users SET access_status = 1 WHERE  email = (\'' + email + '\')')
-              })
-            res.send('Account Blocked!')
+            // If credentials are incorrect, redirect to the login page
+            // and give user 3 chance to enter their details
+            counter = counter + 1
+            if (counter !== 3) {
+              res.redirect('/account/login')
+            } else {
+              // Block the user if they have entered incorrect details 3 consecutive times
+              db.pools
+                .then((pool) => {
+                  return pool.request()
+                    .query('UPDATE users SET access_status = 1 WHERE  email = (\'' + email + '\')')
+                })
+              // res.send('DUE TO SECURITY REASONS YOUR ACCOUNT HAS BEEN BLOCKED!')
+              res.redirect('/account/blocked')
+            }
           }
         }
       }
