@@ -70,7 +70,7 @@ fetch('/plan/api/myplans')
         // Append new container to the body
         document.body.appendChild(itContainer)
         // Update itinerary ID
-        itID = plans.itinerary_id
+        itID = data.itinerary_id
         counter = 1
       }
       // Get the location, date and duration
