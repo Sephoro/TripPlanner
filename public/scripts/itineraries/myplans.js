@@ -9,20 +9,67 @@ fetch('/plan/api/myplans')
   .then(function (plans) {
     let counter = 1
     let plan = 1
+
+    // creating the button
+    let shareButton = document.createElement('a')
+    shareButton.className = 'btn btn-info btn-lg'
+    shareButton.id = 'shareButton'
+    shareButton.href = '#'
+
+    let sp = document.createElement('span')
+    sp.className = 'glyphicon glyphicon-share'
+
+    let txt = document.createTextNode('Share')
+    shareButton.appendChild(sp)
+    shareButton.appendChild(txt)
+
     let header = document.createElement('h4')
     header.innerHTML = 'PLAN : ' + String(plan)
-    document.body.appendChild(header)
+    let itContainer = document.createElement('div')
+    itContainer.id = 'itDeck'
     let cardDeck = document.createElement('div')
     cardDeck.className = 'card-deck'
-    document.body.appendChild(cardDeck)
+    itContainer.appendChild(header)
+    itContainer.appendChild(shareButton)
+    itContainer.appendChild(cardDeck)
+    document.body.appendChild(itContainer)
 
     let itID = plans[0].itinerary_id
     plans.forEach(data => {
-      if (itID !== plans.itinerary_id) {
+      if (itID !== data.itinerary_id) {
+        // Increase the number of plans
         plan++
+        //
+        itContainer = document.createElement('div')
+
+        // Make a new header
         header = document.createElement('h4')
         header.innerHTML = 'PLAN : ' + String(plan)
-        document.body.appendChild(header)
+        itContainer.appendChild(header)
+
+        // create a new button
+        shareButton = document.createElement('a')
+        shareButton.className = 'btn btn-info btn-lg'
+        shareButton.id = 'shareButton'
+        shareButton.href = '#'
+
+        sp = document.createElement('span')
+        sp.className = 'glyphicon glyphicon-share'
+
+        txt = document.createTextNode('Share')
+        shareButton.appendChild(sp)
+        shareButton.appendChild(txt)
+
+        itContainer.appendChild(shareButton)
+
+        // Create a new itinerary deck
+        cardDeck = document.createElement('div')
+        cardDeck.className = 'card-deck'
+        itContainer.appendChild(cardDeck)
+
+        // Append new container to the body
+        document.body.appendChild(itContainer)
+        // Update itinerary ID
         itID = plans.itinerary_id
         counter = 1
       }
