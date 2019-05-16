@@ -55,6 +55,20 @@ fetch('/plan/api/myplans')
       img.alt = 'Card image cap'
       img.className = 'card-img-top'
 
+      let a1 = document.createElement('a')
+      let del = document.createElement('button')
+
+      a1.href = '/plan/myplans'
+      del.className = 'del--'
+
+      del.id = data.plan_id
+      card.id = data.plan_id
+
+      let delTxt = document.createTextNode('Delete')
+
+      a1.appendChild(delTxt)
+      del.appendChild(a1)
+
       let cardBody = document.createElement('div')
       cardBody.className = 'card-body'
 
@@ -63,6 +77,8 @@ fetch('/plan/api/myplans')
       cardBody.appendChild(date)
       cardBody.appendChild(duration)
       cardBody.appendChild(activities)
+      cardBody.appendChild(del)
+      // cardBody.appendChild(edit)
 
       // Append into card
       card.appendChild(img)
@@ -72,4 +88,17 @@ fetch('/plan/api/myplans')
       cardDeck.appendChild(card)
       counter++
     })
+
+    let button = document.getElementsByClassName('del--')
+
+    for (let i = 0; i < button.length; i++) {
+      button[i].addEventListener('click', function () {
+        let xhr = new XMLHttpRequest()
+        xhr.open('POST', './api/delplan', true)
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify({
+          value: button[i].id
+        }))
+      }, false)
+    }
   })
