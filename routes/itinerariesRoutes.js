@@ -125,4 +125,8 @@ itineraries.post('/api/save', function (req, res) {
   }
 })
 
+itineraries.post('/myplans/api/save', function (req, res) {
+  console.log(req.body.value)
+})
+
 module.exports = itineraries
