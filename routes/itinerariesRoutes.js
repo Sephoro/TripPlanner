@@ -14,6 +14,10 @@ itineraries.get('/myplans', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'myplans.html'))
 })
 
+itineraries.get('/delplan', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'delplan.html'))
+})
+
 itineraries.post('/api/plan', function (req, res) {
   let duration = pf.durationCalculator(req.body.endDate, req.body.startDate)
   let email = session.getUser()
@@ -83,6 +87,16 @@ itineraries.get('/api/myplans', function (req, res) {
       })
     })
 })
+
+////////////////////////////////////////////////////////////
+itineraries.post('/api/delplan', function (req, res) {
+  let loc = req.body.location
+  db.pools.then((pool) => {
+    return pool.request().query('DELETE FROM plans WHERE location = \'' + loc + '\'')
+  })
+  res.redirect('/plan/myplans')
+})
+////////////////////////////////////////////////////////////
 
 itineraries.post('/api/save', function (req, res) {
   // Is the user logged in?

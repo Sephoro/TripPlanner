@@ -55,6 +55,17 @@ fetch('/plan/api/myplans')
       img.alt = 'Card image cap'
       img.className = 'card-img-top'
 
+      let a = document.createElement('a')
+      a.href = '/plan/delplan'
+
+      let del = document.createElement('button')
+      del.className = 'del--'
+      del.id = 'del'
+    
+      let delTxt = document.createTextNode('Delete')
+      a.appendChild(delTxt)
+      del.appendChild(a)
+
       let cardBody = document.createElement('div')
       cardBody.className = 'card-body'
 
@@ -63,6 +74,7 @@ fetch('/plan/api/myplans')
       cardBody.appendChild(date)
       cardBody.appendChild(duration)
       cardBody.appendChild(activities)
+      cardBody.appendChild(del)
 
       // Append into card
       card.appendChild(img)

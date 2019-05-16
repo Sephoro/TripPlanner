@@ -16,3 +16,35 @@
     margin-top: 1cm;
     margin-left: 11cm;
 }
+
+/* .edit-- {
+    position: absolute;
+    top: 95%;
+    left: 7%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #555;
+    color: red;
+    font-size: 13px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+  } */
+
+  .del-- {
+    position: absolute;
+    top: 95%;
+    left: 91%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #555;
+    color: red;
+    font-size: 13px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+  }
