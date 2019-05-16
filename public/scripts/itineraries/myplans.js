@@ -1,5 +1,7 @@
 'use strict'
 
+/* import { getHashes } from 'crypto' */
+
 fetch('/api/database')
   .then(function (response) {
     if (response.ok) { return response.json() } else {
@@ -44,7 +46,8 @@ fetch('/api/database')
         let shareButton = document.createElement('button')
         shareButton.className = 'shareBut'
         shareButton.type = 'submit'
-        shareButton.id = 'shareButton'
+        shareButton.href = '#'
+
         let txt = document.createTextNode('Invite')
         shareButton.appendChild(txt)
         let email = ''
@@ -62,6 +65,7 @@ fetch('/api/database')
         document.body.appendChild(itContainer)
 
         let itID = plans[0].itinerary_id
+        shareButton.id = String(itID)
         plans.forEach(data => {
           if (itID !== data.itinerary_id) {
             // Increase the number of plans
@@ -97,7 +101,7 @@ fetch('/api/database')
             // create a new button
             shareButton = document.createElement('button')
             shareButton.className = 'shareBut'
-            shareButton.id = 'shareButton'
+            shareButton.id = String(itID)
             shareButton.href = '#'
             txt = document.createTextNode('Invite')
 
@@ -180,8 +184,11 @@ fetch('/api/database')
             xhr.open('POST', './myplans/api/save', true)
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(JSON.stringify({
-              value: email
+              email_inivte: email,
+              itinerarieID: shareBut[i].id
+
             }))
+            alert('Successfully share itinerary with ' + String(users[index - 2].username))
           }, false)
         }
       })

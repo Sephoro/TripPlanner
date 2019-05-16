@@ -126,7 +126,12 @@ itineraries.post('/api/save', function (req, res) {
 })
 
 itineraries.post('/myplans/api/save', function (req, res) {
-  console.log(req.body.value)
+  // Indicate on the database if someone has gotton an invite
+  db.pools
+    .then((data) => {
+      return data.request()
+        .query('INSERT INTO shareItineraries (SharedBy, SharedWith, ItineraryID) VALUES (\'' + session.getUser() + '\',\'' + req.body.email_inivte + '\',\'' + req.body.itinerarieID + '\')')
+    })
 })
 
 module.exports = itineraries
