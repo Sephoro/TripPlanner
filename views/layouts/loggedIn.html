@@ -58,8 +58,8 @@
         <ul class="nav navbar-nav ml-auto">
             <div>
                    
-                    <li class ="nav-item" data-toggle="modal" data-target="#myModal">
-                        <a class="nav-link" href="#" method="GET">Notifications<span class = "bage"> 0</span></a>
+                    <li class ="nav-item" data-toggle="modal" data-target="#myModal" >
+                        <a class="nav-link" href="#" method="GET"><span class = "bage" id = "notifications"></span> Notifications </a>
                     </li>
               
                     
@@ -73,7 +73,7 @@
                                   <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                  <p>User X would like to share an itinerary with you?</p>
+                                  <p>User<a id = "invitename"></a> would like to share an itinerary with you?</p>
                                   <p>If you accept it will be added to your list of  Itineraries</p>
                                 </div>
                                 <div class="modal-footer">
@@ -112,5 +112,6 @@
 
     </div>
 </body>
+<script src='/cdn/scripts/layouts/layouts.js'></script>
 
 </html>

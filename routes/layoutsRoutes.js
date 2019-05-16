@@ -59,4 +59,23 @@ layoutsRoute.get('/api/database', function (req, res) {
     })
 })
 
+layoutsRoute.get('/api/shared', function (req, res) {
+  let email = session.getUser()
+
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT * FROM shareItineraries WHERE SharedWith = (\'' + email + '\')')
+    })
+    .then(result => {
+      res.send(result.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+
 module.exports = layoutsRoute

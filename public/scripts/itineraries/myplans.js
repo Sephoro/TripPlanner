@@ -1,7 +1,5 @@
 'use strict'
 
-/* import { getHashes } from 'crypto' */
-
 fetch('/api/database')
   .then(function (response) {
     if (response.ok) { return response.json() } else {
