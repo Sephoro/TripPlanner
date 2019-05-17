@@ -78,4 +78,26 @@ layoutsRoute.get('/api/shared', function (req, res) {
     })
 })
 
+layoutsRoute.post('/api/notifications', function (req, res) {
+  let email = session.getUser()
+  let stat = 0
+
+  if (req.body.status === 'a') {
+    stat = 1
+  }
+
+  console.log(req.body, stat)
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('UPDATE shareItineraries SET stat = ' + stat + ' WHERE SharedWith = \'' + email + '\' AND ItineraryID = ' + req.body.itID + ' ')
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+
 module.exports = layoutsRoute

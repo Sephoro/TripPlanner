@@ -60,7 +60,7 @@ router.post('/api/create', function (req, res) {
               return pool.request()
                 .query('INSERT INTO users (email, username, surname,cellphone, password) VALUES (\'' + email + '\',\'' + name + '\',\'' + surname + '\',\'' + cellphone + '\',\'' + password + '\')')
             })
-    res.redirect('/')
+          res.redirect('/')
         } else {
           res.redirect('/account/create')
         }
@@ -105,8 +105,8 @@ router.post('/api/login', function (req, res) {
 
           if (loginVer.isValidCredentials(index, index2)) {
             // If credentials are correct, redirect to the loggedIn user homepage
-        session.setUser(email)
-        res.redirect('/')
+            session.setUser(email)
+            res.redirect('/')
           } else {
             // If credentials are incorrect, redirect to the login page
             // and give user 3 chance to enter their details

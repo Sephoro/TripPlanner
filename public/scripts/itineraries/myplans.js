@@ -178,7 +178,7 @@ fetch('/api/database')
               email = users[index - 2].email
             }
 
-            var xhr = new XMLHttpRequest()
+            let xhr = new XMLHttpRequest()
             xhr.open('POST', './myplans/api/save', true)
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(JSON.stringify({
