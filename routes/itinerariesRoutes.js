@@ -14,8 +14,8 @@ itineraries.get('/myplans', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'myplans.html'))
 })
 
-itineraries.get('/delplan', function (req, res) {
-  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'delplan.html'))
+itineraries.get('/ourplans', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'ourplans.html'))
 })
 
 itineraries.get('/editplan', function (req, res) {
