@@ -26,7 +26,8 @@ fetch('/api/shared')
         // Accept Button
         let acceptButton = document.createElement('button')
         acceptButton.id = 'a' + String(users[i].ItineraryID)
-        acceptButton.href = '#'
+        acceptButton.href = '/plan/myplans'
+        acceptButton.type = 'submit'
         tex = document.createTextNode('Accept')
         acceptButton.className = 'btn btn-default'
         acceptButton.appendChild(tex)
@@ -36,7 +37,8 @@ fetch('/api/shared')
         rejectButton.className = 'btn btn-default'
         tex = document.createTextNode('Reject')
         rejectButton.appendChild(tex)
-        rejectButton.href = '#'
+        rejectButton.href = '/'
+        rejectButton.type = 'submit'
 
         buttonDiv.appendChild(acceptButton)
         buttonDiv.appendChild(rejectButton)
@@ -48,10 +50,14 @@ fetch('/api/shared')
     let notifications = document.getElementById('notifications')
     notifications.appendChild(tex)
 
+    // Listen for reject and accept button presses
     let modButtons = document.getElementsByClassName('btn btn-default')
     for (let i = 0; i < modButtons.length; i++) {
+      // Listen for all buttons
       modButtons[i].addEventListener('click', function () {
+        // Identify which button was clicked
         let id = modButtons[i].id.substring(1, modButtons[i].id.length)
+        // SEnd it to the logic
         let xhr = new XMLHttpRequest()
         xhr.open('POST', '/api/notifications', true)
         xhr.setRequestHeader('Content-Type', 'application/json')
@@ -60,6 +66,12 @@ fetch('/api/shared')
           itID: id
 
         }))
+        if (modButtons[i].id[0] === 'a') {
+          alert('Itinerary joined')
+        } else if (modButtons[i].id[0] === 'r') {
+          alert('Itinerary declined')
+        }
+        document.location.reload()
       }, false)
     }
   })

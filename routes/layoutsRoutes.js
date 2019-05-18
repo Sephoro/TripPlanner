@@ -86,12 +86,18 @@ layoutsRoute.post('/api/notifications', function (req, res) {
     stat = 1
   }
 
-  console.log(req.body, stat)
   db.pools
     .then((pool) => {
       return pool.request()
 
         .query('UPDATE shareItineraries SET stat = ' + stat + ' WHERE SharedWith = \'' + email + '\' AND ItineraryID = ' + req.body.itID + ' ')
+    })
+    .then(results => {
+      if (stat === 1) {
+        res.send('plan/myplans')
+      } else {
+        res.send('/')
+      }
     })
     .catch(err => {
       res.send({

@@ -25,7 +25,7 @@ itineraries.post('/api/plan', function (req, res) {
     })
     .then(result => {
       let itNum = result.recordset[0].counter
-      console.log(email, itNum)
+
       db.pools
         .then((pool) => {
           return pool.request()
@@ -76,6 +76,52 @@ itineraries.get('/api/myplans', function (req, res) {
     })
     .then(results => {
       res.send(results.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+// For shared itineraries
+itineraries.get('/api/ourplans', function (req, res) {
+  let email = session.getUser()
+
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT * FROM shareItineraries WHERE SharedWith = \'' + email + '\' AND stat = 1')
+    })
+    .then(results => {
+      let sharedPlans = results.recordset
+      // To plans shared with the user
+      let plans = []
+
+      // No plans?
+      if (sharedPlans.length === 0) {
+        res.send([])
+      } else {
+        // Send each plan shared with the user
+        for (let i = 0; i < sharedPlans.length; i++) {
+          db.pools
+            .then((pool) => {
+              return pool.request()
+
+                .query('SELECT * FROM plans WHERE itinerary_id = ' + sharedPlans[i].ItineraryID + ' ')
+            })
+            .then(results => {
+              plans.push(results.recordset)
+              // Send the plans when the last plan is pushed into the array
+              if (i === sharedPlans.length - 1) {
+                res.send(plans)
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      }
     })
     .catch(err => {
       res.send({

@@ -66,16 +66,14 @@ fetch('/api/database')
         shareButton.id = String(itID)
         plans.forEach(data => {
           if (itID !== data.itinerary_id) {
-            // Increase the number of plans
-            plan++
-            countSelect++
-            //
-            itContainer = document.createElement('div')
-
             // Make a new header
+            plan++
             header = document.createElement('h4')
             header.innerHTML = 'PLAN : ' + String(plan)
             itContainer.appendChild(header)
+            /* start of  Sharing utilities */
+
+            countSelect++
 
             selectUser = document.createElement('select')
             opt = document.createElement('option')
@@ -106,12 +104,20 @@ fetch('/api/database')
             shareButton.appendChild(txt)
             itContainer.appendChild(selectUser)
             itContainer.appendChild(shareButton)
-            // itContainer.appendChild(input)
+            /* End of sharing utilties */
+
+            /* VOID */
+
+            /* start of plan functionality */
+
+            itContainer = document.createElement('div')
 
             // Create a new itinerary deck
             cardDeck = document.createElement('div')
             cardDeck.className = 'card-deck'
             itContainer.appendChild(cardDeck)
+
+            /* end of plan functionality */
 
             // Append new container to the body
             document.body.appendChild(itContainer)
@@ -190,4 +196,76 @@ fetch('/api/database')
           }, false)
         }
       })
+  })
+
+fetch('/plan/api/ourplans')
+  .then(function (response) {
+    if (response.ok) { return response.json() } else {
+      throw 'Failed to load itineraries!'
+    }
+  })
+  .then(function (allPlans) {
+    let plan = 1
+    allPlans.forEach(plans => {
+      let counter = 1
+
+      let header = document.createElement('h4')
+      header.innerHTML = 'GROUP ITINERARY : ' + String(plan)
+      let itContainer = document.createElement('div')
+      itContainer.id = 'itDeck'
+      let cardDeck = document.createElement('div')
+      cardDeck.className = 'card-deck'
+      itContainer.appendChild(header)
+      itContainer.appendChild(cardDeck)
+      document.body.appendChild(itContainer)
+
+      plan++
+
+      plans.forEach(data => {
+        let location = document.createElement('h3')
+        location.className = 'card-title'
+        location.innerHTML = '&#128205 ' + String(counter) + ' ' + data.location
+
+        let date = document.createElement('p')
+        date.className = 'card-text'
+        date.innerHTML = 'From: ' + data.startDate + ' to ' + data.endDate
+
+        let duration = document.createElement('p')
+        duration.className = 'card-text'
+        duration.innerHTML = data.duration + ' days'
+
+        let activities = document.createElement('p')
+        activities.className = 'card-text'
+        activities.innerHTML = data.activities
+        if (counter % 4 === 0 && counter !== 0) {
+          cardDeck = document.createElement('div')
+          cardDeck.className = 'card-deck'
+          document.body.appendChild(cardDeck)
+        }
+        let card = document.createElement('div')
+        card.className = 'card'
+
+        let img = document.createElement('img')
+        img.src = '/cdn/images/roadtrip.jpg'
+        img.alt = 'Card image cap'
+        img.className = 'card-img-top'
+
+        let cardBody = document.createElement('div')
+        cardBody.className = 'card-body'
+
+        // Append into cardbody
+        cardBody.appendChild(location)
+        cardBody.appendChild(date)
+        cardBody.appendChild(duration)
+        cardBody.appendChild(activities)
+
+        // Append into card
+        card.appendChild(img)
+        card.appendChild(cardBody)
+
+        // Append into cardDEck
+        cardDeck.appendChild(card)
+        counter++
+      })
+    })
   })
