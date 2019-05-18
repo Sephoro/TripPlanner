@@ -154,6 +154,21 @@ fetch('/api/database')
           img.alt = 'Card image cap'
           img.className = 'card-img-top'
 
+          // DELETE FUNCTIONALITY
+          let a1 = document.createElement('a')
+          let del = document.createElement('button')
+
+          a1.href = '/plan/myplans'
+          del.className = 'del--'
+
+          del.id = data.plan_id
+          card.id = data.plan_id
+
+          let delTxt = document.createTextNode('Delete')
+
+          a1.appendChild(delTxt)
+          del.appendChild(a1)
+
           let cardBody = document.createElement('div')
           cardBody.className = 'card-body'
 
@@ -162,6 +177,7 @@ fetch('/api/database')
           cardBody.appendChild(date)
           cardBody.appendChild(duration)
           cardBody.appendChild(activities)
+          cardBody.appendChild(del)
 
           // Append into card
           card.appendChild(img)
@@ -193,6 +209,20 @@ fetch('/api/database')
 
             }))
             alert('Successfully share itinerary with ' + String(users[index - 2].username))
+          }, false)
+        }
+
+        // Event listener for delete buttons
+        let button = document.getElementsByClassName('del--')
+
+        for (let i = 0; i < button.length; i++) {
+          button[i].addEventListener('click', function () {
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', './api/delplan', true)
+            xhr.setRequestHeader('Content-Type', 'application/json')
+            xhr.send(JSON.stringify({
+              value: button[i].id
+            }))
           }, false)
         }
       })
@@ -233,7 +263,8 @@ fetch('/plan/api/ourplans')
         let duration = document.createElement('p')
         duration.className = 'card-text'
         duration.innerHTML = data.duration + ' days'
-
+        let cardBody = document.createElement('div')
+        cardBody.className = 'card-body'
         let activities = document.createElement('p')
         activities.className = 'card-text'
         activities.innerHTML = data.activities
@@ -249,9 +280,6 @@ fetch('/plan/api/ourplans')
         img.src = '/cdn/images/roadtrip.jpg'
         img.alt = 'Card image cap'
         img.className = 'card-img-top'
-
-        let cardBody = document.createElement('div')
-        cardBody.className = 'card-body'
 
         // Append into cardbody
         cardBody.appendChild(location)

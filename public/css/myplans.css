@@ -5,24 +5,46 @@
     margin-right: 1cm;
 }
 
-.card-deck{
+.card-deck {
     margin-left: 2cm;
     margin-bottom: 2cm;
     margin-top: cm;
     margin-right: 2cm;
-
 }
-.display-4{
+
+.display-4 {
     margin-top: 1cm;
     margin-left: 11cm;
 }
-/* #shareButton{
-    margin-left:44.5cm;
-   margin-top: -2cm; 
+
+.edit-- {
+    position: absolute;
+    top: 95%;
+    left: 86%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #555;
+    color: red;
+    font-size: 13px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
 }
 
-#searchName{
-    margin-left:38cm;
-    margin-top: 0cm 
+.del-- {
+    position: absolute;
+    top: 95%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #555;
+    color: red;
+    font-size: 13px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
 }
-  */
