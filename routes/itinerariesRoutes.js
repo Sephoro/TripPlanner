@@ -33,7 +33,7 @@ itineraries.post('/api/plan', function (req, res) {
     })
     .then(result => {
       let itNum = result.recordset[0].counter
-      console.log(email, itNum)
+
       db.pools
         .then((pool) => {
           return pool.request()
@@ -91,9 +91,54 @@ itineraries.get('/api/myplans', function (req, res) {
       })
     })
 })
+// For shared itineraries
+itineraries.get('/api/ourplans', function (req, res) {
+  let email = session.getUser()
+
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT * FROM shareItineraries WHERE SharedWith = \'' + email + '\' AND stat = 1')
+    })
+    .then(results => {
+      let sharedPlans = results.recordset
+      // To plans shared with the user
+      let plans = []
+
+      // No plans?
+      if (sharedPlans.length === 0) {
+        res.send([])
+      } else {
+        // Send each plan shared with the user
+        for (let i = 0; i < sharedPlans.length; i++) {
+          db.pools
+            .then((pool) => {
+              return pool.request()
+
+                .query('SELECT * FROM plans WHERE itinerary_id = ' + sharedPlans[i].ItineraryID + ' ')
+            })
+            .then(results => {
+              plans.push(results.recordset)
+              // Send the plans when the last plan is pushed into the array
+              if (i === sharedPlans.length - 1) {
+                res.send(plans)
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      }
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
 
 // Editing the Itineraries
-
 
 // Deleting of Itineraries
 itineraries.post('/api/delplan', function (req, res) {
@@ -144,6 +189,15 @@ itineraries.post('/api/save', function (req, res) {
   } else {
     res.send('Itineraries can only be saved if you are logged in....Log in if you have an account, sign up or Print the itinary instead by Ctrl+p')
   }
+})
+
+itineraries.post('/myplans/api/save', function (req, res) {
+  // Indicate on the database if someone has gotton an invite
+  db.pools
+    .then((data) => {
+      return data.request()
+        .query('INSERT INTO shareItineraries (SharedBy, SharedWith, ItineraryID) VALUES (\'' + session.getUser() + '\',\'' + req.body.email_inivte + '\',\'' + req.body.itinerarieID + '\')')
+    })
 })
 
 module.exports = itineraries

@@ -59,4 +59,51 @@ layoutsRoute.get('/api/database', function (req, res) {
     })
 })
 
+layoutsRoute.get('/api/shared', function (req, res) {
+  let email = session.getUser()
+
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT * FROM shareItineraries WHERE SharedWith = (\'' + email + '\')')
+    })
+    .then(result => {
+      res.send(result.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+
+layoutsRoute.post('/api/notifications', function (req, res) {
+  let email = session.getUser()
+  let stat = 0
+
+  if (req.body.status === 'a') {
+    stat = 1
+  }
+
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('UPDATE shareItineraries SET stat = ' + stat + ' WHERE SharedWith = \'' + email + '\' AND ItineraryID = ' + req.body.itID + ' ')
+    })
+    .then(results => {
+      if (stat === 1) {
+        res.send('plan/myplans')
+      } else {
+        res.send('/')
+      }
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+
 module.exports = layoutsRoute
