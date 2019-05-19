@@ -5,6 +5,7 @@ let itineraries = express.Router()
 let db = require('../data/database.js')
 let pf = require('../public/scripts/itineraries/planFunctions')
 let session = require('../models/sessions')
+let arrayId = []
 
 itineraries.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'plan.html'))
@@ -19,7 +20,7 @@ itineraries.get('/delplan', function (req, res) {
 })
 
 itineraries.get('/editplan', function (req, res) {
-  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'edit.html'))
+  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'editPlan.html'))
 })
 
 itineraries.post('/api/plan', function (req, res) {
@@ -92,13 +93,32 @@ itineraries.get('/api/myplans', function (req, res) {
     })
 })
 
-// Editing the Itineraries
+//fetching id pressed
+itineraries.post('/api/editPlanForm', function (req, res) {
+  let value = req.body.value
+  arrayId.push(value)
+})
 
+// Editing the Itineraries
+itineraries.post('/api/editPlan', function (req, res) {
+
+  let location = req.body.location
+  let activities = req.body.activities
+  let startDate = req.body.startDate
+  let endDate = req.body.endDate
+
+  let query = 'UPDATE plans SET location = \'' + location + '\', activities = \'' + activities + '\', startDate = \'' + startDate + '\', endDate = \'' + endDate + '\' WHERE plan_id = \'' + arrayId[0] + '\''  
+  
+  db.pools.then((pool) => {
+    return pool.request().query(query)
+  })
+  res.redirect('/plan/myplans')
+})
 
 // Deleting of Itineraries
 itineraries.post('/api/delplan', function (req, res) {
   let id = req.body.value
-  // console.log(loc)
+  console.log(id)
   db.pools.then((pool) => {
     return pool.request().query('DELETE FROM plans WHERE plan_id = ' + id + '')
   })

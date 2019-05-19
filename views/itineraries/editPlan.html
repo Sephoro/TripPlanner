@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title class="display-1">Edit Your Itinerary</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="/cdn/css/plan.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!-- Google font -->
+    <link href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">
+    <!-- bootstrap -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="heading">
+        <h1 class="h1">EDIT YOUR ITINERARY!</h1>
+
+        <!-- Return to home page -->
+        <h5><a href="/home">Home</a></h5>
+
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-sm-3">
+
+                <div class="cliente">
+                    <form action="./api/editPlan" method="POST">
+                        <div class="md-form form-lg center-block">
+
+                            <label for="Location">Location:</label>
+                            <input type="text" id="location-I" name="location" placeholder="Location"
+                                class="form-control form-control-lg" style="width: 200px"> <br></br>
+
+                            <label for="Activities" id="actLabel-I">Activities (Seperated by a comma):</label>
+
+                            <input type="text" id="activities-I" name="activities" placeholder="Max of 5 activities"
+                                class="form-control form-control-lg" style="width: 200px"><br></br>
+
+                            <label for="startDate">Start Date:</label>
+                            <input type="date" id="startDate-I" name="startDate" placeholder="DD/MM/YYYY"
+                                class="form-control form-control-lg" style="width: 200px"><br></br>
+
+                            <label id="endDateLabel" for="endDate">End Date:</label>
+                            <input type="date" id="endDate-I" name="endDate" placeholder="DD/MM/YYYY"
+                                class="form-control form-control-lg" style="width: 200px"><br></br>
+                            <div class="invalidDate"></div>
+
+                            <div class="button">
+                                <button id="addLocation" type="submit" class="btn btn-outline-warning">Update
+                                    Location</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!-- <script src="/public/scripts/itineraries/plan.js"></script> -->
+<script src="/cdn/scripts/itineraries/editPlan.js"></script>
+
+</html>
+
+
+<!-- <div class="col-sm-8">
+
+                <div id="locations" class="cliente">
+
+                </div>
+                <div id="saveSection">
+                    <form action="/api/editplan" method="post">
+
+                        <label id="itLabel" for="itName">Itinenary Name:</label>
+                        <input type="text" id="itName-I" name="itName" placeholder="Itinerary Name"
+                            class="form-control form-control-lg" style="width: 200px"><br></br>
+                        <button id="save" type="submit" class="btn btn-outline-success">Save</button>
+
+                    </form>
+                </div>
+            </div> -->
