@@ -138,6 +138,24 @@ itineraries.get('/api/ourplans', function (req, res) {
     })
 })
 
+// Getting contributors
+itineraries.get('/api/shared/:id', function (req, res) {
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT * FROM shareItineraries WHERE ItineraryID = \'' + req.params.id + '\' AND stat = 1')
+    })
+    .then(results => {
+      res.send(results.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+
 // Editing the Itineraries
 
 // Deleting of Itineraries

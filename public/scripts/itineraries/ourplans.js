@@ -72,6 +72,55 @@ fetch('/plan/api/ourplans')
       itContainer.id = 'itDeck'
       icardBody.appendChild(itContainer)
 
+      // Owner
+      let owner = document.createElement('p')
+      owner.innerHTML = 'Owned by : ' + plans[0].email
+      itContainer.appendChild(owner)
+
+      // Get contributors
+
+      let sharedWith = 'Contributors : '
+      let contributes = document.createElement('p')
+
+      fetch('/plan/api/shared/' + plans[0].itinerary_id + '')
+        .then(function (response) {
+          if (response.ok) { return response.json() } else {
+            throw 'Failed to load itineraries!'
+          }
+        })
+        .then(function (contributors) {
+          let c = contributors[0].SharedWith
+          let flag = false
+          contributors.forEach(contr => {
+            if (flag && contr.SharedWith !== plans[0].email) {
+              c = c + ', ' + contr.SharedWith
+            }
+
+            flag = true
+          })
+          sharedWith = sharedWith + c
+          contributes.innerHTML = sharedWith
+          itContainer.appendChild(contributes)
+        })
+      // Create the XHR Object
+      /* let xhr = new XMLHttpRequest()
+      // Call the open function, GET-type of request, url, true-asynchronous
+      xhr.open('GET', '/plan/api/shared/' + plans[0].itinerary_id + '', true)
+      // call the onload
+      xhr.onload = function () {
+        // check if the status is 200(means everything is okay)
+        if (this.status === 200) {
+          // return server response as an object with JSON.parse
+          let contributors = this.responseText
+
+          contributors.forEach(contr => {
+            document.body.innerHTML = sharedWith + ', ' + contr.sharedWith
+          })
+        }
+      } */
+
+      // contributes.innerHTML = sharedWith
+      // itContainer.appendChild(contributes)
       // Create a card deck
 
       let cardDeck = document.createElement('div')
