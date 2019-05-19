@@ -68,6 +68,7 @@ fetch('/api/database')
           if (itID !== data.itinerary_id) {
             // Make a new header
             plan++
+            itID = data.itinerary_id
             header = document.createElement('h4')
             header.innerHTML = 'PLAN : ' + String(plan)
             itContainer.appendChild(header)
@@ -121,8 +122,7 @@ fetch('/api/database')
 
             // Append new container to the body
             document.body.appendChild(itContainer)
-            // Update itinerary ID
-            itID = data.itinerary_id
+
             counter = 1
           }
           // Get the location, date and duration
@@ -201,7 +201,7 @@ fetch('/api/database')
             }
 
             let xhr = new XMLHttpRequest()
-            xhr.open('POST', './myplans/api/save', true)
+            xhr.open('POST', './myplans/api/share', true)
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(JSON.stringify({
               email_inivte: email,

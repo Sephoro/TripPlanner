@@ -191,8 +191,9 @@ itineraries.post('/api/save', function (req, res) {
   }
 })
 
-itineraries.post('/myplans/api/save', function (req, res) {
+itineraries.post('/myplans/api/share', function (req, res) {
   // Indicate on the database if someone has gotton an invite
+
   db.pools
     .then((data) => {
       return data.request()
@@ -223,10 +224,6 @@ itineraries.post('/ourplans/api/edit', function (req, res) {
         Error: err
       })
     })
-    /* .catch(err => {
-      console.log(err)
-    }) */
-  /// res.redirect('/plan/ourplans')
 })
 
 module.exports = itineraries
