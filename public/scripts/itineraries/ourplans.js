@@ -1,4 +1,5 @@
 'use strict'
+
 fetch('/plan/api/ourplans')
   .then(function (response) {
     if (response.ok) { return response.json() } else {
@@ -133,11 +134,21 @@ fetch('/plan/api/ourplans')
         img.alt = 'Card image cap'
         img.className = 'card-img-top'
 
+        // Create edit button
+
+        let editB = document.createElement('button')
+        editB.className = 'btn btn-primary'
+        editB.type = 'button'
+        editB.setAttribute('data-toggle', 'modal')
+        editB.setAttribute('data-target', '#editModal')
+        editB.innerHTML = 'Edit'
+        editB.id = data.plan_id
         // Append into cardbody
         cardBody.appendChild(location)
         cardBody.appendChild(date)
         cardBody.appendChild(duration)
         cardBody.appendChild(activities)
+        cardBody.appendChild(editB)
 
         // Append into card
         card.appendChild(img)
@@ -150,4 +161,29 @@ fetch('/plan/api/ourplans')
     }
 
     )
+
+    let editButtons = document.getElementsByClassName('btn btn-primary')
+
+    let location = document.getElementById('location')
+    let startDate = document.getElementById('startDate')
+    let endDate = document.getElementById('endDate')
+    let activities = document.getElementById('activities')
+    let pID = document.getElementById('planid')
+    pID.style.visibility = 'hidden'
+
+    for (let i = 0; i < editButtons.length; i++) {
+      editButtons[i].addEventListener('click', function () {
+        // Be ready to edit
+        let a = allPlans.filter(e => e.find(ee => {
+          return ee.plan_id === Number(editButtons[i].id)
+        }))
+        let b = a[0].filter(e => e.plan_id === Number(editButtons[i].id))
+
+        location.value = b[0].location
+        activities.value = b[0].activities
+        startDate.value = b[0].startDate
+        endDate.value = b[0].endDate
+        pID.value = b[0].plan_id
+      }, false)
+    }
   })

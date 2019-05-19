@@ -198,6 +198,35 @@ itineraries.post('/myplans/api/save', function (req, res) {
       return data.request()
         .query('INSERT INTO shareItineraries (SharedBy, SharedWith, ItineraryID) VALUES (\'' + session.getUser() + '\',\'' + req.body.email_inivte + '\',\'' + req.body.itinerarieID + '\')')
     })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+
+// Edit a shared plan
+
+itineraries.post('/ourplans/api/edit', function (req, res) {
+  let duration = pf.durationCalculator(req.body.endDate, req.body.startDate)
+
+  db.pools
+    .then((data) => {
+      return data.request()
+        .query('UPDATE plans SET location = \'' + req.body.location + '\', activities = \'' + req.body.activities + '\', startDate = \'' + req.body.startDate + '\', endDate = \'' + req.body.endDate + '\', duration = \'' + duration.days + '\' WHERE plan_id = ' + req.body.planid + ' ')
+    })
+    .then(function () {
+      res.redirect('/plan/ourplans')
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+    /* .catch(err => {
+      console.log(err)
+    }) */
+  /// res.redirect('/plan/ourplans')
 })
 
 module.exports = itineraries

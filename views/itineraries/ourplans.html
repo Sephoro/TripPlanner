@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title >Our Plans</title>
-    <meta charset="utf-8"/>
+    <title>Our Plans</title>
+    <meta charset="utf-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,11 +14,62 @@
 </head>
 
 <body>
-        <h1 class="display-4" >Our Itineraries</h1> 
-        
-         <h6><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></h6>
-  
+    <h1 class="display-4">Our Itineraries</h1>
+
+    <h6><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></h6>
+
+    <!-- Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLongTitle">Edit Plan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="./ourplans/api/edit" method="post">
+                        <div class="md-form form-lg center-block">
+
+                            <label for="Location">Location:</label>
+                            <input type="text" id="location" name="location" class="form-control form-control-lg">
+                            <br></br>
+                            <label for="Activities" id = "actLabel">Activities:</label>
+                                                
+                            <input type="text" id="activities" name = "activities" placeholder="Max of 5 activities" class="form-control form-control-lg"><br></br>
+                            <!-- <div class="form-group">
+                                <label for="exampleFormControlTextarea3">Activities</label>
+                                <textarea class="form-control" id="activities" rows="7"></textarea>
+                            </div> -->
+                            <label for="startDate">Start Date:</label>
+                            <input type="date" id="startDate" name="startDate"
+                                class="form-control form-control-lg"><br></br>
+
+                            <label id="endDateLabel" for="endDate">End Date:</label>
+                            <input type="date" id="endDate" name="endDate"
+                                class="form-control form-control-lg"><br></br>
+                            <div class="invalidDate"></di>
+                            <input type="text" id="planid" name="planid" class="form-control form-control-lg">
+                        </div>
+
+                        <div class="button">
+                            <button id="addLocation" type="submit" class="btn btn-outline-success">Save Changes</button>
+                            <button type="submit" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+                <!--  <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                         <button type="button" class="btn btn-primary">Save changes</button> 
+                    </div> -->
+            </div>
+        </div>
+    </div>
+
 </body>
-<script src = "/cdn/scripts/itineraries/ourplans.js" ></script>
- <link rel="stylesheet" type="text/css" href="/cdn/css/ourplans.css">
+<script src="/cdn/scripts/itineraries/ourplans.js"></script>
+<link rel="stylesheet" type="text/css" href="/cdn/css/ourplans.css">
+
 </html>

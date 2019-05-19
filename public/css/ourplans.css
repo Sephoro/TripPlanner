@@ -41,3 +41,12 @@
     transition: .25s box-shadow;
 
 }
+
+#activities{
+    width: 300px;
+}
+
+.form-control-lg{
+    width: 300px;
+
+}
