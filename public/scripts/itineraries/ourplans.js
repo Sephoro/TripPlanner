@@ -72,6 +72,16 @@ fetch('/plan/api/ourplans')
       itContainer.id = 'itDeck'
       icardBody.appendChild(itContainer)
 
+      // Create an add new stop button
+
+      let addB = document.createElement('button')
+      addB.className = 'add btn btn-outline-warning'
+      addB.type = 'button'
+      addB.setAttribute('data-toggle', 'modal')
+      addB.setAttribute('data-target', '#addModal')
+      addB.innerHTML = 'Add New Stop'
+      addB.id = plans[0].itinerary_id + ', ' + plans[0].email
+
       // Owner
       let owner = document.createElement('p')
       owner.innerHTML = 'Owned by : ' + plans[0].email
@@ -231,16 +241,18 @@ fetch('/plan/api/ourplans')
         cardDeck.appendChild(card)
         counter++
       })
+
+      itContainer.appendChild(addB)
     }
 
     )
-
+    // Edit Functionality
     let editButtons = document.getElementsByClassName('btn btn-primary')
 
-    let location = document.getElementById('location')
-    let startDate = document.getElementById('startDate')
-    let endDate = document.getElementById('endDate')
-    let activities = document.getElementById('activities')
+    let location = document.getElementById('elocation')
+    let startDate = document.getElementById('estartDate')
+    let endDate = document.getElementById('eendDate')
+    let activities = document.getElementById('eactivities')
     let pID = document.getElementById('planid')
     pID.style.visibility = 'hidden'
 
@@ -258,5 +270,18 @@ fetch('/plan/api/ourplans')
         endDate.value = b[0].endDate
         pID.value = b[0].plan_id
       }, false)
+    }
+
+    // Add new stop functionality
+
+    let addButtons = document.getElementsByClassName('add btn btn-outline-warning')
+    let itid = document.getElementById('itid')
+    let emailit = document.getElementById('emailit')
+
+    for (let i = 0; i < addButtons.length; i++) {
+      addButtons[i].addEventListener('click', function () {
+        itid.value = addButtons[i].id.split(',')[0]
+        emailit.value = addButtons[i].id.split(',')[1]
+      })
     }
   })

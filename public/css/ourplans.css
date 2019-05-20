@@ -65,3 +65,23 @@
 .logDiv.collapse{
     color: grey;
 }
+.add{
+
+    float: right;
+
+}
+#itid, #emailit{
+  visibility: hidden;
+  width: 20px;
+  height: 20px; 
+}
+
+#addStop, #closeit{
+    float: right;
+   
+}
+.add.btn.btn-outline-warning{
+    
+    bottom: 10px;
+    right: 10px;
+}

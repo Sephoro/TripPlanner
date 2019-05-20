@@ -226,12 +226,12 @@ itineraries.post('/myplans/api/share', function (req, res) {
 // Edit a shared plan
 
 itineraries.post('/ourplans/api/edit', function (req, res) {
-  let duration = pf.durationCalculator(req.body.endDate, req.body.startDate)
+  let duration = pf.durationCalculator(req.body.eendDate, req.body.estartDate)
 
   db.pools
     .then((data) => {
       return data.request()
-        .query('UPDATE plans SET location = \'' + req.body.location + '\', activities = \'' + req.body.activities + '\', startDate = \'' + req.body.startDate + '\', endDate = \'' + req.body.endDate + '\', duration = \'' + duration.days + '\' WHERE plan_id = ' + req.body.planid + ' ')
+        .query('UPDATE plans SET location = \'' + req.body.elocation + '\', activities = \'' + req.body.eactivities + '\', startDate = \'' + req.body.estartDate + '\', endDate = \'' + req.body.eendDate + '\', duration = \'' + duration.days + '\' WHERE plan_id = ' + req.body.planid + ' ')
     })
     .then(function () {
       // res.redirect('/plan/ourplans')
@@ -256,24 +256,24 @@ itineraries.post('/ourplans/api/edit', function (req, res) {
     .then(results => {
       let plan = results.recordset[0]
       // Check location change
-      if (logMaker.modified(plan.location, req.body.location)) {
-        let modType = logMaker.modificationType(plan.location, req.body.location)
-        changes.push(logMaker.getModification('location', modType, plan.location, req.body.location))
+      if (logMaker.modified(plan.location, req.body.elocation)) {
+        let modType = logMaker.modificationType(plan.location, req.body.elocation)
+        changes.push(logMaker.getModification('location', modType, plan.elocation, req.body.elocation))
       }
       // Check activities changes
-      if (logMaker.modified(plan.activities, req.body.activities)) {
-        let modType = logMaker.modificationType(plan.activities, req.body.activities)
-        changes.push(logMaker.getModification('activities', modType, plan.activities, req.body.activities))
+      if (logMaker.modified(plan.activities, req.body.eactivities)) {
+        let modType = logMaker.modificationType(plan.activities, req.body.eactivities)
+        changes.push(logMaker.getModification('activities', modType, plan.activities, req.body.eactivities))
       }
       // Check start date changes
-      if (logMaker.modified(plan.startDate, req.body.startDate)) {
-        let modType = logMaker.modificationType(plan.startDate, req.body.startDate)
-        changes.push(logMaker.getModification('startDate', modType, plan.startDate, req.body.startDate))
+      if (logMaker.modified(plan.startDate, req.body.estartDate)) {
+        let modType = logMaker.modificationType(plan.startDate, req.body.estartDate)
+        changes.push(logMaker.getModification('startDate', modType, plan.startDate, req.body.estartDate))
       }
       // Check end date changes
-      if (logMaker.modified(plan.endDate, req.body.endDate)) {
-        let modType = logMaker.modificationType(plan.endDate, req.body.endDate)
-        changes.push(logMaker.getModification('endDate', modType, plan.endDate, req.body.endDate))
+      if (logMaker.modified(plan.endDate, req.body.eendDate)) {
+        let modType = logMaker.modificationType(plan.endDate, req.body.eendDate)
+        changes.push(logMaker.getModification('endDate', modType, plan.endDate, req.body.eendDate))
       }
 
       changes.forEach(change => {
@@ -315,6 +315,23 @@ itineraries.get('/api/ourplans/log/:id', function (req, res) {
       res.send({
         Error: err
       })
+    })
+})
+
+// Add a new stop to a shared itinerary
+itineraries.post('/ourplans/api/add', function (req, res) {
+  let duration = pf.durationCalculator(req.body.endDate, req.body.startDate)
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('INSERT INTO plans (itinerary_id, email,location,activities, duration, startDate, endDate) VALUES (' + req.body.itid + ',\'' + req.body.emailit + '\',\'' + req.body.location + '\',\'' + req.body.activities + '\',\'' + duration.days + '\',\'' + req.body.startDate + '\',\'' + req.body.endDate + '\')')
+    })
+    .then(function () {
+      res.redirect('/plan/ourplans')
+    })
+    .catch(err => {
+      console.log(err)
     })
 })
 
