@@ -95,7 +95,9 @@ itineraries.get('/api/myplans', function (req, res) {
 
 //fetching id pressed
 itineraries.post('/api/editPlanForm', function (req, res) {
+  arrayId.length = 0
   let value = req.body.value
+  console.log(value)
   arrayId.push(value)
 })
 
