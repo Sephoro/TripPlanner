@@ -1,7 +1,8 @@
 'use strict'
 
+
 // Returns a Promise for the GET request
-fetch('/plan/api/myplans')
+fetch('/plan/api/myplans_')
   .then(function (response) {
     if (response.ok) { return response.json() } else {
       throw 'Failed to load itineraries!'

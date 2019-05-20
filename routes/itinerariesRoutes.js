@@ -5,7 +5,11 @@ let itineraries = express.Router()
 let db = require('../data/database.js')
 let pf = require('../public/scripts/itineraries/planFunctions')
 let session = require('../models/sessions')
+let planID = require('../models/PlanId')
+
 let arrayId = []
+let firstPlanId = []
+let someID = null 
 
 itineraries.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'plan.html'))
@@ -39,7 +43,7 @@ itineraries.post('/api/plan', function (req, res) {
         .then((pool) => {
           return pool.request()
 
-            .query('INSERT INTO plans (itinerary_id, email,location,activities, duration, startDate, endDate) VALUES (' + itNum + ',\'' + email + '\',\'' + req.body.location + '\',\'' + req.body.activities + '\',\'' + duration.days + '\',\'' + req.body.startDate + '\',\'' + req.body.endDate + '\')')
+            .query('INSERT INTO plans (itinerary_id, email,location,activities, duration, startDate, endDate) VALUES (' + itNum + ",'" + email + "','" + req.body.location + "','" + req.body.activities + "','" + duration.days + "','" + req.body.startDate + "','" + req.body.endDate + "')")
         })
       res.redirect('/plan')
     })
@@ -61,7 +65,7 @@ itineraries.get('/api/myplan', function (req, res) {
         .then((pool) => {
           return pool.request()
 
-            .query('SELECT * FROM plans WHERE email = \'' + email + '\' AND itinerary_id = ' + itNum + ' ')
+            .query("SELECT * FROM plans WHERE email = '" + email + "' AND itinerary_id = " + itNum + ' ')
         })
         .then(results => {
           res.send(results.recordset)
@@ -73,6 +77,7 @@ itineraries.get('/api/myplan', function (req, res) {
         })
     })
 })
+
 // Return all the plans of the user
 itineraries.get('/api/myplans', function (req, res) {
   let email = session.getUser()
@@ -81,7 +86,7 @@ itineraries.get('/api/myplans', function (req, res) {
     .then((pool) => {
       return pool.request()
 
-        .query('SELECT * FROM plans WHERE email = \'' + email + '\' ')
+        .query("SELECT * FROM plans WHERE email = '" + email + "' ")
     })
     .then(results => {
       res.send(results.recordset)
@@ -93,24 +98,67 @@ itineraries.get('/api/myplans', function (req, res) {
     })
 })
 
-//fetching id pressed
+// fetching id pressed
 itineraries.post('/api/editPlanForm', function (req, res) {
   arrayId.length = 0
-  let value = req.body.value
-  console.log(value)
-  arrayId.push(value)
+  firstPlanId.length = 0
+
+  someID= req.body.value
+  arrayId.push(someID)
+
+  let email = session.getUser()
+  let Query = "SELECT * FROM plans WHERE email = '" + email + "' "
+
+  db.pools.then((pool) => {
+    return pool.request().query(Query)
+  }).then(results => {
+
+    let iter = arrayId[0] - results.recordset[0].plan_id
+    firstPlanId.push(iter)
+
+    planID.setPlanId(firstPlanId)
+
+    console.log('Displaying from itineraries')
+    console.log(firstPlanId[0])
+
+    console.log('Displaying from plan')
+    console.log(planID.getPlanId())
+
+  }).catch(err => {
+    res.send({
+      Error: err
+    })
+  })
+})
+
+itineraries.get('/api/myplans_', function (req, res) {
+  let email = session.getUser()
+
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query("SELECT * FROM plans WHERE email = '" + email + "' AND plan_id = '" + someID + "'  ")
+    })
+    .then(results => {
+      res.send(results.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
 })
 
 // Editing the Itineraries
 itineraries.post('/api/editPlan', function (req, res) {
-
   let location = req.body.location
   let activities = req.body.activities
   let startDate = req.body.startDate
   let endDate = req.body.endDate
 
-  let query = 'UPDATE plans SET location = \'' + location + '\', activities = \'' + activities + '\', startDate = \'' + startDate + '\', endDate = \'' + endDate + '\' WHERE plan_id = \'' + arrayId[0] + '\''  
-  
+  let query = "UPDATE plans SET location = '" + location + "', activities = '" + activities + "', startDate = '" + startDate + "', endDate = '" + endDate + "' WHERE plan_id = '" + arrayId[0] + "'"
+
   db.pools.then((pool) => {
     return pool.request().query(query)
   })
@@ -142,7 +190,7 @@ itineraries.post('/api/save', function (req, res) {
         db.pools
           .then((pool) => {
             return pool.request()
-              .query('INSERT INTO itineraries (name,email,ItNum) VALUES (\'' + req.body.itName + '\',\'' + session.getUser() + '\',' + itNum + ')')
+              .query("INSERT INTO itineraries (name,email,ItNum) VALUES ('" + req.body.itName + "','" + session.getUser() + "'," + itNum + ')')
           })
       })
     // Update counter
@@ -169,3 +217,4 @@ itineraries.post('/api/save', function (req, res) {
 })
 
 module.exports = itineraries
+// module.exports = firstPlanId
