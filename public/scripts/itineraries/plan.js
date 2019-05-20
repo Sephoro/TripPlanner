@@ -26,87 +26,8 @@ let validActivities = function (activities) {
 }
 let firstTime = true
 
-/* fetch('/plan/api/myplan')
-  .then(function (response) {
-    if (response.ok) { return response.json() } else {
-      throw 'Failed to load itineraries!'
-    }
-  })
-  .then(function (plans) {
-    if (firstTime) {
-      let h1 = document.createElement('h1')
-      let locations = document.getElementById('locations')
-      h1.innerHTML = '&#x1F4CC; My Itinenary'
-      h1.className += 'h1'
-      locations.appendChild(h1)
-      firstTime = false
-    }
-    plans.forEach(data => {
-      // Get the location, date and duration
-      let paragraph = document.createElement('p')
-      paragraph.className = 'places'
-      let locations = document.getElementById('locations')
-      // let location = document.getElementById('location').value
-      paragraph.innerHTML = '&#128205 ' + data.location + ' from ' + data.startDate + ' to ' + data.endDate + ' : ' + data.duration + ' days'
-      locations.appendChild(paragraph)
-
-      // Get the Activities
-      let ul = document.createElement('ul')
-      let li = document.createElement('li')
-      let a = document.createElement('a')
-      let p2 = document.createElement('p')
-      let p = document.createElement('p')
-      // let activities = document.getElementById('activities').value
-      p2.innerHTML = 'Activities'
-      p.innerHTML = data.activities
-      p.id += 'activity'
-      p2.id += 'noteheader'
-
-      a.appendChild(p2)
-      a.appendChild(p)
-      li.appendChild(a)
-      ul.appendChild(li)
-      locations.appendChild(ul)
-    })
-  }) */
-
-let h1 = document.createElement('h1')
 let locations = document.getElementById('locations')
-h1.innerHTML = '&#x1F4CC; My Itinenary'
-h1.className += 'h1'
-locations.appendChild(h1)
 firstTime = false
-/*
-let location = document.getElementById('location')
-let activities = document.getElementById('activities')
-let startDate = document.getElementById('startDate')
-let endDate = document.getElementById('endDate')
-let duration = durationCalculator(endDate.value, startDate.value).days
-// Get the location, date and duration
-let paragraph = document.createElement('p')
-paragraph.className = 'places'
-locations = document.getElementById('locations')
-// let location = document.getElementById('location').value
-paragraph.innerHTML = '&#128205 ' + location.value + ' from ' + startDate.value + ' to ' + endDate.value + ' : ' + duration + ' days'
-locations.appendChild(paragraph)
-
-// Get the Activities
-let ul = document.createElement('ul')
-let li = document.createElement('li')
-let a = document.createElement('a')
-let p2 = document.createElement('p')
-let p = document.createElement('p')
-// let activities = document.getElementById('activities').value
-p2.innerHTML = 'Activities'
-p.innerHTML = activities.value
-p.id += 'activity'
-p2.id += 'noteheader'
-
-a.appendChild(p2)
-a.appendChild(p)
-li.appendChild(a)
-ul.appendChild(li)
-locations.appendChild(ul) */
 
 document.querySelector('#endDate').addEventListener('input', function () {
   let start = document.getElementById('startDate').value
@@ -140,9 +61,9 @@ document.querySelector('#activities').addEventListener('input', function () {
 // Guard for first time addition of a place
 // let firstTime = true
 let addLocationButton = document.getElementById('addLocation')
-
 // Listen for click of the addLocation button
-
+var labels1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+var labelIndex1 = 0
 addLocationButton.addEventListener('click', function () {
   // Getting activities
   let activities = document.getElementById('activities').value
@@ -163,30 +84,38 @@ addLocationButton.addEventListener('click', function () {
   let endDate = document.getElementById('endDate')
   // let duration = durationCalculator(endDate.value, startDate.value).days
   // Get the location, date and duration
-  let paragraph = document.createElement('p')
-  paragraph.className = 'places'
-  locations = document.getElementById('locations')
-  // let location = document.getElementById('location').value
-  paragraph.innerHTML = '&#128205 ' + location.value + ' from ' + startDate.value + ' to ' + endDate.value + ' : ' + duration.days + ' ' + duration.string
-  locations.appendChild(paragraph)
+  let paragraph = document.createElement('h5')
+  let paragraph2 = document.createElement('small')
+  paragraph2.innerHTML = labels1[labelIndex1++ % labels1.length] + '. ' + location.value
+  paragraph.appendChild(paragraph2)
+  let paragraph3 = document.createElement('h6')
+  let paragraph4 = document.createElement('small')
+  paragraph4.innerHTML = 'Start Date: ' + startDate.value + '   ' + 'End Date: ' + endDate.value
+  paragraph3.appendChild(paragraph4)
+  let paragraph7 = document.createElement('h6')
+  let paragraph8 = document.createElement('small')
+  paragraph8.innerHTML = 'Duration: ' + duration.days + ' days'
+  paragraph7.appendChild(paragraph8)
+  let paragraph5 = document.createElement('h6')
+  let paragraph6 = document.createElement('small')
+  paragraph6.innerHTML = 'Activities: ' + activities
+  let bre = document.createElement('br')
+  paragraph5.appendChild(paragraph6)
+  let locations2 = document.getElementById('heading2')
 
-  // Get the Activities
-  let ul = document.createElement('ul')
-  let li = document.createElement('li')
-  let a = document.createElement('a')
-  let p2 = document.createElement('p')
-  let p = document.createElement('p')
-  // let activities = document.getElementById('activities').value
-  p2.innerHTML = 'Activities'
-  p.innerHTML = activities
-  p.id += 'activity'
-  p2.id += 'noteheader'
+  let card = document.createElement('div')
+  card.className = 'card bg-light text-dark'
 
-  a.appendChild(p2)
-  a.appendChild(p)
-  li.appendChild(a)
-  ul.appendChild(li)
-  locations.appendChild(ul)
+  let cardbody = document.createElement('div')
+  cardbody.className = 'card-body'
+
+  cardbody.appendChild(paragraph)
+  cardbody.appendChild(paragraph3)
+  cardbody.appendChild(paragraph7)
+  cardbody.appendChild(paragraph5)
+  card.appendChild(cardbody)
+  locations2.appendChild(card)
+  locations2.appendChild(bre)
 
   let xhr = new XMLHttpRequest()
   xhr.open('POST', 'plan/api/plan', true)
@@ -198,4 +127,7 @@ addLocationButton.addEventListener('click', function () {
     endDate: endDate.value
 
   }))
+
+  let form = document.getElementById('form')
+  form.reset()
 }, false)

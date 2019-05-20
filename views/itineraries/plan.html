@@ -35,7 +35,7 @@
                     <h5 class="card-title text-center d-inline p-2 bg-primary text-white">SEARCH AND ADD DESTINATIONS
                     </h5>
                     <div data-spy="scroll" class="container">
-                        <form action="plan/api/plan" method="post">
+                        <form id ="form" action="plan/api/plan" method="post">
                             <div class="input-group mb-3">
                                 <input id="location" name="location" type="text" class="form-control input-sm"
                                     placeholder="search place">
@@ -82,8 +82,10 @@
 
                 <!-- <div id="locations" class="cliente"> -->
                 <div id="locations" class="card border border-primary" style="height:650px">
-                    <h5 id="heading2" class="card-title d-inline p-2 bg-primary text-white">MY ITENERARIES
+                    <h5 id="heading1" class="card-title d-inline p-2 bg-primary text-white">MY ITENERARIES
                     </h5>
+                    <div id="heading2" class="container">
+                    </div>
                 </div>
 
                 <div id="saveSection">
@@ -111,6 +113,7 @@
         var Places;
         var current_place;
         var markers = [];
+        var bounds;
 
         function myMap() {
             var haightAshbury = { lat: -26.192, lng: 28.026 };
@@ -133,7 +136,7 @@
                 if (Places.length == 0) {
                     return;
                 }
-                var bounds = new google.maps.LatLngBounds();
+                bounds = new google.maps.LatLngBounds();
                 Places.forEach(function (place) {
                     if (place.geometry.viewport) {
                         bounds.union(place.geometry.viewport);
@@ -142,7 +145,6 @@
                     }
                     current_place = place;
                 })
-
             })
             addLocationButton.addEventListener('click', function () {
                 addMarker(current_place.geometry.location);
@@ -158,6 +160,7 @@
                 map: map,
             });
             markers.push(marker);
+            map.fitBounds(bounds);
         }
     </script>
     <script
