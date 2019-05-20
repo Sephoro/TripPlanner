@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Our Plans</title>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <h1 class="display-4">Our Itineraries</h1>
+
+    <h6><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></h6>
+   
+   
+    <!--  ADD MODAL -->
+    <div class="modal" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLongTitle">Add Stop</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="./ourplans/api/add" method="post">
+                        <div class="md-form form-lg center-block">
+
+                            <label for="Location">Location:</label>
+                            <input type="text" id="location" placeholder="location" name="location" class="form-control form-control-lg">
+                            <br></br>
+                            <label for="Activities" id = "actLabel">Activities:</label>
+                                                
+                            <input type="text" id="activities" name = "activities" placeholder="activities" class="form-control form-control-lg"><br></br>
+                            <label for="startDate">Start Date:</label>
+                            <input type="date" id="startDate" name="startDate"
+                                class="form-control form-control-lg"><br></br>
+
+                            <label id="endDateLabel" for="endDate">End Date:</label>
+                            <input type="date" id="endDate" name="endDate"
+                                class="form-control form-control-lg"><br></br>
+                            <div class="invalidDate"></div>
+                            <input type="text" id="itid" name="itid" class="form-control form-control-lg">
+                            <input type="text" id="emailit" name="emailit" class="form-control form-control-lg">
+                        </div>
+
+                        <div class="button">
+                           
+                            <button type="submit" id ="closeit" class="btn btn-dark" data-dismiss="modal">Close</button>
+                            <button id="addStop" type="submit" class="btn btn-outline-warning"> Add Stop</button>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div> 
+
+   <!-- Edit Modal -->
+
+   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalCenterTitle"
+   aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h5 class="modal-title" id="editModalLongTitle">Edit Plan</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+               </button>
+           </div>
+           <div class="modal-body">
+               <form action="./ourplans/api/edit" method="post">
+                   <div class="md-form form-lg center-block">
+
+                       <label for="Location">Location:</label>
+                       <input type="text" id="elocation" name="elocation" class="form-control form-control-lg">
+                       <br></br>
+                       <label for="Activities" id = "actLabel">Activities:</label>
+                                           
+                       <input type="text" id="eactivities" name = "eactivities" placeholder="Max of 5 activities" class="form-control form-control-lg"><br></br>
+                       <label for="startDate">Start Date:</label>
+                       <input type="date" id="estartDate" name="estartDate"
+                           class="form-control form-control-lg"><br></br>
+
+                       <label id="endDateLabel" for="eendDate">End Date:</label>
+                       <input type="date" id="eendDate" name="eendDate"
+                           class="form-control form-control-lg"><br></br>
+                       <div class="invalidDate"></di>
+                       <input type="text" id="planid" name="planid" class="form-control form-control-lg">
+                   </div>
+
+                   <div class="button">
+                       <button id="addLocation" type="submit" class="btn btn-outline-success">Save Changes</button>
+                       <button type="submit" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                   </div>
+               </form>
+           </div> 
+           
+       </div>
+   </div>
+</div>
+
+</body>
+<script src="/cdn/scripts/itineraries/ourplans.js"></script>
+<link rel="stylesheet" type="text/css" href="/cdn/css/ourplans.css">
+
+</html>

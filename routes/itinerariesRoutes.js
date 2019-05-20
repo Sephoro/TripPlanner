@@ -5,6 +5,7 @@ let itineraries = express.Router()
 let db = require('../data/database.js')
 let pf = require('../public/scripts/itineraries/planFunctions')
 let session = require('../models/sessions')
+let logMaker = require('../models/planManager')
 
 itineraries.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'plan.html'))
@@ -14,8 +15,8 @@ itineraries.get('/myplans', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'myplans.html'))
 })
 
-itineraries.get('/delplan', function (req, res) {
-  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'delplan.html'))
+itineraries.get('/ourplans', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'ourplans.html'))
 })
 
 itineraries.get('/editplan', function (req, res) {
@@ -99,7 +100,7 @@ itineraries.get('/api/ourplans', function (req, res) {
     .then((pool) => {
       return pool.request()
 
-        .query('SELECT * FROM shareItineraries WHERE SharedWith = \'' + email + '\' AND stat = 1')
+        .query('SELECT * FROM shareItineraries WHERE SharedWith = \'' + email + '\' OR SharedBy = \'' + email + '\' AND stat = 1')
     })
     .then(results => {
       let sharedPlans = results.recordset
@@ -138,7 +139,23 @@ itineraries.get('/api/ourplans', function (req, res) {
     })
 })
 
-// Editing the Itineraries
+// Getting contributors
+itineraries.get('/api/shared/:id', function (req, res) {
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT * FROM shareItineraries WHERE ItineraryID = \'' + req.params.id + '\' AND stat = 1')
+    })
+    .then(results => {
+      res.send(results.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
 
 // Deleting of Itineraries
 itineraries.post('/api/delplan', function (req, res) {
@@ -191,12 +208,165 @@ itineraries.post('/api/save', function (req, res) {
   }
 })
 
-itineraries.post('/myplans/api/save', function (req, res) {
+itineraries.post('/myplans/api/share', function (req, res) {
   // Indicate on the database if someone has gotton an invite
+
   db.pools
     .then((data) => {
       return data.request()
         .query('INSERT INTO shareItineraries (SharedBy, SharedWith, ItineraryID) VALUES (\'' + session.getUser() + '\',\'' + req.body.email_inivte + '\',\'' + req.body.itinerarieID + '\')')
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+
+// Edit a shared plan
+
+itineraries.post('/ourplans/api/edit', function (req, res) {
+  let duration = pf.durationCalculator(req.body.eendDate, req.body.estartDate)
+
+  db.pools
+    .then((data) => {
+      return data.request()
+        .query('UPDATE plans SET location = \'' + req.body.elocation + '\', activities = \'' + req.body.eactivities + '\', startDate = \'' + req.body.estartDate + '\', endDate = \'' + req.body.eendDate + '\', duration = \'' + duration.days + '\' WHERE plan_id = ' + req.body.planid + ' ')
+    })
+    .then(function () {
+      // res.redirect('/plan/ourplans')
+    })
+    .catch(err => {
+      /* res.send({
+        Error: err
+      }) */
+      console.log(err)
+    })
+
+  // For generating logs for each plan
+
+  let changes = []
+  let email = session.getUser()
+
+  db.pools
+    .then((data) => {
+      return data.request()
+        .query('SELECT * FROM plans WHERE plan_id = ' + req.body.planid + ' ')
+    })
+    .then(results => {
+      let plan = results.recordset[0]
+      // Check location change
+      if (logMaker.modified(plan.location, req.body.elocation)) {
+        let modType = logMaker.modificationType(plan.location, req.body.elocation)
+        changes.push(logMaker.getModification('location', modType, plan.elocation, req.body.elocation))
+      }
+      // Check activities changes
+      if (logMaker.modified(plan.activities, req.body.eactivities)) {
+        let modType = logMaker.modificationType(plan.activities, req.body.eactivities)
+        changes.push(logMaker.getModification('activities', modType, plan.activities, req.body.eactivities))
+      }
+      // Check start date changes
+      if (logMaker.modified(plan.startDate, req.body.estartDate)) {
+        let modType = logMaker.modificationType(plan.startDate, req.body.estartDate)
+        changes.push(logMaker.getModification('startDate', modType, plan.startDate, req.body.estartDate))
+      }
+      // Check end date changes
+      if (logMaker.modified(plan.endDate, req.body.eendDate)) {
+        let modType = logMaker.modificationType(plan.endDate, req.body.eendDate)
+        changes.push(logMaker.getModification('endDate', modType, plan.endDate, req.body.eendDate))
+      }
+
+      changes.forEach(change => {
+        // console.log(change)
+        let columns = 'INSERT INTO plans_log (plan_id,contributor, mod_type, mod_date, field, new_field, old_field) '
+        let values = ' VALUES (' + req.body.planid + ',\'' + email + '\',\'' + change.type + '\',\'' + logMaker.getDate() + '\',\'' + change.field + '\',\'' + change.new_ + '\',\'' + change.old + '\') '
+        db.pools
+          .then((data) => {
+            return data.request()
+
+              .query(columns + values)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      })
+    })
+    .catch(err => {
+      /* res.send({
+        Error: err
+      }) */
+      console.log(err)
+    })
+  res.redirect('/plan/ourplans')
+})
+
+// Return all the logs associated with the plan
+itineraries.get('/api/ourplans/log/:id', function (req, res) {
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT * FROM plans_log WHERE plan_id = \'' + req.params.id + '\' ')
+    })
+    .then(results => {
+      res.send(results.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+
+// Add a new stop to a shared itinerary
+itineraries.post('/ourplans/api/add', function (req, res) {
+  let duration = pf.durationCalculator(req.body.endDate, req.body.startDate)
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('INSERT INTO plans (itinerary_id, email,location,activities, duration, startDate, endDate) VALUES (' + req.body.itid + ',\'' + req.body.emailit + '\',\'' + req.body.location + '\',\'' + req.body.activities + '\',\'' + duration.days + '\',\'' + req.body.startDate + '\',\'' + req.body.endDate + '\')')
+    })
+    .then(function () {
+      // res.redirect('/plan/ourplans')
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+  // For logging the new addition
+
+  let email = session.getUser()
+
+  let columns = 'INSERT INTO itinerary_log (it_id, contributor, mod_type, mod_date, mod_value) '
+  let values = ' VALUES (' + req.body.itid + ',\'' + email + '\',\'' + 'A' + '\',\'' + logMaker.getDate() + '\',\'' + req.body.location + '\' )' //, \'' + change.new_ + '\',\'' + change.old + '\') '
+  db.pools
+    .then((data) => {
+      return data.request()
+
+        .query(columns + values)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  res.redirect('/plan/ourplans')
+})
+
+// Return all the logs associated with the itinerary
+itineraries.get('/api/ourplans/itlog/:id', function (req, res) {
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT * FROM itinerary_log  WHERE it_id = \'' + req.params.id + '\' ')
+    })
+    .then(results => {
+      res.send(results.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
     })
 })
 
