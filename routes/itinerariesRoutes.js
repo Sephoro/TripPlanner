@@ -34,7 +34,6 @@ itineraries.post('/api/plan', function (req, res) {
     })
     .then(result => {
       let itNum = result.recordset[0].counter
-
       db.pools
         .then((pool) => {
           return pool.request()
