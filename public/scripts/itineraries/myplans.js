@@ -107,7 +107,7 @@ fetch('/plan/api/myplans')
         xhr.open('POST', './api/editPlanForm', true)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.send(JSON.stringify({
-          value: button1[i].id
+          value: button1[i].id,
         }))
       }, false)
     }
