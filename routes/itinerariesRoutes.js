@@ -286,7 +286,7 @@ itineraries.post('/ourplans/api/edit', function (req, res) {
           .then((data) => {
             return data.request()
 
-              .query(columns + values) // 'INSERT INTO plans_logs (plan_id,, ItineraryID) VALUES (\'' + session.getUser() + '\',\'' + req.body.email_inivte + '\',\'' + req.body.itinerarieID + '\')')
+              .query(columns + values)
           })
           .catch(err => {
             console.log(err)
@@ -300,6 +300,24 @@ itineraries.post('/ourplans/api/edit', function (req, res) {
       console.log(err)
     })
   res.redirect('/plan/ourplans')
+})
+
+// Return all the plans of the user
+itineraries.get('/api/ourplans/log/:id', function (req, res) {
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT * FROM plans_log WHERE plan_id = \'' + req.params.id + '\' ')
+    })
+    .then(results => {
+      res.send(results.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
 })
 
 module.exports = itineraries

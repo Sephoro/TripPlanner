@@ -50,3 +50,14 @@
     width: 300px;
 
 }
+.log{
+    background-color: transparent;
+    border: 0.5px solid black;
+    float: right;
+    color: silver
+}
+.log:hover {
+    background-color: transparent;
+    border: 0.5px solid #000000;
+    color: black;
+  }

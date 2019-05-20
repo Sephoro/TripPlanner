@@ -192,12 +192,22 @@ fetch('/plan/api/ourplans')
         editB.setAttribute('data-target', '#editModal')
         editB.innerHTML = 'Edit'
         editB.id = data.plan_id
+
+        // Create log collapse
+        let logB = document.createElement('button')
+        logB.className = 'btn btn-outline-success log'
+        logB.setAttribute('data-toggle', 'collapse')
+        logB.setAttribute('data-target', '#logs')
+        logB.innerHTML = 'log'
+        logB.id = data.plan_id
+
         // Append into cardbody
         cardBody.appendChild(location)
         cardBody.appendChild(date)
         cardBody.appendChild(duration)
         cardBody.appendChild(activities)
         cardBody.appendChild(editB)
+        cardBody.appendChild(logB)
 
         // Append into card
         card.appendChild(img)
