@@ -102,25 +102,7 @@ fetch('/plan/api/ourplans')
           contributes.innerHTML = sharedWith
           itContainer.appendChild(contributes)
         })
-      // Create the XHR Object
-      /* let xhr = new XMLHttpRequest()
-      // Call the open function, GET-type of request, url, true-asynchronous
-      xhr.open('GET', '/plan/api/shared/' + plans[0].itinerary_id + '', true)
-      // call the onload
-      xhr.onload = function () {
-        // check if the status is 200(means everything is okay)
-        if (this.status === 200) {
-          // return server response as an object with JSON.parse
-          let contributors = this.responseText
 
-          contributors.forEach(contr => {
-            document.body.innerHTML = sharedWith + ', ' + contr.sharedWith
-          })
-        }
-      } */
-
-      // contributes.innerHTML = sharedWith
-      // itContainer.appendChild(contributes)
       // Create a card deck
 
       let cardDeck = document.createElement('div')
@@ -193,21 +175,53 @@ fetch('/plan/api/ourplans')
         editB.innerHTML = 'Edit'
         editB.id = data.plan_id
 
-        // Create log collapse
+        // Create log collapse button
         let logB = document.createElement('button')
         logB.className = 'btn btn-outline-success log'
-        logB.setAttribute('data-toggle', 'collapse')
-        logB.setAttribute('data-target', '#logs')
+        let logDataToggle = 'collapse'
+        logB.setAttribute('data-toggle', logDataToggle)
+        let logDataTarget = '#logs' + String(data.plan_id)
+        logB.setAttribute('data-target', logDataTarget)
         logB.innerHTML = 'log'
-        logB.id = data.plan_id
+        logB.id = 'log' + String(data.plan_id)
+
+        // Create the collapse
+
+        let logDiv = document.createElement('div')
+        logDiv.id = 'logs' + String(data.plan_id)
+        logDiv.className = 'logDiv collapse'
+
+        // Fetch the logs
+        fetch('/plan/api/ourplans/log/' + String(data.plan_id))
+          .then(function (response) {
+            if (response.ok) { return response.json() } else {
+              throw 'Failed to load itineraries!'
+            }
+          })
+          .then(function (logs) {
+            logs.forEach(log => {
+              let logTxt = document.createElement('p')
+              if (log.mod_type === 'E') {
+                logTxt.innerHTML = log.mod_date + ': ' + ' ' + log.contributor + ' modified ' + ' ' + log.field + ' from ' + log.old_field + ' to ' + log.new_field
+              } else if (log.mod_type === 'D') {
+                logTxt.innerHTML = log.mod_date + ': ' + ' ' + log.contributor + ' deleted ' + ' ' + log.old_field + ' from ' + log.field
+              } else if (log.mod_type === 'A') {
+                logTxt.innerHTML = log.mod_date + ': ' + ' ' + log.contributor + ' added ' + ' ' + log.new_field + ' to ' + log.field
+              }
+
+              logDiv.appendChild(logTxt)
+            })
+          })
 
         // Append into cardbody
+
         cardBody.appendChild(location)
         cardBody.appendChild(date)
         cardBody.appendChild(duration)
         cardBody.appendChild(activities)
         cardBody.appendChild(editB)
         cardBody.appendChild(logB)
+        cardBody.appendChild(logDiv)
 
         // Append into card
         card.appendChild(img)

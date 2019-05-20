@@ -61,3 +61,7 @@
     border: 0.5px solid #000000;
     color: black;
   }
+
+.logDiv.collapse{
+    color: grey;
+}
