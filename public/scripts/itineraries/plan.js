@@ -26,7 +26,7 @@ let validActivities = function (activities) {
 }
 let firstTime = true
 
-fetch('/plan/api/myplan')
+/* fetch('/plan/api/myplan')
   .then(function (response) {
     if (response.ok) { return response.json() } else {
       throw 'Failed to load itineraries!'
@@ -68,7 +68,45 @@ fetch('/plan/api/myplan')
       ul.appendChild(li)
       locations.appendChild(ul)
     })
-  })
+  }) */
+
+let h1 = document.createElement('h1')
+let locations = document.getElementById('locations')
+h1.innerHTML = '&#x1F4CC; My Itinenary'
+h1.className += 'h1'
+locations.appendChild(h1)
+firstTime = false
+/*
+let location = document.getElementById('location')
+let activities = document.getElementById('activities')
+let startDate = document.getElementById('startDate')
+let endDate = document.getElementById('endDate')
+let duration = durationCalculator(endDate.value, startDate.value).days
+// Get the location, date and duration
+let paragraph = document.createElement('p')
+paragraph.className = 'places'
+locations = document.getElementById('locations')
+// let location = document.getElementById('location').value
+paragraph.innerHTML = '&#128205 ' + location.value + ' from ' + startDate.value + ' to ' + endDate.value + ' : ' + duration + ' days'
+locations.appendChild(paragraph)
+
+// Get the Activities
+let ul = document.createElement('ul')
+let li = document.createElement('li')
+let a = document.createElement('a')
+let p2 = document.createElement('p')
+let p = document.createElement('p')
+// let activities = document.getElementById('activities').value
+p2.innerHTML = 'Activities'
+p.innerHTML = activities.value
+p.id += 'activity'
+p2.id += 'noteheader'
+
+a.appendChild(p2)
+a.appendChild(p)
+li.appendChild(a)
+ul.appendChild(li)
+locations.appendChild(ul) */
 
 document.querySelector('#endDate').addEventListener('input', function () {
   let start = document.getElementById('startDate').value
@@ -118,4 +156,46 @@ addLocationButton.addEventListener('click', function () {
   if (!validDate(duration.days) || !validActivities(activities)) {
     alert('Correct the above fields')
   }
+
+  let location = document.getElementById('location')
+  // let activities = document.getElementById('activities')
+  let startDate = document.getElementById('startDate')
+  let endDate = document.getElementById('endDate')
+  // let duration = durationCalculator(endDate.value, startDate.value).days
+  // Get the location, date and duration
+  let paragraph = document.createElement('p')
+  paragraph.className = 'places'
+  locations = document.getElementById('locations')
+  // let location = document.getElementById('location').value
+  paragraph.innerHTML = '&#128205 ' + location.value + ' from ' + startDate.value + ' to ' + endDate.value + ' : ' + duration.days + ' ' + duration.string
+  locations.appendChild(paragraph)
+
+  // Get the Activities
+  let ul = document.createElement('ul')
+  let li = document.createElement('li')
+  let a = document.createElement('a')
+  let p2 = document.createElement('p')
+  let p = document.createElement('p')
+  // let activities = document.getElementById('activities').value
+  p2.innerHTML = 'Activities'
+  p.innerHTML = activities
+  p.id += 'activity'
+  p2.id += 'noteheader'
+
+  a.appendChild(p2)
+  a.appendChild(p)
+  li.appendChild(a)
+  ul.appendChild(li)
+  locations.appendChild(ul)
+
+  let xhr = new XMLHttpRequest()
+  xhr.open('POST', 'plan/api/plan', true)
+  xhr.setRequestHeader('Content-Type', 'Application/json')
+  xhr.send(JSON.stringify({
+    activities: activities,
+    location: location.value,
+    startDate: startDate.value,
+    endDate: endDate.value
+
+  }))
 }, false)
