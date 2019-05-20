@@ -17,7 +17,7 @@ fetch('/plan/api/ourplans')
 
     // Go through each itineray for plans
     allPlans.forEach(plans => {
-      let counter = 1
+      let counter = 0
       // Create collapsible
 
       let icard = document.createElement('div')
@@ -140,7 +140,7 @@ fetch('/plan/api/ourplans')
 
         let location = document.createElement('h3')
         location.className = 'card-title'
-        location.innerHTML = '&#128205 ' + String(counter) + ' ' + data.location
+        location.innerHTML = '&#128205 ' + String(counter + 1) + ' ' + data.location
 
         // Create date element
 
@@ -160,9 +160,9 @@ fetch('/plan/api/ourplans')
         activities.className = 'card-text'
         activities.innerHTML = data.activities
 
-        // Ensure they are always of size four
+        // Ensure they are always of size three
 
-        if (counter % 4 === 0 && counter !== 0) {
+        if (counter % 3 === 0 && counter !== 0) {
           cardDeck = document.createElement('div')
           cardDeck.className = 'card-deck'
           icardBody.appendChild(cardDeck)
@@ -192,7 +192,7 @@ fetch('/plan/api/ourplans')
         logB.setAttribute('data-toggle', logDataToggle)
         let logDataTarget = '#logs' + String(data.plan_id)
         logB.setAttribute('data-target', logDataTarget)
-        logB.innerHTML = 'log'
+        logB.innerHTML = 'plan log'
         logB.id = 'log' + String(data.plan_id)
 
         // Create the collapse
@@ -242,7 +242,47 @@ fetch('/plan/api/ourplans')
         counter++
       })
 
+      // Create log collapse button for the whole itinerary
+      let ilogB = document.createElement('button')
+      ilogB.className = 'btn btn-outline-success log'
+      let logDataToggle = 'collapse'
+      ilogB.setAttribute('data-toggle', logDataToggle)
+      let logDataTarget = '#logs' + String(plans[0].itinerary_id)
+      ilogB.setAttribute('data-target', logDataTarget)
+      ilogB.innerHTML = 'itinerary log'
+      ilogB.id = 'log' + String(plans[0].itinerary_id)
+
+      // Create the collapse for the whole itinerary
+
+      let ilogDiv = document.createElement('div')
+      ilogDiv.id = 'logs' + String(plans[0].itinerary_id)
+      ilogDiv.className = 'logDiv collapse'
+
+      // Fetch the logs
+      fetch('/plan/api/ourplans/itlog/' + String(plans[0].itinerary_id))
+        .then(function (response) {
+          if (response.ok) { return response.json() } else {
+            throw 'Failed to load itineraries!'
+          }
+        })
+        .then(function (logs) {
+          logs.forEach(log => {
+            let logTxt = document.createElement('p')
+            if (log.mod_type === 'E') {
+              logTxt.innerHTML = log.mod_date + ': ' + ' ' + log.contributor + ' modified ' + ' ' + log.field + ' from ' + log.old_field + ' to ' + log.new_field
+            } else if (log.mod_type === 'D') {
+              logTxt.innerHTML = log.mod_date + ': ' + ' ' + log.contributor + ' deleted ' + ' ' + log.old_field + ' from ' + log.field
+            } else if (log.mod_type === 'A') {
+              logTxt.innerHTML = log.mod_date + ': ' + ' ' + log.contributor + ' added ' + ' ' + log.mod_value + ' as a stop '
+            }
+
+            ilogDiv.appendChild(logTxt)
+          })
+        })
+
       itContainer.appendChild(addB)
+      itContainer.appendChild(ilogB)
+      itContainer.appendChild(ilogDiv)
     }
 
     )

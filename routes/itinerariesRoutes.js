@@ -328,10 +328,45 @@ itineraries.post('/ourplans/api/add', function (req, res) {
         .query('INSERT INTO plans (itinerary_id, email,location,activities, duration, startDate, endDate) VALUES (' + req.body.itid + ',\'' + req.body.emailit + '\',\'' + req.body.location + '\',\'' + req.body.activities + '\',\'' + duration.days + '\',\'' + req.body.startDate + '\',\'' + req.body.endDate + '\')')
     })
     .then(function () {
-      res.redirect('/plan/ourplans')
+      // res.redirect('/plan/ourplans')
     })
     .catch(err => {
       console.log(err)
+    })
+
+  // For logging the new addition
+
+  let email = session.getUser()
+
+  let columns = 'INSERT INTO itinerary_log (it_id, contributor, mod_type, mod_date, mod_value) '
+  let values = ' VALUES (' + req.body.itid + ',\'' + email + '\',\'' + 'A' + '\',\'' + logMaker.getDate() + '\',\'' + req.body.location + '\' )' //, \'' + change.new_ + '\',\'' + change.old + '\') '
+  db.pools
+    .then((data) => {
+      return data.request()
+
+        .query(columns + values)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  res.redirect('/plan/ourplans')
+})
+
+// Return all the logs associated with the itinerary
+itineraries.get('/api/ourplans/itlog/:id', function (req, res) {
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT * FROM itinerary_log  WHERE it_id = \'' + req.params.id + '\' ')
+    })
+    .then(results => {
+      res.send(results.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
     })
 })
 
