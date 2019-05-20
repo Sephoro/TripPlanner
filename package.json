@@ -25,6 +25,8 @@
     "node-fetch-polyfill": "^2.0.6",
     "node-sessionstorage": "^1.0.0",
     "passport": "^0.4.0",
+    "passport-google-oauth": "^2.0.0",
+    "select2": "^4.0.7"
     "passport-google-oauth": "^2.0.0"
   },
   "devDependencies": {
