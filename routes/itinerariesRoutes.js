@@ -100,7 +100,7 @@ itineraries.get('/api/ourplans', function (req, res) {
     .then((pool) => {
       return pool.request()
 
-        .query('SELECT * FROM shareItineraries WHERE SharedWith = \'' + email + '\' AND stat = 1')
+        .query('SELECT * FROM shareItineraries WHERE SharedWith = \'' + email + '\' OR SharedBy = \'' + email + '\' AND stat = 1')
     })
     .then(results => {
       let sharedPlans = results.recordset
@@ -156,8 +156,6 @@ itineraries.get('/api/shared/:id', function (req, res) {
       })
     })
 })
-
-// Editing the Itineraries
 
 // Deleting of Itineraries
 itineraries.post('/api/delplan', function (req, res) {
@@ -302,7 +300,7 @@ itineraries.post('/ourplans/api/edit', function (req, res) {
   res.redirect('/plan/ourplans')
 })
 
-// Return all the plans of the user
+// Return all the logs associated with the plan
 itineraries.get('/api/ourplans/log/:id', function (req, res) {
   db.pools
     .then((pool) => {
