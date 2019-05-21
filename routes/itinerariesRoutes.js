@@ -438,9 +438,10 @@ itineraries.get('/api/myplans/it', function (req, res) {
     })
 })
 
-itineraries.post('/api/myplans/getitid', function (req, res) {
-  // console.log(req.body)
-  itID = req.body.it_id
+// Rendering diffrent plans
+itineraries.get('/api/myplans/getit/:id', function (req, res) {
+  itID = req.params.id
+  res.redirect('/plan/myplans/thisplan')
 })
 
 module.exports = itineraries

@@ -38,7 +38,7 @@ fetch('/plan/api/myplans/it')
       mediaBody.appendChild(p)
 
       let link = document.createElement('a')
-      link.href = '/plan/myplans/thisplan'
+      // link.href = '/plan/myplans/thisplan'
       link.className = 'stretched-link'
       link.innerHTML = 'Go to Plans'
       mediaBody.appendChild(link)
@@ -53,12 +53,8 @@ fetch('/plan/api/myplans/it')
 
     for (let i = 0; i < mediaRefs.length; i++) {
       mediaRefs[i].addEventListener('click', function () {
-        let xhr = new XMLHttpRequest()
-        xhr.open('POST', '/plan/api/myplans/getitid', true)
-        xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.send(JSON.stringify({
-          it_id: mediaRefs[i].id
-        }))
+        let link = '/plan/api/myplans/getit/' + mediaRefs[i].id
+        window.location.replace(link)
       }, false)
     }
   })

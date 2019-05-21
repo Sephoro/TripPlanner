@@ -21,6 +21,7 @@ fetch('/api/database')
         let selectUser = document.createElement('select')
         let opt = document.createElement('option')
         let textN = document.createTextNode('Select User')
+        selectUser.className = 'i btn btn-outline-dark'
 
         selectUser.id = '0'
         opt.value = '0'
@@ -39,21 +40,57 @@ fetch('/api/database')
 
         // creating the button
         let shareButton = document.createElement('button')
-        shareButton.className = 'shareBut'
+        shareButton.className = 'btn btn-outline-warning'
         shareButton.type = 'submit'
         shareButton.href = '#'
 
-        let txt = document.createTextNode('Invite')
+        let txt = document.createTextNode('Invite User')
         shareButton.appendChild(txt)
         let email = ''
 
         let itContainer = document.createElement('div')
         itContainer.id = 'itDeck'
+
+        // Create a card deck
         let cardDeck = document.createElement('div')
         cardDeck.className = 'card-deck'
+
+        // itContainer.appendChild(emailShare)
+
+        let inlineform = document.createElement('form')
+        inlineform.className = 'form-inline'
+        inlineform.method = 'post'
+
+        let formgroup = document.createElement('div')
+        formgroup.className = 'form-group mx-sm-3 mb-2'
+        inlineform.appendChild(formgroup)
+
+        let label = document.createElement('label')
+        // label.setAttribute('for', 'friendemail')
+        label.className = 'sr-only'
+        label.innerHTML = 'Email address'
+        formgroup.appendChild(label)
+
+        let input = document.createElement('input')
+        input.type = 'email'
+        input.className = 'form-control'
+        input.id = 'friendemail'
+        input.placeholder = 'Friend\'s email address'
+        formgroup.appendChild(input)
+
+        // Create the share via email button'
+        let emailShare = document.createElement('button')
+        emailShare.type = 'submit'
+        emailShare.className = 'e btn btn-outline-dark'
+        emailShare.innerHTML = 'Share via Email'
+
+        inlineform.appendChild(emailShare)
+
+        itContainer.appendChild(inlineform)
         itContainer.appendChild(selectUser)
         itContainer.appendChild(shareButton)
         itContainer.appendChild(cardDeck)
+
         document.body.appendChild(itContainer)
 
         let itID = plans[0].itinerary_id
@@ -140,9 +177,10 @@ fetch('/api/database')
             counter++
           })
         }
+
         // Event listener for all buttons of the itineraries
 
-        let shareBut = document.getElementsByClassName('shareBut')
+        let shareBut = document.getElementsByClassName('btn btn-outline-warning')
 
         for (let i = 0; i < shareBut.length; i++) {
           shareBut[i].addEventListener('click', function () {
