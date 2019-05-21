@@ -1,0 +1,5 @@
+/*For the scroll bar*/
+
+#heading2 {
+    overflow-y: auto;
+}

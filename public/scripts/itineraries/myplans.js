@@ -68,6 +68,7 @@ fetch('/api/database')
           if (itID !== data.itinerary_id) {
             // Make a new header
             plan++
+            itID = data.itinerary_id
             header = document.createElement('h4')
             header.innerHTML = 'PLAN : ' + String(plan)
             itContainer.appendChild(header)
@@ -121,8 +122,7 @@ fetch('/api/database')
 
             // Append new container to the body
             document.body.appendChild(itContainer)
-            // Update itinerary ID
-            itID = data.itinerary_id
+
             counter = 1
           }
           // Get the location, date and duration
@@ -156,18 +156,29 @@ fetch('/api/database')
 
           // DELETE FUNCTIONALITY
           let a1 = document.createElement('a')
+          let a2 = document.createElement('a')
+
           let del = document.createElement('button')
+          let edit = document.createElement('button')
 
           a1.href = '/plan/myplans'
+          a2.href = '/plan/editplan'
+
           del.className = 'del--'
+          edit.className = 'edit--'
 
           del.id = data.plan_id
+          edit.id = data.plan_id
           card.id = data.plan_id
 
           let delTxt = document.createTextNode('Delete')
+          let editTxt = document.createTextNode('Edit')
 
           a1.appendChild(delTxt)
+          a2.appendChild(editTxt)
+
           del.appendChild(a1)
+          edit.appendChild(a2)
 
           let cardBody = document.createElement('div')
           cardBody.className = 'card-body'
@@ -178,6 +189,7 @@ fetch('/api/database')
           cardBody.appendChild(duration)
           cardBody.appendChild(activities)
           cardBody.appendChild(del)
+          cardBody.appendChild(edit)
 
           // Append into card
           card.appendChild(img)
@@ -201,7 +213,7 @@ fetch('/api/database')
             }
 
             let xhr = new XMLHttpRequest()
-            xhr.open('POST', './myplans/api/save', true)
+            xhr.open('POST', './myplans/api/share', true)
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(JSON.stringify({
               email_inivte: email,
@@ -212,88 +224,34 @@ fetch('/api/database')
           }, false)
         }
 
-        // Event listener for delete buttons
-        let button = document.getElementsByClassName('del--')
+        // EVENT LISTENER FOR EDIT BUTTON
 
-        for (let i = 0; i < button.length; i++) {
-          button[i].addEventListener('click', function () {
+        let button1 = document.getElementsByClassName('edit--')
+        
+        for (let i = 0; i < button1.length; i++) {
+          button1[i].addEventListener('click', function () {
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', './api/editPlanForm', true)
+            xhr.setRequestHeader('Content-Type', 'application/json')
+            xhr.send(JSON.stringify({
+              value: button1[i].id,
+            }))
+          }, false)
+        }
+
+        // EVENT LISTENER FOR DELETE BUTTON
+        
+        let button2 = document.getElementsByClassName('del--')
+
+        for (let i = 0; i < button2.length; i++) {
+          button2[i].addEventListener('click', function () {
             let xhr = new XMLHttpRequest()
             xhr.open('POST', './api/delplan', true)
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(JSON.stringify({
-              value: button[i].id
+              value: button2[i].id
             }))
           }, false)
         }
       })
-  })
-
-fetch('/plan/api/ourplans')
-  .then(function (response) {
-    if (response.ok) { return response.json() } else {
-      throw 'Failed to load itineraries!'
-    }
-  })
-  .then(function (allPlans) {
-    let plan = 1
-    allPlans.forEach(plans => {
-      let counter = 1
-
-      let header = document.createElement('h4')
-      header.innerHTML = 'GROUP ITINERARY : ' + String(plan)
-      let itContainer = document.createElement('div')
-      itContainer.id = 'itDeck'
-      let cardDeck = document.createElement('div')
-      cardDeck.className = 'card-deck'
-      itContainer.appendChild(header)
-      itContainer.appendChild(cardDeck)
-      document.body.appendChild(itContainer)
-
-      plan++
-
-      plans.forEach(data => {
-        let location = document.createElement('h3')
-        location.className = 'card-title'
-        location.innerHTML = '&#128205 ' + String(counter) + ' ' + data.location
-
-        let date = document.createElement('p')
-        date.className = 'card-text'
-        date.innerHTML = 'From: ' + data.startDate + ' to ' + data.endDate
-
-        let duration = document.createElement('p')
-        duration.className = 'card-text'
-        duration.innerHTML = data.duration + ' days'
-        let cardBody = document.createElement('div')
-        cardBody.className = 'card-body'
-        let activities = document.createElement('p')
-        activities.className = 'card-text'
-        activities.innerHTML = data.activities
-        if (counter % 4 === 0 && counter !== 0) {
-          cardDeck = document.createElement('div')
-          cardDeck.className = 'card-deck'
-          document.body.appendChild(cardDeck)
-        }
-        let card = document.createElement('div')
-        card.className = 'card'
-
-        let img = document.createElement('img')
-        img.src = '/cdn/images/roadtrip.jpg'
-        img.alt = 'Card image cap'
-        img.className = 'card-img-top'
-
-        // Append into cardbody
-        cardBody.appendChild(location)
-        cardBody.appendChild(date)
-        cardBody.appendChild(duration)
-        cardBody.appendChild(activities)
-
-        // Append into card
-        card.appendChild(img)
-        card.appendChild(cardBody)
-
-        // Append into cardDEck
-        cardDeck.appendChild(card)
-        counter++
-      })
-    })
   })

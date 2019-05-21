@@ -1,0 +1,114 @@
+body {
+    background-color: silver;
+}
+
+.heading {
+    align-content: center
+}
+
+.h1 {
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.cliente {
+    margin-top: 10px;
+    border: #cdcdcd medium solid;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    background-color: antiquewhite;
+    align-items: center;
+}
+
+.form-control-lg {
+    margin-left: 1cm;
+}
+
+label {
+    margin-left: 1cm;
+}
+
+.button {
+    margin-left: 2cm;
+    margin-bottom: 1cm;
+}
+
+form {
+    width: 50%;
+}
+
+#activities {
+    width: 200px;
+}
+
+.places {
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14pt;
+}
+
+#activity {
+    font-size: 100%;
+    font-weight: normal;
+    align-self: center;
+    margin-top: -0.2cm;
+}
+
+#noteheader {
+    font-size: 12pt;
+    font-weight: normal;
+    align-self: center;
+}
+
+/* FOR NOTES */
+ul, li {
+    list-style: none;
+    text-align: center;
+    align-self: center;
+}
+
+ul {
+    margin-top: -30px;
+    overflow: hidden;
+    padding: 3em;
+}
+
+ul li a {
+    margin-top: -2cm;
+    text-decoration: none;
+    color: #000;
+    background: #ffc;
+    display: block;
+    height: 6em;
+    width: 40em;
+    padding: 1em;
+    text-align: center;
+    margin-bottom: -6cm;
+    margin-left: 2cm;
+    /* Firefox */
+    -moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1);
+    /* Safari+Chrome */
+    -webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+    /* Opera */
+    box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+}
+
+ul li {
+    margin: 1em;
+    float: center;
+}
+
+ul li #activity {
+    font-family: "Reenie Beanie", arial, sans-serif;
+    font-size: 180%;
+}
+
+#save {
+    margin-left: 7cm;
+    margin-top: -3.9cm;
+}
+
+.col-sm-3 {
+    margin-left: 38%;
+}

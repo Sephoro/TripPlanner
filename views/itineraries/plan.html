@@ -1,81 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title class="display-1">Plan Your Itinerary</title>
-    <meta charset="utf-8"/>
-    <link rel="stylesheet" type="text/css" href="/cdn/css/plan.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <!-- Google font -->
-    <link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">
-    <!-- bootstrap -->
+    <meta charset="utf-8" />
+    <!-- <link rel="stylesheet" type="text/css" href="/cdn/css/plan.css"> -->
+    <link rel='stylesheet' href="/cdn/css/scroll.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.min.css"
+        rel="stylesheet" />
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
 </head>
+
 <body>
     <div class="heading">
-        <h1 class="h1">PLAN YOU ITINERARY!</h1> 
+        <h1 id = "xx"class="h1">PLAN YOU ITINERARY!</h1>
 
         <!-- Return to home page -->
-        <h5><a href = "/">Home</a></h5>
+        <h5><a href="/">Home</a></h5>
 
-    </div> 
-                
+    </div>
+
     <div class="container-fluid">
         <div class="row">
-        
             <div class="col-sm-3">
-                           
-                <div class="cliente"> 
-                <form action="plan/api/plan" method="post">          
-                    <div class="md-form form-lg center-block">
-                                                    
-                        <label for="Location">Location:</label>
-                        <input type="text" id="location" name="location" placeholder="Location" class="form-control form-control-lg"  style="width: 200px" > <br></br>
 
-                        <label for="Activities" id = "actLabel">Activities (Seperated by a comma):</label>
-                                                
-                        <input type="text" id="activities" name = "activities" placeholder="Max of 5 activities" class="form-control form-control-lg"><br></br>
+                <div class="card border border-primary" style="height:650px">
+                    <h5 class="card-title text-center d-inline p-2 bg-primary text-white">SEARCH AND ADD DESTINATIONS
+                    </h5>
+                    <div data-spy="scroll" class="container">
+                        <form id ="form" action="plan/api/plan" method="post">
+                            <div class="input-group mb-3">
+                                <input id="location" name="location" type="text" class="form-control input-sm"
+                                    placeholder="search place">
+                            </div>
 
-                        <label for="startDate" >Start Date:</label>
-                        <input type="date" id="startDate" name="startDate" placeholder= "DD/MM/YYYY" class="form-control form-control-lg" style="width: 200px"><br></br>
-                                               
-                        <label id = "endDateLabel" for="endDate">End Date:</label>
-                        <input type="date" id="endDate" name="endDate" placeholder= "DD/MM/YYYY"  class="form-control form-control-lg" style="width: 200px" ><br></br>
-                        <div class="invalidDate"></div>
+                            <label for="Start Date" id="actLabel" class="text-primary">Number of Activities: 5
+                                maximum</label>
+
+                            <div class="input-group mb-3">
+                                <input id="activities" name="activities" type="text" class="form-control input-sm"
+                                    placeholder="Activities">
+                            </div>
+
+                            <label for="Start Date" class="text-primary">Start Date</label>
+                            <div class="input-group date">
+                                <input type="date" class="form-control" id="startDate" name="startDate"
+                                    placeholder="Start Date">
+                            </div>
+                            <label id="endDateLabel" for="endDate" class="text-primary">End Date:</label>
+                            <div class="input-group date">
+                                <input type="date" class="form-control" id="endDate" name="endDate"
+                                    placeholder="End Date">
+                            </div>
+                            <div class="invalidDate"></div>
+                            <br>
+                            <!-- <div class="button">
+                                <button id="addLocation" type="submit" class="btn btn-primary btn-sm">ADD TO MY
+                                    DESTINATIONS</button>
+                            </div> -->
+                        </form>
+                        <div class="button">
+                            <button id="addLocation" type="submit" class="btn btn-primary btn-sm">ADD TO MY
+                                DESTINATIONS</button>
+                        </div>
                     </div>
-            
-                    <div class="button">
-                        <button  id="addLocation" type="submit" class="btn btn-outline-warning">Add Location</button>
-                    </div>  
-                </form> 
-                                             
                 </div>
-
             </div>
-                                         
-            <div class="col-sm-8">
-                                
-                <div id="locations" class="cliente"> 
 
+            <div class="col-sm-6">
+                <div id="googleMap" style="width:100%;height:650px;"></div>
+            </div>
+
+            <div class="col-sm-3">
+
+                <!-- <div id="locations" class="cliente"> -->
+                <div id="locations" class="card border border-primary" style="height:650px">
+                    <h5 id="heading1" class="card-title d-inline p-2 bg-primary text-white">MY ITENERARIES
+                    </h5>
+                    <div id="heading2" class="container">
+                    </div>
                 </div>
+
                 <div id="saveSection">
-                     <form action="plan/api/save" method="post"> 
-                     
-                     <label id = "itLabel" for="itName">Itinenary Name:</label>
-                        <input type="text" id="itName" name="itName" placeholder= "Itinerary Name"  class="form-control form-control-lg" style="width: 200px" ><br></br>
-                    <button id = "save" type = "submit" class="btn btn-outline-success">Save</button>
+                    <form action="plan/api/save" method="post">
 
-               </form>
+                        <div>
+                            <br>
+                            <div class="input-group mb-3">
+                                <input id="itName" name="itName" type="text" class="form-control input-sm"
+                                    placeholder="Itenerary name">
+                            </div>
+                            <button id="save" type="submit" class="btn btn-primary btn-sm">SAVE</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-                    
         </div>
     </div>
 
-</body>
+    <script>
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var labelIndex = 0;
+        var searchedPlaces = [];
+        var map;
+        var Places;
+        var current_place;
+        var markers = [];
+        var bounds;
 
-<script src = "/cdn/scripts/itineraries/plan.js" ></script>
+        function myMap() {
+            var haightAshbury = { lat: -26.192, lng: 28.026 };
+
+            map = new google.maps.Map(document.getElementById('googleMap'), {
+                zoom: 10,
+                center: haightAshbury,
+            });
+
+            var input = document.getElementById('location');
+            var searchBox = new google.maps.places.SearchBox(input);
+            map.addListener('bounds_changed', function () {
+                searchBox.setBounds(map.getBounds());
+            });
+
+            let addLocationButton = document.getElementById('addLocation')
+
+            searchBox.addListener('places_changed', function () {
+                Places = searchBox.getPlaces();
+                if (Places.length == 0) {
+                    return;
+                }
+                bounds = new google.maps.LatLngBounds();
+                Places.forEach(function (place) {
+                    if (place.geometry.viewport) {
+                        bounds.union(place.geometry.viewport);
+                    } else {
+                        bounds.extend(place.geometry.location);
+                    }
+                    current_place = place;
+                })
+            })
+            addLocationButton.addEventListener('click', function () {
+                addMarker(current_place.geometry.location);
+            })
+        }
+
+        // Adds a marker to the map and push to the array.
+        function addMarker(location) {
+            var marker = new google.maps.Marker({
+                position: location,
+                animation: google.maps.Animation.DROP,
+                label: labels[labelIndex++ % labels.length],
+                map: map,
+            });
+            markers.push(marker);
+            map.fitBounds(bounds);
+        }
+    </script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhOIO8gWPyPOAYbb57-SG-KwNSytlKlJg&libraries=places&callback=myMap"></script>
+</body>
+<script src="/cdn/scripts/itineraries/plan.js"></script>
 
 </html>
