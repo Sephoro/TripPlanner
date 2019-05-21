@@ -8,10 +8,15 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="scripts.js"></script>
 	<link rel="stylesheet" type="text/css" href="/fun.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
 </head>
 
 <body>
-	<div class="container">
+	<div class="container" id="myBtn">
 		<div class="row">
 			<div class="col-12">
 				<div class="card">
@@ -23,7 +28,6 @@
 									<img src="http://placehold.it/150x150" id="imgProfile"
 										style="width: 150px; height: 150px" class="img-thumbnail" />
 									<div class="middle">
-
 										<input type="file" style="display: none;" id="profilePicture" name="file" />
 									</div>
 								</div>
@@ -37,21 +41,24 @@
 						<div class="row">
 							<div class="col-12">
 								<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+
 									<li class="nav-item">
 										<a class="nav-link active" id="basicInfo-tab" data-toggle="tab"
 											href="#basicInfo" role="tab" aria-controls="Info"
 											aria-selected="true">Info</a>
 									</li>
+
 									<li class="nav-item">
 										<a class="nav-link" id="connectedServices-tab" data-toggle="tab"
 											href="/profile/edit" role="tab" aria-controls="Edit"
 											aria-selected="false">Edit</a>
 									</li>
+
 									<li class="nav-item">
-										<a class="nav-link" id="connectedServices-tab" data-toggle="tab"
-											href="/profile/delete" role="tab" aria-controls="Delete"
-											aria-selected="true">Delete</a>
+										<a class="nav-link" id="tab" data-toggle="tab" role="tab" aria-controls="Delete"
+										href="" aria-selected="true" onclick="deleteUser()">Delete</a>
 									</li>
+
 									<li class="nav-item">
 										<a class="nav-link" id="connectedServices-tab" data-toggle="tab"
 											href="/profile/PasswordReset" role="tab" aria-controls="Delete"
@@ -112,5 +119,6 @@
 </body>
 <script src='/cdn/scripts/profile/manageProfile.js'></script>
 <script src='/cdn/scripts/profile/profilePicture.js'></script>
+<script src='/cdn/scripts/profile/deleteProfile.js'></script>
 
 </html>
