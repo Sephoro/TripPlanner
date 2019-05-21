@@ -156,18 +156,29 @@ fetch('/api/database')
 
           // DELETE FUNCTIONALITY
           let a1 = document.createElement('a')
+          let a2 = document.createElement('a')
+
           let del = document.createElement('button')
+          let edit = document.createElement('button')
 
           a1.href = '/plan/myplans'
+          a2.href = '/plan/editplan'
+
           del.className = 'del--'
+          edit.className = 'edit--'
 
           del.id = data.plan_id
+          edit.id = data.plan_id
           card.id = data.plan_id
 
           let delTxt = document.createTextNode('Delete')
+          let editTxt = document.createTextNode('Edit')
 
           a1.appendChild(delTxt)
+          a2.appendChild(editTxt)
+
           del.appendChild(a1)
+          edit.appendChild(a2)
 
           let cardBody = document.createElement('div')
           cardBody.className = 'card-body'
@@ -178,6 +189,7 @@ fetch('/api/database')
           cardBody.appendChild(duration)
           cardBody.appendChild(activities)
           cardBody.appendChild(del)
+          cardBody.appendChild(edit)
 
           // Append into card
           card.appendChild(img)
@@ -212,16 +224,32 @@ fetch('/api/database')
           }, false)
         }
 
-        // Event listener for delete buttons
-        let button = document.getElementsByClassName('del--')
+        // EVENT LISTENER FOR EDIT BUTTON
 
-        for (let i = 0; i < button.length; i++) {
-          button[i].addEventListener('click', function () {
+        let button1 = document.getElementsByClassName('edit--')
+        
+        for (let i = 0; i < button1.length; i++) {
+          button1[i].addEventListener('click', function () {
+            let xhr = new XMLHttpRequest()
+            xhr.open('POST', './api/editPlanForm', true)
+            xhr.setRequestHeader('Content-Type', 'application/json')
+            xhr.send(JSON.stringify({
+              value: button1[i].id,
+            }))
+          }, false)
+        }
+
+        // EVENT LISTENER FOR DELETE BUTTON
+        
+        let button2 = document.getElementsByClassName('del--')
+
+        for (let i = 0; i < button2.length; i++) {
+          button2[i].addEventListener('click', function () {
             let xhr = new XMLHttpRequest()
             xhr.open('POST', './api/delplan', true)
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(JSON.stringify({
-              value: button[i].id
+              value: button2[i].id
             }))
           }, false)
         }

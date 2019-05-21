@@ -7,6 +7,10 @@ let pf = require('../public/scripts/itineraries/planFunctions')
 let session = require('../models/sessions')
 let logMaker = require('../models/planManager')
 
+let arrayId = []
+let firstPlanId = []
+let planId = null
+
 itineraries.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'plan.html'))
 })
@@ -20,7 +24,7 @@ itineraries.get('/ourplans', function (req, res) {
 })
 
 itineraries.get('/editplan', function (req, res) {
-  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'edit.html'))
+  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'editPlan.html'))
 })
 
 itineraries.post('/api/plan', function (req, res) {
@@ -38,13 +42,13 @@ itineraries.post('/api/plan', function (req, res) {
         .then((pool) => {
           return pool.request()
 
-            .query('INSERT INTO plans (itinerary_id, email,location,activities, duration, startDate, endDate) VALUES (' + itNum + ',\'' + email + '\',\'' + req.body.location + '\',\'' + req.body.activities + '\',\'' + duration.days + '\',\'' + req.body.startDate + '\',\'' + req.body.endDate + '\')')
+            .query('INSERT INTO plans (itinerary_id, email,location,activities, duration, startDate, endDate) VALUES (' + itNum + ",'" + email + "','" + req.body.location + "','" + req.body.activities + "','" + duration.days + "','" + req.body.startDate + "','" + req.body.endDate + "')")
         })
       res.redirect('/plan')
     })
 })
 
-// Return the current plan of the user
+// RETURN THE CURRENT PLAN OF THE USER
 itineraries.get('/api/myplan', function (req, res) {
   let email = session.getUser()
 
@@ -60,7 +64,7 @@ itineraries.get('/api/myplan', function (req, res) {
         .then((pool) => {
           return pool.request()
 
-            .query('SELECT * FROM plans WHERE email = \'' + email + '\' AND itinerary_id = ' + itNum + ' ')
+            .query("SELECT * FROM plans WHERE email = '" + email + "' AND itinerary_id = " + itNum + ' ')
         })
         .then(results => {
           res.send(results.recordset)
@@ -72,7 +76,8 @@ itineraries.get('/api/myplan', function (req, res) {
         })
     })
 })
-// Return all the plans of the user
+
+// RETURN ALL PLANS OF THE USER
 itineraries.get('/api/myplans', function (req, res) {
   let email = session.getUser()
 
@@ -80,7 +85,7 @@ itineraries.get('/api/myplans', function (req, res) {
     .then((pool) => {
       return pool.request()
 
-        .query('SELECT * FROM plans WHERE email = \'' + email + '\' ')
+        .query("SELECT * FROM plans WHERE email = '" + email + "' ")
     })
     .then(results => {
       res.send(results.recordset)
@@ -156,10 +161,10 @@ itineraries.get('/api/shared/:id', function (req, res) {
     })
 })
 
-// Deleting of Itineraries
+// DELETING OF ITINERARIES
 itineraries.post('/api/delplan', function (req, res) {
   let id = req.body.value
-  // console.log(loc)
+  console.log(id)
   db.pools.then((pool) => {
     return pool.request().query('DELETE FROM plans WHERE plan_id = ' + id + '')
   })
@@ -167,9 +172,9 @@ itineraries.post('/api/delplan', function (req, res) {
 })
 
 itineraries.post('/api/save', function (req, res) {
-  // Is the user logged in?
+  // IS THE USER LOGGED IN?
   if (session.loggedIn()) {
-    // Save the iteninary
+    // SAVE THE ITINERARY
     db.pools
       .then((pool) => {
         return pool.request()
@@ -181,10 +186,10 @@ itineraries.post('/api/save', function (req, res) {
         db.pools
           .then((pool) => {
             return pool.request()
-              .query('INSERT INTO itineraries (name,email,ItNum) VALUES (\'' + req.body.itName + '\',\'' + session.getUser() + '\',' + itNum + ')')
+              .query("INSERT INTO itineraries (name,email,ItNum) VALUES ('" + req.body.itName + "','" + session.getUser() + "'," + itNum + ')')
           })
       })
-    // Update counter
+    // UPDATE THE COUNTER
     db.pools
       .then((pool) => {
         return pool.request()
@@ -367,6 +372,46 @@ itineraries.get('/api/ourplans/itlog/:id', function (req, res) {
         Error: err
       })
     })
+})
+
+// FETCHING PRESSED ID OF THE PRESSED FORM....
+itineraries.post('/api/editPlanForm', function (req, res) {
+  planId = req.body.value
+})
+
+// RETURNING PLAN BY LOGGED IN EMAIL AND ID OF THE PRESSED FORM...
+itineraries.get('/api/myplans_', function (req, res) {
+  let email = session.getUser()
+  let query = "SELECT * FROM plans WHERE email = '" + email + "' AND plan_id = '" + planId + "' "
+
+  db.pools
+    .then((pool) => {
+      return pool.request()
+        .query(query)
+    })
+    .then(results => {
+      res.send(results.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+
+// EDITING ITINERARIES
+itineraries.post('/api/editPlan', function (req, res) {
+  let location = req.body.location
+  let activities = req.body.activities
+  let startDate = req.body.startDate
+  let endDate = req.body.endDate
+
+  let query = "UPDATE plans SET location = '" + location + "', activities = '" + activities + "', startDate = '" + startDate + "', endDate = '" + endDate + "' WHERE plan_id = '" + planId + "'"
+
+  db.pools.then((pool) => {
+    return pool.request().query(query)
+  })
+  res.redirect('/plan/myplans')
 })
 
 module.exports = itineraries
