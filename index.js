@@ -27,6 +27,7 @@ app.use('/g', signuproutes)
 app.use('/go', signuproutes)
 app.use('/', layoutsRoutes)
 app.use('/plan', itenariesRoutes)
+app.use('/hotel', itenariesRoutes)
 app.use('/profile', profileRoutes)
 
 // serving static files

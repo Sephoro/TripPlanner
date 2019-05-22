@@ -27,6 +27,10 @@ itineraries.get('/editplan', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'editPlan.html'))
 })
 
+itineraries.get('/find', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'hotels.html'))
+})
+
 itineraries.get('/myplans', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'myit.html'))
 })
@@ -245,7 +249,7 @@ itineraries.post('/ourplans/api/edit', function (req, res) {
         .query('UPDATE plans SET location = \'' + req.body.elocation + '\', activities = \'' + req.body.eactivities + '\', startDate = \'' + req.body.estartDate + '\', endDate = \'' + req.body.eendDate + '\', duration = \'' + duration.days + '\' WHERE plan_id = ' + req.body.planid + ' ')
     })
     .then(function () {
-      // res.redirect('/plan/ourplans')
+
     })
     .catch(err => {
       /* res.send({
