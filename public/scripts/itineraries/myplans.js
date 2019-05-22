@@ -59,22 +59,25 @@ fetch('/api/database')
 
         let inlineform = document.createElement('form')
         inlineform.className = 'form-inline'
-        inlineform.method = 'post'
+        inlineform.method = 'POST'
+        inlineform.action = '/plan/api/myplans/sendemail'
 
         let formgroup = document.createElement('div')
         formgroup.className = 'form-group mx-sm-3 mb-2'
         inlineform.appendChild(formgroup)
 
-        let label = document.createElement('label')
-        // label.setAttribute('for', 'friendemail')
-        label.className = 'sr-only'
-        label.innerHTML = 'Email address'
-        formgroup.appendChild(label)
+        let itnum = document.createElement('input')
+        itnum.className = 'form-control'
+        itnum.id = 'itnum'
+        itnum.name = 'itnum'
+        formgroup.appendChild(itnum)
+        itnum.style.visibility = 'hidden'
 
         let input = document.createElement('input')
         input.type = 'email'
         input.className = 'form-control'
         input.id = 'friendemail'
+        input.name = 'friendemail'
         input.placeholder = 'Friend\'s email address'
         formgroup.appendChild(input)
 
@@ -83,6 +86,7 @@ fetch('/api/database')
         emailShare.type = 'submit'
         emailShare.className = 'e btn btn-outline-dark'
         emailShare.innerHTML = 'Share via Email'
+        emailShare.id = 'email_'
 
         inlineform.appendChild(emailShare)
 
@@ -178,6 +182,14 @@ fetch('/api/database')
           })
         }
 
+        let emailButt = document.getElementById('email_')
+        emailButt.addEventListener('click', function () {
+          alert('Succesfuly shared intinerary')
+        })
+
+        document.querySelector('#friendemail').addEventListener('input', function () {
+          document.getElementById('itnum').value = plans[0].itinerary_id
+        }, false)
         // Event listener for all buttons of the itineraries
 
         let shareBut = document.getElementsByClassName('btn btn-outline-warning')

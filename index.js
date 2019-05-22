@@ -2,7 +2,6 @@
 let express = require('express')
 let app = express()
 const sgMail = require('@sendgrid/mail')
-let nodemailer = require('nodemailer')
 require('dotenv').config({ path: '.env' })
 
 // loading routers

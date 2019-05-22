@@ -6,6 +6,7 @@ let db = require('../data/database.js')
 let pf = require('../public/scripts/itineraries/planFunctions')
 let session = require('../models/sessions')
 let logMaker = require('../models/planManager')
+let emailer = require('../models/email')
 
 let planId = null
 let itID = null
@@ -441,6 +442,30 @@ itineraries.get('/api/myplans/it', function (req, res) {
 // Rendering diffrent plans
 itineraries.get('/api/myplans/getit/:id', function (req, res) {
   itID = req.params.id
+  res.redirect('/plan/myplans/thisplan')
+})
+
+// sending emails
+
+itineraries.post('/api/myplans/sendemail', function (req, res) {
+  db.pools
+    .then((data) => {
+      return data.request()
+        .query('INSERT INTO shareItineraries (SharedBy, SharedWith, ItineraryID) VALUES (\'' + session.getUser() + '\',\'' + req.body.friendemail + '\',' + req.body.itnum + ')')
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+  let emailSubject = 'Invitation to a Trip'
+
+  let emailText1 = `Hi there \n\nYour friend ${session.getUser()} has invited you to plan a trip with them`
+  let emailText2 = `\n\nIf your not a registered user, access the trip by signing up, with the email this notifaction was sent to, here http://mytripplanner.azurewebsites.net/account/create`
+  let emailText3 = `\nIf you are a registered user simply login here http://mytripplanner.azurewebsites.net/account/login\n\n`
+  let emailText4 = `After singing up/logging in, the notifaction for the shared itinerary will be visible on the dashboard\n`
+  let emailText5 = `\nRegards \nMTP Team`
+  let emailText = emailText1 + emailText2 + emailText3 + emailText4 + emailText5
+  emailer.sendEmail(req.body.friendemail, emailSubject, emailText)
   res.redirect('/plan/myplans/thisplan')
 })
 
