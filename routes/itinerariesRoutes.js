@@ -27,6 +27,10 @@ itineraries.get('/editplan', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'editPlan.html'))
 })
 
+itineraries.get('/find', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'hotels.html'))
+})
+
 itineraries.post('/api/plan', function (req, res) {
   let duration = pf.durationCalculator(req.body.endDate, req.body.startDate)
   let email = session.getUser()
