@@ -18,96 +18,69 @@
 </head>
 
 <body>
-
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <!-- Brand -->
-        <a class="navbar-brand" href="#">
-            <img src="/cdn/images/MyTrip.png" alt="logo" style="width:70px; height: 50px ">
-        </a>
-
-        <!-- Links -->
-        <ul class="navbar-nav">
-            <li id="home" class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-            <li id="trip" class="nav-item">
-                <a class="nav-link" href="/plan">Plan a Trip</a>
-            </li>
-
-            <!-- Dropdown -->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                    Help
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="tcs">Terms & Conditions</a>
-                    <a class="dropdown-item" href="/about">About Us</a>
-                </div>
-            </li>
-        </ul>
-
-        <ul class="nav navbar-nav ml-auto">
-            <li id = "signUp" class="nav-item">
-                <a class="nav-link" href="/account/create">Sign Up</a>
-            </li>
-            <li id = "login" class="nav-item">
-                <a class="nav-link" href="/account/login" method="GET">Login</a>
-            </li>
-        </ul>
-    </nav>
-
+        
     <br>
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <div class="text-center">
-                <h1 id="welcome" class="display-1">Welcome!</h1>
-            </div>
-
-        </div>
-    </div>
+        <nav class="nav justify-content-center">
+                
+                <a href="/" class="nav-item nav-link active" id="home">Home</a>
+                <a href="/plan" class="nav-item nav-link" id="trip">Plan a Trip</a>
+                <a href="/account/create" class="nav-item nav-link" id = "signUp">Sign Up</a>
+                <a class="nav-link nav link" href="/account/login" method="GET" id = "login">Login</a>
+                    
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            Help
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="tcs">Terms & Conditions</a>
+                        <a class="dropdown-item" href="/about">About Us</a>
+                    </div>
+                </li>
+        </nav>
     </br>
 
-    <!--Images of places to visit-->
-    <div class="text-center">
-        <div class="container-fluid">
-            <br>
-            <h3 class="display-4">Places to Visit in South Africa</h3>
-            </br>
-            <div class="row">
-
-                <div class="col-sm-4 style = background-colour:grey">
-                    <img class="img-fluid" src="/cdn/images/cape.jpg" alt="Lights" width="420" height="300">
-                    <p>Cape Town Beach Front</p>
-                </div>
-                <div class="col-sm-4 style = background-colour:grey">
-                    <img class="img-fluid" src="/cdn/images/kruger.jpg" alt="Lights" width="420" height="300">
-                    <p>Kruger National Park</p>
-                </div>
-                <div class="col-sm-4 style = background-colour:grey">
-                    <img class="img-fluid" src="/cdn/images/soweto.jpg" alt="Lights" width="420" height="300">
-                    <p>Soweto</p>
-                </div>
-
-            </div>
-        </div>
-    </div>
+    
     <br>
+        <div class="text-center">
+            <h1 id="loggedIn" class="display-1" style="font-size:3.5vw">Lets Travel the World Together!</h1>
+        </div>
+    </br>
+    
+   <!--Carousel Wrapper-->
+    <div id="video-carousel-example" class="carousel slide carousel-fade" data-ride="carousel">
+        <!--Indicators-->
+        <ol class="carousel-indicators">
+          <li data-target="#video-carousel-example" data-slide-to="0" class="active"></li>
+        </ol>
+        <!--/.Indicators-->
+        <!--Slides-->
+        <div class="carousel-inner" role="listbox">
+          <div class="carousel-item active">
+            <video class="video-fluid" autoplay loop muted>
+                    
+              <source src="https://mdbootstrap.com/img/video/Tropical.mp4" type="video/mp4" />
+            </video>
+          </div>      
+      </div>  
+    </div>
+      <!--Carousel Wrapper-->
     <div class="text-center">
         <div class="container-fluid">
             <br>
-            <h3 id="Header" class="display-4"><strong>TRENDING PLACES</strong></h3>
+            <h3 id="Header" class="display-4" style="font-size:2.5vw">Trending Places</h3>
             </br>
         </div>
     </div>
 
+    <!-- Trending places -->
     <div id="main_c" class="container-fluid bg-3">
         <div id="row" class="row">
             <div class="col-sm-4">
                 <div id="Travel" class="card" style="width:470px">
                     <img class="card-img-top" src="/cdn/images/Africa.jpg" alt="Card image" style="width:100%">
                     <div class="card-body">
-                        <h4 class="card-title">Trending places in Africa</h4>
-                        <p class="card-text">Planning a trip North America?
+                        <h4 class="card-title" style="font-size:1.5vw">Trending places in Africa</h4>
+                        <p class="card-text"  style="font-size:1vw">Planning a trip North America?
                         </p>
                         <button id="button1" class="btn btn-outline-primary">Read More</button>
                     </div>
@@ -118,8 +91,8 @@
                 <div id="Travel1" class="card" style="width:470px">
                     <img class="card-img-top" src="/cdn/images/Europe.jpg" alt="Card image" style="width:100%">
                     <div class="card-body">
-                        <h4 id="North" class="card-title">Trending places in North America</h4>
-                        <p class="card-text">Planning a trip North America?
+                        <h4 id="North" class="card-title" style="font-size:1.5vw">Trending places in North America</h4>
+                        <p class="card-text"  style="font-size:1vw">Planning a trip North America?
                         </p>
                         <button id="button2" class="btn btn-outline-primary">Read More</button>
                     </div>
@@ -131,8 +104,8 @@
                 <div id="Travel2" class="card" style="width:470px">
                     <img class="card-img-top" src="/cdn/images/Asia.jpg" alt="Card image" style="width:100%">
                     <div class="card-body">
-                        <h4 class="card-title">Trending places in South America</h4>
-                        <p class="card-text">Planning a trip South America?
+                        <h4 class="card-title" style="font-size:1.5vw">Trending places in South America</h4>
+                        <p class="card-text" style="font-size:1vw">Planning a trip South America?
                         </p>
                         <button id="button3" class="btn btn-outline-primary">Read More</button>
                     </div>
@@ -141,14 +114,13 @@
 
         </div>
     </div>
-    <hr>
     <!-- Footer -->
 
     <div class="jumbotron text-center" style="margin-bottom:0">
         <footer class="container-fluid bg-4 text-center">
             <div class=" container-fluid row">
                 <div class="col-sm">
-                    <img src="/cdn/images/logo.png" style="width:50px ; height: 50px">
+                    <img src="/cdn/images/MyTrip.png" style="width:70px ; height: 70px">
                     <p>MyTripPlanner website made by <a href="#">Software Development Team</a></p>
                 </div>
             </div>
