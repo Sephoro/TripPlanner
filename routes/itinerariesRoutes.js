@@ -124,11 +124,12 @@ itineraries.get('/api/ourplans', function (req, res) {
       } else {
         // Send each plan shared with the user
         for (let i = 0; i < sharedPlans.length; i++) {
+          let a = 'SELECT * FROM plans FULL OUTER JOIN itineraries on plans.itinerary_id = itineraries.ItNum '
+          let b = ' WHERE  plans.itinerary_id = ' + sharedPlans[i].ItineraryID + ''
           db.pools
             .then((pool) => {
               return pool.request()
-
-                .query('SELECT * FROM plans WHERE itinerary_id = ' + sharedPlans[i].ItineraryID + ' ')
+                .query(a + b/* 'SELECT * FROM plans WHERE itinerary_id = ' + sharedPlans[i].ItineraryID + ' ' */)
             })
             .then(results => {
               plans.push(results.recordset)
