@@ -71,7 +71,10 @@ fetch('/api/shared')
         } else if (modButtons[i].id[0] === 'r') {
           alert('Itinerary declined')
         }
-        document.location.reload()
+
+        if (modButtons[i].id[0] === 'a') { window.location.replace('/plan/ourplans') } else {
+          document.location.reload()
+        }
       }, false)
     }
   })

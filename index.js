@@ -1,6 +1,7 @@
 'use strict'
 let express = require('express')
 let app = express()
+require('dotenv').config({ path: '.env' })
 
 // loading routers
 let itenariesRoutes = require('./routes/itinerariesRoutes.js')
