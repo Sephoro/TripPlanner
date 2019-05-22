@@ -9,6 +9,7 @@ let session = require('../models/sessions.js')
 let signUpVer = require('../models/signUpVerication')
 let passport = require('passport')
 let auth = require('../models/google')
+const bcrypt = require('bcryptjs')
 
 let router = express.Router()
 
@@ -31,14 +32,19 @@ router.get('/notregistered', function (req, res) {
 auth(passport)
 router.use(passport.initialize())
 
+let salt = bcrypt.genSaltSync(10)
+
 // Reading user credentials for signing up
 router.post('/api/create', function (req, res) {
   const name = req.body.name
   const surname = req.body.surname
   const email = req.body.email
   const cellphone = req.body.cellphone
-  const password = req.body.password
-  const confirmpassword = req.body.confirmpassword
+
+  // generate hash of password
+  const password = bcrypt.hashSync(req.body.password, salt)
+  // hash the confirm password
+  const confirmpassword = bcrypt.hashSync(req.body.confirmpassword, salt)
 
   db.pools
     .then((pool) => {
@@ -58,7 +64,7 @@ router.post('/api/create', function (req, res) {
           db.pools
             .then((pool) => {
               return pool.request()
-                .query('INSERT INTO users (email, username, surname,cellphone, password) VALUES (\'' + email + '\',\'' + name + '\',\'' + surname + '\',\'' + cellphone + '\',\'' + password + '\')')
+                .query('INSERT INTO users (email, username, surname,cellphone, password, salt) VALUES (\'' + email + '\',\'' + name + '\',\'' + surname + '\',\'' + cellphone + '\',\'' + password + '\', \'' + salt + '\')')
             })
           res.redirect('/')
         } else {
@@ -77,7 +83,6 @@ router.post('/api/create', function (req, res) {
 // if exists, lead to home page, else reload the login page and try again
 router.post('/api/login', function (req, res) {
   const email = req.body.email
-  const password = req.body.password
 
   // Read data from the database
   db.pools
@@ -99,8 +104,13 @@ router.post('/api/login', function (req, res) {
           res.redirect('/account/blocked')
           // res.send('DUE TO SECURITY REASONS YOUR ACCOUNT HAS BEEN BLOCKED!')
         } else {
-          // Verify Credentials
+          // Verify email
           let index = loginVer.verifyEmail(result.recordset, email)
+
+          // Hash the password from the user
+          const password = bcrypt.hashSync(req.body.password, result.recordset[index].salt)
+
+          // Verify password
           let index2 = loginVer.verifyPassword(result.recordset, password)
 
           if (loginVer.isValidCredentials(index, index2)) {
