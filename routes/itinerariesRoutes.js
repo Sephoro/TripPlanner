@@ -6,16 +6,16 @@ let db = require('../data/database.js')
 let pf = require('../public/scripts/itineraries/planFunctions')
 let session = require('../models/sessions')
 let logMaker = require('../models/planManager')
+let emailer = require('../models/email')
 
-let arrayId = []
-let firstPlanId = []
 let planId = null
+let itID = null
 
 itineraries.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'plan.html'))
 })
 
-itineraries.get('/myplans', function (req, res) {
+itineraries.get('/myplans/thisplan', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'myplans.html'))
 })
 
@@ -25,6 +25,14 @@ itineraries.get('/ourplans', function (req, res) {
 
 itineraries.get('/editplan', function (req, res) {
   res.sendFile(path.join(__dirname, '../views', 'itineraries', 'editPlan.html'))
+})
+
+itineraries.get('/find', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'hotels.html'))
+})
+
+itineraries.get('/myplans', function (req, res) {
+  res.sendFile(path.join(__dirname, '../views', 'itineraries', 'myit.html'))
 })
 
 itineraries.post('/api/plan', function (req, res) {
@@ -80,14 +88,17 @@ itineraries.get('/api/myplan', function (req, res) {
 // RETURN ALL PLANS OF THE USER
 itineraries.get('/api/myplans', function (req, res) {
   let email = session.getUser()
+  let a = 'SELECT * FROM plans FULL OUTER JOIN itineraries on plans.itinerary_id = itineraries.ItNum '
+  let b = ' WHERE plans.email = \'' + email + '\' AND plans.itinerary_id = ' + itID + ''
 
   db.pools
     .then((pool) => {
       return pool.request()
 
-        .query("SELECT * FROM plans WHERE email = '" + email + "' ")
+        .query(a + b)
     })
     .then(results => {
+      // console.log(results.recordset)
       res.send(results.recordset)
     })
     .catch(err => {
@@ -117,11 +128,12 @@ itineraries.get('/api/ourplans', function (req, res) {
       } else {
         // Send each plan shared with the user
         for (let i = 0; i < sharedPlans.length; i++) {
+          let a = 'SELECT * FROM plans FULL OUTER JOIN itineraries on plans.itinerary_id = itineraries.ItNum '
+          let b = ' WHERE  plans.itinerary_id = ' + sharedPlans[i].ItineraryID + ''
           db.pools
             .then((pool) => {
               return pool.request()
-
-                .query('SELECT * FROM plans WHERE itinerary_id = ' + sharedPlans[i].ItineraryID + ' ')
+                .query(a + b/* 'SELECT * FROM plans WHERE itinerary_id = ' + sharedPlans[i].ItineraryID + ' ' */)
             })
             .then(results => {
               plans.push(results.recordset)
@@ -164,11 +176,10 @@ itineraries.get('/api/shared/:id', function (req, res) {
 // DELETING OF ITINERARIES
 itineraries.post('/api/delplan', function (req, res) {
   let id = req.body.value
-  console.log(id)
   db.pools.then((pool) => {
     return pool.request().query('DELETE FROM plans WHERE plan_id = ' + id + '')
   })
-  res.redirect('/plan/myplans')
+  res.redirect('/plan/myplans/thisplan')
 })
 
 itineraries.post('/api/save', function (req, res) {
@@ -238,7 +249,7 @@ itineraries.post('/ourplans/api/edit', function (req, res) {
         .query('UPDATE plans SET location = \'' + req.body.elocation + '\', activities = \'' + req.body.eactivities + '\', startDate = \'' + req.body.estartDate + '\', endDate = \'' + req.body.eendDate + '\', duration = \'' + duration.days + '\' WHERE plan_id = ' + req.body.planid + ' ')
     })
     .then(function () {
-      // res.redirect('/plan/ourplans')
+
     })
     .catch(err => {
       /* res.send({
@@ -309,7 +320,6 @@ itineraries.get('/api/ourplans/log/:id', function (req, res) {
   db.pools
     .then((pool) => {
       return pool.request()
-
         .query('SELECT * FROM plans_log WHERE plan_id = \'' + req.params.id + '\' ')
     })
     .then(results => {
@@ -411,7 +421,57 @@ itineraries.post('/api/editPlan', function (req, res) {
   db.pools.then((pool) => {
     return pool.request().query(query)
   })
-  res.redirect('/plan/myplans')
+  res.redirect('/plan/myplans/thisplan')
+})
+
+// Getting itineraries
+itineraries.get('/api/myplans/it', function (req, res) {
+  let email = session.getUser()
+  db.pools
+    .then((pool) => {
+      return pool.request()
+
+        .query('SELECT * FROM  itineraries  WHERE  email = \'' + email + '\'')
+    })
+    .then(results => {
+      // Don't send empty itineraries
+      res.send(results.recordset)
+    })
+    .catch(err => {
+      res.send({
+        Error: err
+      })
+    })
+})
+
+// Rendering diffrent plans
+itineraries.get('/api/myplans/getit/:id', function (req, res) {
+  itID = req.params.id
+  res.redirect('/plan/myplans/thisplan')
+})
+
+// sending emails
+
+itineraries.post('/api/myplans/sendemail', function (req, res) {
+  db.pools
+    .then((data) => {
+      return data.request()
+        .query('INSERT INTO shareItineraries (SharedBy, SharedWith, ItineraryID) VALUES (\'' + session.getUser() + '\',\'' + req.body.friendemail + '\',' + req.body.itnum + ')')
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+  let emailSubject = 'Invitation to a Trip'
+
+  let emailText1 = `Hi there \n\nYour friend ${session.getUser()} has invited you to plan a trip with them`
+  let emailText2 = `\n\nIf your not a registered user, access the trip by signing up, with the email this notifaction was sent to, here http://mytripplanner.azurewebsites.net/account/create`
+  let emailText3 = `\nIf you are a registered user simply login here http://mytripplanner.azurewebsites.net/account/login\n\n`
+  let emailText4 = `After singing up/logging in, the notifaction for the shared itinerary will be visible on the dashboard\n`
+  let emailText5 = `\nRegards \nMTP Team`
+  let emailText = emailText1 + emailText2 + emailText3 + emailText4 + emailText5
+  emailer.sendEmail(req.body.friendemail, emailSubject, emailText)
+  res.redirect('/plan/myplans/thisplan')
 })
 
 module.exports = itineraries

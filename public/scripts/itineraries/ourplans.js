@@ -47,7 +47,7 @@ fetch('/plan/api/ourplans')
       ibutton.setAttribute('aria-expanded', 'true')
       let ariaControls = 'collapse' + String(plan)
       ibutton.setAttribute('aria-controls', ariaControls)
-      ibutton.innerText = 'Group Plan ' + String(plan)
+      ibutton.innerHTML = '<p style="margin-left: 25%;">' + plans[0].name + '</p>' + '<p>Authored by ' + (plans[0].email) + '</p>'
       h5.appendChild(ibutton)
 
       // Create a collapse

@@ -1,13 +1,14 @@
 'use strict'
 let express = require('express')
 let app = express()
+require('dotenv').config({ path: '.env' })
 
 // loading routers
 let itenariesRoutes = require('./routes/itinerariesRoutes.js')
 let profileRoutes = require('./routes/profileRoutes.js')
 let signuproutes = require('./routes/accountRoutes.js')
 let layoutsRoutes = require('./routes/layoutsRoutes')
-//let session = require('express-session')
+// let session = require('express-session')
 
 // loading body parser
 let bodyParser = require('body-parser')
@@ -17,7 +18,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // TODO store in .env
-//app.use(session({ secret: 'eslbr1000t', resave: false, saveUninitialized: true }))
+// app.use(session({ secret: 'eslbr1000t', resave: false, saveUninitialized: true }))
 
 // mouting our routers
 app.use('/itineraries', itenariesRoutes)
@@ -26,6 +27,7 @@ app.use('/g', signuproutes)
 app.use('/go', signuproutes)
 app.use('/', layoutsRoutes)
 app.use('/plan', itenariesRoutes)
+app.use('/hotel', itenariesRoutes)
 app.use('/profile', profileRoutes)
 
 // serving static files
