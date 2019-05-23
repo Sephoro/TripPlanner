@@ -343,7 +343,7 @@ itineraries.post('/ourplans/api/add', function (req, res) {
   let email = session.getUser()
 
   let columns = 'INSERT INTO itinerary_log (it_id, contributor, mod_type, mod_date, mod_value) '
-  let values = ' VALUES (' + req.body.itid + ',\'' + email + '\',\'' + 'A' + '\',\'' + logMaker.getDate() + '\',\'' + req.body.location + '\' )' //, \'' + change.new_ + '\',\'' + change.old + '\') '
+  let values = ' VALUES (' + req.body.itid + ',\'' + email + '\',\'' + 'A' + '\',\'' + logMaker.getDate() + '\',\'' + req.body.location + '\' )'
   db.pools
     .then((data) => {
       return data.request()
