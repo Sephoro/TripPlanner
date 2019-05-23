@@ -13,14 +13,14 @@ fetch('/profile/api/list')
   .then(function (data) { // Display the database information appropriately
     console.log(data[0].username)
     let userName = document.getElementById('login-I')
-    let name = document.createTextNode(data[0].username) //+ " " + data[0].surname)
+    let name = document.createTextNode(data[0].username + "  " + data[0].surname)
 
-    document.getElementById('login-I').style.color = "yellow";
-    document.getElementById('login-I').style.fontFamily = "Arial";
+    // styling the user logged-In name
+    document.getElementById('login-I').style.color = "pink";
+    document.getElementById('login-I').style.fontFamily = "Papyrus";
     document.getElementById('login-I').style.fontSize = "larger";
 
     userName.appendChild(name)
-    
   })
   .catch(function (e) {
     alert(e)
