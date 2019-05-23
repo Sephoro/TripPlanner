@@ -29,10 +29,10 @@ $(document).ready(function () {
     $('#btnDiscard').on('click', function () {
     // if ($('#btnDiscard').hasClass('d-none')) {
     $('#btnChangePicture').removeClass('changing')
-        $('#btnChangePicture').attr('value', 'Change')
-        $('#btnDiscard').addClass('d-none')
-        $('#imgProfile').attr('src', $imgSrc)
-        $('#profilePicture').val('')
-        // }
-    })
+    $('#btnChangePicture').attr('value', 'Change')
+    $('#btnDiscard').addClass('d-none')
+    $('#imgProfile').attr('src', $imgSrc)
+    $('#profilePicture').val('')
+  // }
+  })
 })

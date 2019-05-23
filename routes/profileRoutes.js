@@ -42,7 +42,7 @@ router.get('/api/list', function (req, res) {
       let userEmail = session.getUser()
       return pool.request()
 
-        .query('SELECT * FROM users WHERE email = \'' + userEmail + '\'')
+        .query("SELECT * FROM users WHERE email = '" + userEmail + "'")
     })
     .then(result => {
       res.send(result.recordset)
@@ -64,7 +64,7 @@ router.post('/api/RS', function (req, res) {
   db.pools
     .then((pool) => {
       return pool.request()
-        .query('SELECT * FROM users WHERE email = \'' + email + '\'')
+        .query("SELECT * FROM users WHERE email = '" + email + "'")
     })
     .then(result => {
       oldPass = passwordRes.verifyPassword(result.recordset[0], oldPassword)
@@ -76,7 +76,7 @@ router.post('/api/RS', function (req, res) {
           db.pools
             .then((pool) => {
               return pool.request()
-                .query('UPDATE users SET password = \'' + newPassword + '\' WHERE email = \'' + email + '\'')
+                .query("UPDATE users SET password = '" + newPassword + "' WHERE email = '" + email + "'")
             })
           session.loggedOut()
           res.redirect('/')
@@ -110,7 +110,7 @@ router.post('/api/edit', function (req, res) {
       if (profileManager.emailAlreadExists(email, oldEmail, result.recordset)) {
         res.send('Email already exitst!')
       } else {
-        let query = 'UPDATE users SET username = \'' + name + '\', surname = \'' + surname + '\', email = \'' + email + '\', cellphone = \'' + cellphone + '\' WHERE email = \'' + oldEmail + '\''
+        let query = "UPDATE users SET username = '" + name + "', surname = '" + surname + "', email = '" + email + "', cellphone = '" + cellphone + "' WHERE email = '" + oldEmail + "'"
 
         db.pools
           .then((pool) => {
@@ -130,11 +130,16 @@ router.post('/api/edit', function (req, res) {
 
 router.post('/api/delete', function (req, res) {
   let email = session.getUser()
-  db.pools.then((pool) => {
-    return pool.request().query('DELETE FROM users WHERE email = \'' + email + '\'')
-  })
+  let user = req.body._deleteUser
 
-  res.redirect('/')
+  if (user === true) {
+    db.pools.then((pool) => {
+      return pool.request().query("DELETE FROM users WHERE email = '" + email + "'")
+    })
+    session.loggedOut()
+    res.redirect('/')
+  }else {
+    res.redirect('/profile')
+  }
 })
-
 module.exports = router
