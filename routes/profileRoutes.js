@@ -8,7 +8,7 @@ let session = require('../models/sessions.js')
 let profileManager = require('../models/profileManager')
 
 router.get('/edit', function (req, res) {
-  if (session.loggedIn()) {
+  if (req.session.loggedIn) {
     res.sendFile(path.join(__dirname, '../views', 'profile', 'edit.html'))
   } else {
     res.redirect('/account/login')
@@ -16,7 +16,7 @@ router.get('/edit', function (req, res) {
 })
 
 router.get('/delete', function (req, res) {
-  if (session.loggedIn()) {
+  if (req.session.loggedIn) {
     res.sendFile(path.join(__dirname, '../views', 'profile', 'delete.html'))
   } else {
     res.redirect('/account/login')
@@ -24,7 +24,7 @@ router.get('/delete', function (req, res) {
 })
 
 router.get('/', function (req, res) {
-  if (session.loggedIn()) {
+  if (req.session.loggedIn) {
     res.sendFile(path.join(__dirname, '../views', 'profile', 'profile.html'))
   } else {
     res.redirect('/account/login')
@@ -39,7 +39,8 @@ router.get('/PasswordReset', function (req, res) {
 router.get('/api/list', function (req, res) {
   db.pools
     .then((pool) => {
-      let userEmail = session.getUser()
+      // let userEmail = session.getUser()
+      let userEmail = req.session.user
       return pool.request()
 
         .query("SELECT * FROM users WHERE email = '" + userEmail + "'")
@@ -48,7 +49,7 @@ router.get('/api/list', function (req, res) {
       res.send(result.recordset)
     })
     .catch(err => {
-      res.send({Error: err
+      res.send({ Error: err
       })
     })
 })
@@ -59,7 +60,8 @@ router.post('/api/RS', function (req, res) {
   let confirmPassword = req.body.confirmPassword
   let oldPass = false
   let newPass = false
-  let email = session.getUser()
+  // let email = session.getUser()
+  let email = req.session.user
 
   db.pools
     .then((pool) => {
@@ -78,17 +80,17 @@ router.post('/api/RS', function (req, res) {
               return pool.request()
                 .query("UPDATE users SET password = '" + newPassword + "' WHERE email = '" + email + "'")
             })
-          session.loggedOut()
+          req.session.loggedIn = false
           res.redirect('/')
-        }else {
+        } else {
           console.log('New password does not match')
         }
-      }else {
+      } else {
         console.log('Password didnt match')
       }
     })
     .catch(err => {
-      res.send({Error: err
+      res.send({ Error: err
       })
     })
 })
@@ -99,7 +101,8 @@ router.post('/api/edit', function (req, res) {
   let email = req.body.email
   let cellphone = req.body.cellphone
 
-  let oldEmail = session.getUser()
+  // let oldEmail = session.getUser()
+  let oldEmail = req.session.user
 
   db.pools
     .then((pool) => {
@@ -121,7 +124,8 @@ router.post('/api/edit', function (req, res) {
         if (!profileManager.emailChanged(oldEmail, email)) {
           res.redirect('/profile')
         } else {
-          session.loggedOut()
+          // session.loggedOut()
+          req.session.loggedIn = false
           res.redirect('/')
         }
       }
@@ -129,16 +133,18 @@ router.post('/api/edit', function (req, res) {
 })
 
 router.post('/api/delete', function (req, res) {
-  let email = session.getUser()
+  // let email = session.getUser()
+  let email = req.session.user
   let user = req.body._deleteUser
 
   if (user === true) {
     db.pools.then((pool) => {
       return pool.request().query("DELETE FROM users WHERE email = '" + email + "'")
     })
-    session.loggedOut()
+    // session.loggedOut()
+    req.session.loggedIn = false
     res.redirect('/')
-  }else {
+  } else {
     res.redirect('/profile')
   }
 })

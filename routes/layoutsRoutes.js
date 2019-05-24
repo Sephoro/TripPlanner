@@ -7,7 +7,7 @@ let session = require('../models/sessions.js')
 let layoutsRoute = express.Router()
 
 layoutsRoute.get('/', function (req, res) {
-  if (!session.loggedIn()) {
+  if (!req.session.loggedIn) {
     // not logged in
     res.sendFile(path.join(__dirname, '../views', 'layouts', 'layouts.html'))
   } else {
@@ -28,14 +28,15 @@ layoutsRoute.get('/about', function (req, res) {
 
 // In between logging out
 layoutsRoute.get('/api/logout', function (req, res) {
-  session.loggedOut()
+  // session.loggedOut()
+  req.session.loggedIn = false
   res.redirect('/')
 })
 
 // In between accesing profile
 
 layoutsRoute.get('/api/profile', function (req, res) {
-  if (session.loggedIn()) {
+  if (req.session.loggedIn) {
     res.redirect('/profile')
   } else {
     res.redirect('/account/login')
@@ -60,7 +61,7 @@ layoutsRoute.get('/api/database', function (req, res) {
 })
 
 layoutsRoute.get('/api/shared', function (req, res) {
-  let email = session.getUser()
+  let email = req.session.user
 
   db.pools
     .then((pool) => {
@@ -79,7 +80,7 @@ layoutsRoute.get('/api/shared', function (req, res) {
 })
 
 layoutsRoute.post('/api/notifications', function (req, res) {
-  let email = session.getUser()
+  let email = req.session.user
   let stat = 0
 
   if (req.body.status === 'a') {
