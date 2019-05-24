@@ -10,7 +10,7 @@ let signUpVer = require('../models/signUpVerication')
 let passport = require('passport')
 let auth = require('../models/google')
 const bcrypt = require('bcryptjs')
-
+let email = null
 let router = express.Router()
 
 router.get('/create', function (req, res) {
@@ -38,7 +38,7 @@ let salt = bcrypt.genSaltSync(10)
 router.post('/api/create', function (req, res) {
   const name = req.body.name
   const surname = req.body.surname
-  const email = req.body.email
+  email = req.body.email
   const cellphone = req.body.cellphone
 
   // generate hash of password
@@ -82,7 +82,7 @@ router.post('/api/create', function (req, res) {
 // Reading user credentials and checking if they exist on the Database
 // if exists, lead to home page, else reload the login page and try again
 router.post('/api/login', function (req, res) {
-  const email = req.body.email
+  email = req.body.email
 
   // Read data from the database
   db.pools
@@ -115,7 +115,9 @@ router.post('/api/login', function (req, res) {
 
           if (loginVer.isValidCredentials(index, index2)) {
             // If credentials are correct, redirect to the loggedIn user homepage
-            session.setUser(email)
+            req.session.loggedIn = true
+            req.session.user = email
+            // session.setUser(email)
             res.redirect('/')
           } else {
             // If credentials are incorrect, redirect to the login page
@@ -143,13 +145,37 @@ router.post('/api/login', function (req, res) {
 })
 
 router.get('/auth/google', passport.authenticate('google', {
-  scope: ['https://www.googleapis.com/auth/userinfo.profile']
+  scope: [ 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile' ]
 }))
 
-router.get('/auth/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: '/'
+router.get('/google/redirect',
+  passport.authenticate('google'), function (req, res) {
+    let useremail = req.user.emails[0].value
+    req.session.loggedIn = true
+    req.session.user = useremail
+    let dummycellphone = bcrypt.hashSync('1234567890', salt)
+    let dummy = 1234567890
+    db.pools
+      .then((pool) => {
+        return pool.request()
+          .query('SELECT * FROM users')
+      })
+      .then(result => {
+        let isRegist = loginVer.isRegistered(result.recordset, useremail)
+        if (isRegist === false) {
+          db.pools
+            .then((pool) => {
+              return pool.request()
+                .query('INSERT INTO users (email, username, surname, cellphone,password, salt) VALUES (\'' + useremail + '\',\'' + req.user.name.givenName + '\',\'' + req.user.name.familyName + '\',\'' + dummy + '\',\'' + dummycellphone + '\',\'' + salt + '\')')
+            })
+          res.redirect('/')
+        } else if (isRegist === true) {
+          res.redirect('/')
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
   })
-)
 
 module.exports = router

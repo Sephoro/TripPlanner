@@ -14,8 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
     "@sendgrid/mail": "^6.4.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.3.1",
     "cross-fetch": "^3.0.2",
@@ -27,7 +27,7 @@
     "node-fetch": "^2.3.0",
     "node-fetch-polyfill": "^2.0.6",
     "node-sessionstorage": "^1.0.0",
-    "nodemailer": "^6.1.1",
+    "nodemailer": "^6.2.1",
     "passport": "^0.4.0",
     "passport-google-oauth": "^2.0.0",
     "select2": "^4.0.7"

@@ -22,4 +22,9 @@ describe('It is known', () => {
     session.setUser(null)
     expect(session.loggedIn()).toEqual(false)
   })
+  test('when a user logged out', () => {
+    session.setUser(user)
+    session.loggedOut()
+    expect(session.loggedIn()).toEqual(false)
+  })
 })
