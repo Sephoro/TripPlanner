@@ -8,7 +8,8 @@
     "start": "node index"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:coverage":"jest --coverage"
   },
   "author": "",
   "license": "ISC",
@@ -32,6 +33,7 @@
     "select2": "^4.0.7"
   },
   "devDependencies": {
+    "coveralls": "^3.0.3",
     "jest": "^24.7.1"
   }
 }
