@@ -10,4 +10,4 @@ jobs:
     -stage: Produce Coverage
     node_js: node
     scipt: jest --coverage
-# after_success: coveralls
+after_success: coveralls
