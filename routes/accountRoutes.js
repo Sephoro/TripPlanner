@@ -143,13 +143,36 @@ router.post('/api/login', function (req, res) {
 })
 
 router.get('/auth/google', passport.authenticate('google', {
-  scope: ['https://www.googleapis.com/auth/userinfo.profile']
+  scope: [ 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile' ]
 }))
 
-router.get('/auth/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: '/'
+router.get('/google/redirect',
+  passport.authenticate('google'), function (req, res) {
+    let useremail = req.user.emails[0].value
+    session.setUser(useremail)
+    let dummycellphone = bcrypt.hashSync('1234567890', salt)
+    let dummy = 1234567890
+    db.pools
+      .then((pool) => {
+        return pool.request()
+          .query('SELECT * FROM users')
+      })
+      .then(result => {
+        let isRegist = loginVer.isRegistered(result.recordset, useremail)
+        if (isRegist === false) {
+          db.pools
+            .then((pool) => {
+              return pool.request()
+                .query('INSERT INTO users (email, username, surname, cellphone,password, salt) VALUES (\'' + useremail + '\',\'' + req.user.name.givenName + '\',\'' + req.user.name.familyName + '\',\'' + dummy + '\',\'' + dummycellphone + '\',\'' + salt + '\')')
+            })
+          res.redirect('/')
+        } else if (isRegist === true) {
+          res.redirect('/')
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
   })
-)
 
 module.exports = router
