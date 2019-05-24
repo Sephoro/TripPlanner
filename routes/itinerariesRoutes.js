@@ -37,7 +37,8 @@ itineraries.get('/myplans', function (req, res) {
 
 itineraries.post('/api/plan', function (req, res) {
   let duration = pf.durationCalculator(req.body.endDate, req.body.startDate)
-  let email = session.getUser()
+  // let email = session.getUser()
+  let email = req.session.user
   db.pools
     .then((pool) => {
       return pool.request()
@@ -58,7 +59,8 @@ itineraries.post('/api/plan', function (req, res) {
 
 // RETURN THE CURRENT PLAN OF THE USER
 itineraries.get('/api/myplan', function (req, res) {
-  let email = session.getUser()
+  // let email = session.getUser()
+  let email = req.session.user
 
   db.pools
     .then((pool) => {
@@ -87,7 +89,8 @@ itineraries.get('/api/myplan', function (req, res) {
 
 // RETURN ALL PLANS OF THE USER
 itineraries.get('/api/myplans', function (req, res) {
-  let email = session.getUser()
+  // let email = session.getUser()
+  let email = req.session.user
   let a = 'SELECT * FROM plans FULL OUTER JOIN itineraries on plans.itinerary_id = itineraries.ItNum '
   let b = ' WHERE plans.email = \'' + email + '\' AND plans.itinerary_id = ' + itID + ''
 
@@ -109,7 +112,8 @@ itineraries.get('/api/myplans', function (req, res) {
 })
 // For shared itineraries
 itineraries.get('/api/ourplans', function (req, res) {
-  let email = session.getUser()
+  // let email = session.getUser()
+  let email = req.session.user
 
   db.pools
     .then((pool) => {
@@ -184,7 +188,7 @@ itineraries.post('/api/delplan', function (req, res) {
 
 itineraries.post('/api/save', function (req, res) {
   // IS THE USER LOGGED IN?
-  if (session.loggedIn()) {
+  if (req.session.loggedIn) {
     // SAVE THE ITINERARY
     db.pools
       .then((pool) => {
@@ -197,7 +201,7 @@ itineraries.post('/api/save', function (req, res) {
         db.pools
           .then((pool) => {
             return pool.request()
-              .query("INSERT INTO itineraries (name,email,ItNum) VALUES ('" + req.body.itName + "','" + session.getUser() + "'," + itNum + ')')
+              .query("INSERT INTO itineraries (name,email,ItNum) VALUES ('" + req.body.itName + "','" + req.session.user + "'," + itNum + ')')
           })
       })
     // UPDATE THE COUNTER
@@ -229,7 +233,7 @@ itineraries.post('/myplans/api/share', function (req, res) {
   db.pools
     .then((data) => {
       return data.request()
-        .query('INSERT INTO shareItineraries (SharedBy, SharedWith, ItineraryID) VALUES (\'' + session.getUser() + '\',\'' + req.body.email_inivte + '\',\'' + req.body.itinerarieID + '\')')
+        .query('INSERT INTO shareItineraries (SharedBy, SharedWith, ItineraryID) VALUES (\'' + req.session.user + '\',\'' + req.body.email_inivte + '\',\'' + req.body.itinerarieID + '\')')
     })
     .catch(err => {
       res.send({
@@ -261,7 +265,7 @@ itineraries.post('/ourplans/api/edit', function (req, res) {
   // For generating logs for each plan
 
   let changes = []
-  let email = session.getUser()
+  let email = req.session.user
 
   db.pools
     .then((data) => {
@@ -350,7 +354,7 @@ itineraries.post('/ourplans/api/add', function (req, res) {
 
   // For logging the new addition
 
-  let email = session.getUser()
+  let email = req.session.user
 
   let columns = 'INSERT INTO itinerary_log (it_id, contributor, mod_type, mod_date, mod_value) '
   let values = ' VALUES (' + req.body.itid + ',\'' + email + '\',\'' + 'A' + '\',\'' + logMaker.getDate() + '\',\'' + req.body.location + '\' )'
@@ -391,7 +395,7 @@ itineraries.post('/api/editPlanForm', function (req, res) {
 
 // RETURNING PLAN BY LOGGED IN EMAIL AND ID OF THE PRESSED FORM...
 itineraries.get('/api/myplans_', function (req, res) {
-  let email = session.getUser()
+  let email = req.session.user
   let query = "SELECT * FROM plans WHERE email = '" + email + "' AND plan_id = '" + planId + "' "
 
   db.pools
@@ -426,7 +430,7 @@ itineraries.post('/api/editPlan', function (req, res) {
 
 // Getting itineraries
 itineraries.get('/api/myplans/it', function (req, res) {
-  let email = session.getUser()
+  let email = req.session.user
   db.pools
     .then((pool) => {
       return pool.request()
@@ -456,7 +460,7 @@ itineraries.post('/api/myplans/sendemail', function (req, res) {
   db.pools
     .then((data) => {
       return data.request()
-        .query('INSERT INTO shareItineraries (SharedBy, SharedWith, ItineraryID) VALUES (\'' + session.getUser() + '\',\'' + req.body.friendemail + '\',' + req.body.itnum + ')')
+        .query('INSERT INTO shareItineraries (SharedBy, SharedWith, ItineraryID) VALUES (\'' + req.session.user + '\',\'' + req.body.friendemail + '\',' + req.body.itnum + ')')
     })
     .catch(err => {
       console.log(err)
@@ -464,7 +468,7 @@ itineraries.post('/api/myplans/sendemail', function (req, res) {
 
   let emailSubject = 'Invitation to a Trip'
 
-  let emailText1 = `Hi there \n\nYour friend ${session.getUser()} has invited you to plan a trip with them`
+  let emailText1 = `Hi there \n\nYour friend ${req.session.user} has invited you to plan a trip with them`
   let emailText2 = `\n\nIf your not a registered user, access the trip by signing up, with the email this notifaction was sent to, here http://mytripplanner.azurewebsites.net/account/create`
   let emailText3 = `\nIf you are a registered user simply login here http://mytripplanner.azurewebsites.net/account/login\n\n`
   let emailText4 = `After singing up/logging in, the notifaction for the shared itinerary will be visible on the dashboard\n`
