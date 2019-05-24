@@ -9,4 +9,4 @@ jobs:
   include:
     -stage: Produce Coverage
     node_js: node
-    scipt: jest --coverage
+    scipt: jest --coverages
