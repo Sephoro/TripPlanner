@@ -2,115 +2,118 @@
 <html>
 
 <head>
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://bootswatch.com/4/simplex/bootstrap.min.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="scripts.js"></script>
-	<link rel="stylesheet" type="text/css" href="/fun.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 
-<body>
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<div class="card">
-
-					<div class="card-body">
-						<div class="card-title mb-4">
-							<div class="d-flex justify-content-start">
-								<div class="image-container">
-									<img src="http://placehold.it/150x150" id="imgProfile"
-										style="width: 150px; height: 150px" class="img-thumbnail" />
-									<div class="middle">
-
-										<input type="file" style="display: none;" id="profilePicture" name="file" />
+<body style="background-color: bisque">
+	<header class="container-fluid" style="width: 800px">
+		<div class="container" style="padding-top: 50px" id="myBtn" style="width: 750px">
+			<div class="row">
+				<div class="col-12">
+					<div class="card" style="background-color: lavenderblush" style="width: 750px">
+						<div class="card-body" style="width: 750px">
+							<div class="card-title mb-4">
+								<div class="d-flex justify-content-start">
+									<div class="image-container">
+										<img src="/cdn/images/profile.png" id="imgProfile"
+											style="width: 180px; height: 150px" class="img-thumbnail" />
 									</div>
-								</div>
-								<div class="userData ml-3">
-									<h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a id="HeaderName"
-											href="javascript:void(0);"></a></h2>
+
+									<div class="userData ml-3">
+										<h2 class="d-block" style="font-size: 1.5rem; font-weight: bold">
+											<p class="text-primary" id="HeaderName"></p>
+										</h2>
+									</div>
+									
 								</div>
 							</div>
-						</div>
 
-						<div class="row">
-							<div class="col-12">
-								<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-									<li class="nav-item">
-										<a class="nav-link active" id="basicInfo-tab" data-toggle="tab"
-											href="#basicInfo" role="tab" aria-controls="Info"
-											aria-selected="true">Info</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" id="connectedServices-tab" data-toggle="tab"
-											href="/profile/edit" role="tab" aria-controls="Edit"
-											aria-selected="false">Edit</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" id="connectedServices-tab" data-toggle="tab"
-											href="/profile/delete" role="tab" aria-controls="Delete"
-											aria-selected="true">Delete</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" id="connectedServices-tab" data-toggle="tab"
-											href="/profile/PasswordReset" role="tab" aria-controls="Delete"
-											aria-selected="true">Reset Password</a>
-									</li>
-								</ul>
-								<div class="tab-content ml-1" id="myTabContent">
-									<div class="tab-pane fade show active" id="basicInfo" role="tabpanel"
-										aria-labelledby="basicInfo-tab">
+							<div class="row">
+								<div class="col-12">
+									<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
 
-										<div class="row">
-											<div class="col-sm-3 col-md-2 col-5">
-												<label style="font-weight:bold;">Name</label>
-											</div>
-											<div class="col-md-8 col-6">
-												<p type="text" id="name"></p>
-											</div>
-										</div>
-										<hr />
+										<li class="nav-item">
+											<a class="nav-link active" id="basicInfo-tab" data-toggle="tab"
+												href="#basicInfo" role="tab" aria-controls="Info"
+												aria-selected="true">Info</a>
+										</li>
 
-										<div class="row">
-											<div class="col-sm-3 col-md-2 col-5">
-												<label style="font-weight:bold;">Surname</label>
+										<li class="nav-item">
+											<a class="nav-link" id="connectedServices-tab" data-toggle="tab"
+												href="/profile/edit" role="tab" aria-controls="Edit"
+												aria-selected="false">Edit</a>
+										</li>
+
+										<li class="nav-item">
+											<a class="nav-link" id="tab" data-toggle="tab" role="tab" aria-controls="Delete"
+												href="" aria-selected="true" onclick="deleteUser()">Delete</a>
+										</li>
+
+										<li class="nav-item">
+											<a class="nav-link" id="connectedServices-tab" data-toggle="tab"
+												href="/profile/PasswordReset" role="tab" aria-controls="Delete"
+												aria-selected="true">Reset Password</a>
+										</li>
+									</ul>
+									<div class="tab-content ml-1" id="myTabContent">
+										<div class="tab-pane fade show active" id="basicInfo" role="tabpanel"
+											aria-labelledby="basicInfo-tab">
+
+											<div class="row">
+												<div class="col-sm-3 col-md-2 col-5" style="font-family: Papyrus" >
+													<label >Name:</label>
+												</div>
+												<div class="col-md-8 col-6" style="font-family: Papyrus">
+													<p type="text" id="name"></p>
+												</div>
 											</div>
-											<div class="col-md-8 col-6">
-												<p type="text" id="surname"></p>
+											<hr />
+
+											<div class="row">
+												<div class="col-sm-3 col-md-2 col-5" style="font-family: Papyrus" >
+													<label>Surname:</label>
+												</div>
+												<div class="col-md-8 col-6" style="font-family: Papyrus">
+													<p type="text" id="surname"></p>
+												</div>
 											</div>
+											<hr />
+											<div class="row">
+												<div class="col-sm-3 col-md-2 col-5" style="font-family: Papyrus" >
+													<label>Email:</label>
+												</div>
+												<div class="col-md-8 col-6" style="font-family: Papyrus">
+													<p type="text" id="email"></p>
+												</div>
+											</div>
+											<hr />
+											<div class="row">
+												<div class="col-sm-3 col-md-2 col-5" style="font-family: Papyrus">
+													<label >Cellphone:</label>
+												</div>
+												<div class="col-md-8 col-6" style="font-family: Papyrus">
+													<p type="text" id="cellphone"></p>
+												</div>
+											</div>
+											<hr />
 										</div>
-										<hr />
-										<div class="row">
-											<div class="col-sm-3 col-md-2 col-5">
-												<label style="font-weight:bold;">Email</label>
-											</div>
-											<div class="col-md-8 col-6">
-												<p type="text" id="email"></p>
-											</div>
-										</div>
-										<hr />
-										<div class="row">
-											<div class="col-sm-3 col-md-2 col-5">
-												<label style="font-weight:bold;">Cellphone</label>
-											</div>
-											<div class="col-md-8 col-6">
-												<p type="text" id="cellphone"></p>
-											</div>
-										</div>
-										<hr />
 									</div>
 								</div>
 							</div>
+							<h5><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></h5>
 						</div>
-						<h5><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></h5>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</header>
 </body>
+<link rel="stylesheet" type="text/css" href="/public/css/profile.css">
 <script src='/cdn/scripts/profile/manageProfile.js'></script>
 <script src='/cdn/scripts/profile/profilePicture.js'></script>
+<script src='/cdn/scripts/profile/deleteProfile.js'></script>
 
 </html>
