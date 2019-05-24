@@ -35,9 +35,19 @@ test('User cannot login if they have not signed up', () => {
   expect(isRegistered).toEqual(false)
 })
 
+test('User can login if they have signed up', () => {
+  let isRegistered = validate.isRegistered(users, 'bingi@gmail.com')
+  expect(isRegistered).toEqual(true)
+})
+
 test('User cannot login if they their account has been blocked', () => {
   let status = validate.isBlocked(users, 'mbongeni@gmail.com')
   expect(status).toEqual(true)
+})
+
+test('User can login if their account is not blocked', () => {
+  let status = validate.isBlocked(users, 'bingi@gmail.com')
+  expect(status).toEqual(false)
 })
 
 describe('the', () => {
@@ -110,12 +120,12 @@ describe('The', () => {
 })
 
 describe('The', () => {
-  test('number entered is invalid, contains less 10 degits', () => {
+  test('number entered is invalid, contains less 10 digits', () => {
     let cellphone = validate1.verifyCellphone('12345')
     expect(cellphone).toEqual(false)
   })
 
-  test('number entered is invalid, contains more 10 degits', () => {
+  test('number entered is invalid, contains more 10 digits', () => {
     let cellphone = validate1.verifyCellphone('123456789087')
     expect(cellphone).toEqual(false)
   })
