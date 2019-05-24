@@ -151,7 +151,8 @@ router.get('/auth/google', passport.authenticate('google', {
 router.get('/google/redirect',
   passport.authenticate('google'), function (req, res) {
     let useremail = req.user.emails[0].value
-    session.setUser(useremail)
+    req.session.loggedIn = true
+    req.session.user = useremail
     let dummycellphone = bcrypt.hashSync('1234567890', salt)
     let dummy = 1234567890
     db.pools
