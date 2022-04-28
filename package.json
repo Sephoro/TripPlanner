@@ -18,7 +18,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.3.1",
-    "cross-fetch": "^3.0.2",
+    "cross-fetch": "^3.1.5",
     "dotenv": "^7.0.0",
     "express": "4.16.4",
     "express-session": "^1.16.1",
