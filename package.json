@@ -20,7 +20,7 @@
     "bootstrap": "^4.3.1",
     "cross-fetch": "^3.0.2",
     "dotenv": "^7.0.0",
-    "express": "4.16.4",
+    "express": "4.17.3",
     "express-session": "^1.16.1",
     "live-server": "^1.2.1",
     "mssql": "^5.1.0",
